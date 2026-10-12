@@ -6,6 +6,8 @@ import type { AppRole } from "@/lib/roles";
  * The Credentials provider (which needs the DB) is added in src/auth.ts.
  */
 export const authConfig = {
+  // Netlify sits in front of the app (including deploy-preview URLs), so trust its Host header.
+  trustHost: true,
   pages: { signIn: "/login" },
   session: { strategy: "jwt", maxAge: 60 * 60 * 8 }, // 8 hours
   providers: [],

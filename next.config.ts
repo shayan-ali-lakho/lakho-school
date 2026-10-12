@@ -1,9 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
-  cacheComponents: true,
-  partialPrefetching: true,
+  // Cache Components / partial prefetching are intentionally off: the portal reads the
+  // session and database on every request and is not wrapped in <Suspense> boundaries.
   turbopack: {
     rules: {
       "*.css": {
