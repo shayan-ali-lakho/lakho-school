@@ -3,6 +3,15 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+
+  /* Public site: an exercise notebook and a teacher's red pen */
+  --paper: #f6f8fc;
+  --paper-rule: #d3e1f2;
+  --ink: #172033;
+  --ink-soft: #4f5a6e;
+  --pen-red: #c5283d;
+  --board: #1e3b34;
+  --chalk: #eef1ea;
 }
 
 @theme inline {
@@ -10,6 +19,18 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+
+  --color-paper: var(--paper);
+  --color-paper-rule: var(--paper-rule);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-pen: var(--pen-red);
+  --color-board: var(--board);
+  --color-chalk: var(--chalk);
+
+  --font-display: var(--font-source-serif), Georgia, serif;
+  --font-body: var(--font-atkinson), system-ui, sans-serif;
+  --font-hand: var(--font-caveat), "Segoe Print", cursive;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -23,4 +44,44 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Visible keyboard focus everywhere */
+a:focus-visible,
+button:focus-visible,
+select:focus-visible,
+input:focus-visible {
+  outline: 2px solid #1f4fd8;
+  outline-offset: 3px;
+}
+
+/* Ruled notebook paper: used only behind the hero so body text stays easy to read */
+.notebook {
+  background-color: var(--paper);
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent 35px,
+    var(--paper-rule) 35px,
+    var(--paper-rule) 36px
+  );
+}
+
+/* The one moment of motion: the red pen draws a circle once on page load */
+.pen-circle path {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .pen-circle path {
+    stroke-dashoffset: 1;
+    animation: pen-draw 0.9s 0.4s ease-out forwards;
+  }
+}
+
+@keyframes pen-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
 }
