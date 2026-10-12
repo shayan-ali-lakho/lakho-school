@@ -1,0 +1,91 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  ADMIN
+  PRINCIPAL
+  TEACHER
+  ACCOUNTANT
+  STUDENT
+  PARENT
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  name         String
+  passwordHash String
+  role         Role
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  teacherProfile  Teacher?
+  studentProfile  Student?
+  guardianProfile Guardian?
+  announcements   Announcement[]
+}
+
+model Teacher {
+  id     String @id @default(cuid())
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  phone  String?
+
+  classesLed Class[]
+}
+
+model Guardian {
+  id       String    @id @default(cuid())
+  userId   String    @unique
+  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  phone    String?
+  students Student[]
+}
+
+model Class {
+  id             String  @id @default(cuid())
+  name           String
+  section        String  @default("A")
+  academicYear   String
+  classTeacherId String?
+  classTeacher   Teacher? @relation(fields: [classTeacherId], references: [id], onDelete: SetNull)
+
+  students Student[]
+
+  @@unique([name, section, academicYear])
+}
+
+model Student {
+  id          String    @id @default(cuid())
+  userId      String    @unique
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  rollNumber  String
+  classId     String?
+  class       Class?    @relation(fields: [classId], references: [id], onDelete: SetNull)
+  guardianId  String?
+  guardian    Guardian? @relation(fields: [guardianId], references: [id], onDelete: SetNull)
+  dateOfBirth DateTime?
+  admittedOn  DateTime  @default(now())
+
+  @@unique([classId, rollNumber])
+}
+
+model Announcement {
+  id          String   @id @default(cuid())
+  title       String
+  body        String
+  audience    Role[]
+  isPublic    Boolean  @default(false)
+  publishedAt DateTime @default(now())
+  authorId    String
+  author      User     @relation(fields: [authorId], references: [id])
+
+  @@index([publishedAt])
+}
