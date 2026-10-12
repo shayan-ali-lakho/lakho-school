@@ -1,11 +1,17 @@
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import type { Metadata } from "next";
+import { auth } from "@/auth";
 import { site } from "@/lib/site";
 import { LoginForm } from "./login-form";
 
 export const metadata: Metadata = { title: "Sign in" };
 
-export default function LoginPage() {
+export default async function LoginPage() {
+  // Already signed in: go straight to the portal.
+  const session = await auth();
+  if (session?.user) redirect("/portal");
+
   return (
     <main className="flex flex-1 items-center justify-center bg-zinc-50 px-6 py-12">
       <div className="w-full max-w-sm rounded-lg border border-zinc-200 bg-white p-8 shadow-sm">
