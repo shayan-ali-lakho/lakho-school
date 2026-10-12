@@ -1,7 +1,8 @@
 import "dotenv/config";
 import bcrypt from "bcryptjs";
 import { PrismaPg } from "@prisma/adapter-pg";
-import { PrismaClient, type Role } from "../src/generated/prisma/client";
+import { PrismaClient } from "../src/generated/prisma/client";
+import type { AppRole as Role } from "../src/lib/roles";
 
 // Demo data only. Never put real student data in the test site.
 const connectionString = process.env.DIRECT_URL ?? process.env.DATABASE_URL;

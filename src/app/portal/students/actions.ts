@@ -1,0 +1,142 @@
+"use server";
+
+import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
+import { z } from "zod";
+import { db } from "@/lib/db";
+import { requireRole } from "@/lib/session";
+import { USER_ADMIN_ROLES } from "@/lib/roles";
+import {
+  accountSchema,
+  assertEmailFree,
+  DuplicateEmailError,
+  hashPassword,
+  passwordSchema,
+} from "@/lib/accounts";
+import { firstIssue, optionalText, text, type FormState } from "@/lib/form";
+
+const studentSchema = accountSchema.omit({ role: true }).extend({
+  rollNumber: z.string().trim().min(1, "is required").max(20),
+  classId: z.string().min(1, "is required"),
+  dateOfBirth: z
+    .string()
+    .regex(/^\d{4}-\d{2}-\d{2}$/, "must be a valid date")
+    .optional(),
+  gender: z.enum(["Male", "Female", "Other"]).optional(),
+  address: z.string().max(300).optional(),
+});
+
+const newGuardianSchema = z.object({
+  guardianName: z.string().trim().min(2, "is required").max(100),
+  guardianEmail: z.string().trim().toLowerCase().pipe(z.email("must be a valid email")),
+  guardianPassword: passwordSchema,
+  guardianPhone: z.string().max(30).optional(),
+});
+
+export async function admitStudent(_prev: FormState, formData: FormData): Promise<FormState> {
+  await requireRole(USER_ADMIN_ROLES);
+
+  const parsed = studentSchema.safeParse({
+    name: text(formData, "name"),
+    email: text(formData, "email"),
+    password: text(formData, "password"),
+    rollNumber: text(formData, "rollNumber"),
+    classId: text(formData, "classId"),
+    dateOfBirth: optionalText(formData, "dateOfBirth"),
+    gender: optionalText(formData, "gender"),
+    address: optionalText(formData, "address"),
+  });
+  if (!parsed.success) return { error: firstIssue(parsed.error) };
+  const s = parsed.data;
+
+  const cls = await db.class.findUnique({ where: { id: s.classId }, select: { id: true } });
+  if (!cls) return { error: "Selected class was not found." };
+
+  const rollClash = await db.student.findUnique({
+    where: { classId_rollNumber: { classId: s.classId, rollNumber: s.rollNumber } },
+    select: { id: true },
+  });
+  if (rollClash) return { error: `Roll number ${s.rollNumber} is already used in this class.` };
+
+  // Parent: pick an existing one, or create a new parent account, or leave empty.
+  const existingGuardianId = optionalText(formData, "guardianId");
+  const newGuardianEmail = optionalText(formData, "guardianEmail");
+
+  let guardianInput:
+    | { connect: { id: string } }
+    | {
+        create: {
+          phone?: string;
+          user: { create: { name: string; email: string; role: "PARENT"; passwordHash: string } };
+        };
+      }
+    | undefined;
+
+  if (existingGuardianId) {
+    const g = await db.guardian.findUnique({ where: { id: existingGuardianId }, select: { id: true } });
+    if (!g) return { error: "Selected parent was not found." };
+    guardianInput = { connect: { id: g.id } };
+  } else if (newGuardianEmail) {
+    const gp = newGuardianSchema.safeParse({
+      guardianName: text(formData, "guardianName"),
+      guardianEmail: newGuardianEmail,
+      guardianPassword: text(formData, "guardianPassword"),
+      guardianPhone: optionalText(formData, "guardianPhone"),
+    });
+    if (!gp.success) return { error: firstIssue(gp.error) };
+    try {
+      await assertEmailFree(gp.data.guardianEmail);
+    } catch (e) {
+      if (e instanceof DuplicateEmailError) return { error: e.message };
+      throw e;
+    }
+    if (gp.data.guardianEmail === s.email) {
+      return { error: "The parent and the student need different email addresses." };
+    }
+    guardianInput = {
+      create: {
+        phone: gp.data.guardianPhone,
+        user: {
+          create: {
+            name: gp.data.guardianName,
+            email: gp.data.guardianEmail,
+            role: "PARENT",
+            passwordHash: await hashPassword(gp.data.guardianPassword),
+          },
+        },
+      },
+    };
+  }
+
+  try {
+    await assertEmailFree(s.email);
+  } catch (e) {
+    if (e instanceof DuplicateEmailError) return { error: e.message };
+    throw e;
+  }
+
+  // One write creates the student login, profile and (optionally) the parent together.
+  const created = await db.user.create({
+    data: {
+      name: s.name,
+      email: s.email,
+      role: "STUDENT",
+      passwordHash: await hashPassword(s.password),
+      studentProfile: {
+        create: {
+          rollNumber: s.rollNumber,
+          gender: s.gender,
+          address: s.address,
+          dateOfBirth: s.dateOfBirth ? new Date(`${s.dateOfBirth}T00:00:00.000Z`) : undefined,
+          class: { connect: { id: s.classId } },
+          guardian: guardianInput,
+        },
+      },
+    },
+    select: { studentProfile: { select: { id: true } } },
+  });
+
+  revalidatePath("/portal/students");
+  revalidatePath("/portal/classes");
+  redirect(`/portal/students/${created.studentProfile?.id ?? ""}`);
+}

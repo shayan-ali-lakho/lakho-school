@@ -19,7 +19,10 @@ function getClient(): PrismaClient {
 // Created lazily on first use, so builds and pages that never touch the database
 // work even before DATABASE_URL has been configured.
 export const db = new Proxy({} as PrismaClient, {
-  get(_target, prop, receiver) {
-    return Reflect.get(getClient(), prop, receiver);
+  get(_target, prop) {
+    const client = getClient();
+    const value = Reflect.get(client, prop);
+    // Bind methods such as $transaction to the real client, not to the proxy.
+    return typeof value === "function" ? value.bind(client) : value;
   },
 });

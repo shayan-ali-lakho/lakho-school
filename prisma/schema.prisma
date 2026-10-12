@@ -33,10 +33,13 @@ model User {
 }
 
 model Teacher {
-  id     String @id @default(cuid())
-  userId String @unique
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  phone  String?
+  id            String   @id @default(cuid())
+  userId        String   @unique
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  employeeId    String?  @unique
+  phone         String?
+  qualification String?
+  joinedOn      DateTime @default(now())
 
   classesLed Class[]
 }
@@ -72,6 +75,8 @@ model Student {
   guardianId  String?
   guardian    Guardian? @relation(fields: [guardianId], references: [id], onDelete: SetNull)
   dateOfBirth DateTime?
+  gender      String?
+  address     String?
   admittedOn  DateTime  @default(now())
 
   @@unique([classId, rollNumber])

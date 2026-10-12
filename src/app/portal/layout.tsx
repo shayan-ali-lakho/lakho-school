@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { signOut } from "@/auth";
 import { requireUser } from "@/lib/session";
-import { ROLE_LABELS, USER_ADMIN_ROLES } from "@/lib/roles";
+import { ROLE_LABELS, STAFF_ROLES, USER_ADMIN_ROLES } from "@/lib/roles";
 import { site } from "@/lib/site";
 
 export default async function PortalLayout({ children }: LayoutProps<"/portal">) {
@@ -15,11 +15,28 @@ export default async function PortalLayout({ children }: LayoutProps<"/portal">)
             <Link href="/portal" className="font-semibold tracking-tight">
               {site.name} Portal
             </Link>
-            {USER_ADMIN_ROLES.includes(user.role) && (
-              <Link href="/portal/admin/users" className="text-sm text-zinc-600 hover:text-zinc-900">
-                Users
-              </Link>
-            )}
+            <nav className="flex items-center gap-4 text-sm text-zinc-600">
+              {STAFF_ROLES.includes(user.role) && (
+                <>
+                  <Link href="/portal/classes" className="hover:text-zinc-900">
+                    Classes
+                  </Link>
+                  <Link href="/portal/students" className="hover:text-zinc-900">
+                    Students
+                  </Link>
+                </>
+              )}
+              {USER_ADMIN_ROLES.includes(user.role) && (
+                <>
+                  <Link href="/portal/teachers" className="hover:text-zinc-900">
+                    Teachers
+                  </Link>
+                  <Link href="/portal/admin/users" className="hover:text-zinc-900">
+                    Users
+                  </Link>
+                </>
+              )}
+            </nav>
           </div>
           <div className="flex items-center gap-4 text-sm">
             <span className="text-zinc-600">
