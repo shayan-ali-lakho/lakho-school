@@ -15,7 +15,11 @@ export async function authenticate(
     });
   } catch (error) {
     if (error instanceof AuthError) {
-      return "Invalid email or password.";
+      if (error.type === "CredentialsSignin") return "Invalid email or password.";
+      // Anything else is a server problem (missing AUTH_SECRET, database unreachable...).
+      // The real cause is in the Netlify function logs.
+      console.error("Sign-in failed:", error.type, error.cause ?? error);
+      return "Sign-in is unavailable because of a server configuration problem. Please tell the administrator.";
     }
     // A successful sign-in throws a redirect; it must be re-thrown.
     throw error;
