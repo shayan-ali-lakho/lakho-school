@@ -8,8 +8,8 @@ import { USER_ADMIN_ROLES } from "@/lib/roles";
 import { text } from "@/lib/form";
 
 const TIME = /^([01]\d|2[0-3]):[0-5]\d$/;
-const back = (classId: string, error?: string) =>
-  `/portal/timetable?classId=${classId}${error ? `&error=${encodeURIComponent(error)}` : ""}`;
+const back = (classId: string, error?: string, ok?: string) =>
+  `/portal/timetable?classId=${classId}${error ? `&error=${encodeURIComponent(error)}` : ""}${ok ? `&ok=${encodeURIComponent(ok)}` : ""}`;
 
 export async function addSlot(formData: FormData) {
   await requireRole(USER_ADMIN_ROLES);
@@ -46,12 +46,12 @@ export async function addSlot(formData: FormData) {
 
   await db.timetableSlot.create({ data: { courseId, day, startTime, endTime } });
   revalidatePath("/portal/timetable");
-  redirect(back(classId));
+  redirect(back(classId, undefined, "Lesson added."));
 }
 
 export async function deleteSlot(formData: FormData) {
   await requireRole(USER_ADMIN_ROLES);
   await db.timetableSlot.delete({ where: { id: text(formData, "id") } }).catch(() => undefined);
   revalidatePath("/portal/timetable");
-  redirect(back(text(formData, "classId")));
+  redirect(back(text(formData, "classId"), undefined, "Lesson removed."));
 }

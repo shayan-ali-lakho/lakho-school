@@ -45,10 +45,16 @@ export const PORTAL_NAV: NavGroup[] = [
     items: [{ href: "/portal/announcements", label: "Announcements", roles: ["ADMIN"] }],
   },
   {
+    label: "Fees",
+    items: [
+      { href: "/portal/fees/add", label: "Add fees", roles: FINANCE },
+      { href: "/portal/fees", label: "View fees", roles: FINANCE },
+      { href: "/portal/fees/structure", label: "Class and student fees", roles: FINANCE },
+    ],
+  },
+  {
     label: "Money",
     items: [
-      { href: "/portal/fees", label: "Student fees", roles: FINANCE },
-      { href: "/portal/fees/structure", label: "Class fees", roles: FINANCE },
       { href: "/portal/salaries", label: "Teacher salaries", roles: MANAGERS },
       { href: "/portal/expenses", label: "School expenses", roles: FINANCE },
       { href: "/portal/reports", label: "Monthly report", roles: MANAGERS },

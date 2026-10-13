@@ -4,6 +4,8 @@ import Link from "next/link";
 import { useActionState } from "react";
 import { createUser, type CreateUserState } from "@/app/portal/admin/users/actions";
 import { Field, SelectField } from "@/components/fields";
+import { Notice } from "@/components/notice";
+import { btnPrimary } from "@/components/ui";
 
 /** Create-account form. After success it shows the login once, ready to hand over. */
 export function NewUserForm({ roles }: { roles: { value: string; label: string }[] }) {
@@ -56,17 +58,13 @@ export function NewUserForm({ roles }: { roles: { value: string; label: string }
         autoComplete="off"
         hint="At least 8 characters. You choose it and give it to the person."
       />
-      {state?.error && (
-        <p role="alert" className="rounded-md bg-red-50 px-3 py-2 text-sm text-red-700">
-          {state.error}
-        </p>
-      )}
+      {state?.error && <Notice key={state.error + String(pending)} kind="error">{state.error}</Notice>}
       <button
         type="submit"
         disabled={pending}
-        className="rounded-md bg-emerald-700 px-5 py-2.5 font-medium text-white hover:bg-emerald-800 disabled:opacity-60"
+        className={btnPrimary}
       >
-        {pending ? "Creating..." : "Create account"}
+        {pending ? "Creating..." : "+ Create account"}
       </button>
     </form>
   );

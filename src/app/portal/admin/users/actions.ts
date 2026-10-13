@@ -98,7 +98,7 @@ export async function updateUser(_prev: FormState, formData: FormData): Promise<
 
   await db.user.update({ where: { id: userId }, data: { name: parsed.data.name, email: parsed.data.email } });
   revalidatePath("/portal", "layout");
-  redirect("/portal/admin/users");
+  redirect("/portal/admin/users?ok=Account+updated.");
 }
 
 export async function setUserActive(formData: FormData) {
@@ -120,7 +120,7 @@ export async function setUserActive(formData: FormData) {
   revalidatePath("/portal", "layout");
 }
 
-export type PasswordState = { error?: string; done?: boolean } | undefined;
+export type PasswordState = { error?: string; done?: boolean; key: number } | undefined;
 
 /** Admin types a new password for any account (add or update). */
 export async function setPassword(_prev: PasswordState, formData: FormData): Promise<PasswordState> {
@@ -128,16 +128,16 @@ export async function setPassword(_prev: PasswordState, formData: FormData): Pro
   const userId = text(formData, "userId");
 
   const parsed = passwordSchema.safeParse(text(formData, "password"));
-  if (!parsed.success) return { error: `Password ${firstIssue(parsed.error)}` };
+  if (!parsed.success) return { error: `Password ${firstIssue(parsed.error)}`, key: Date.now() };
 
   const target = await db.user.findUnique({ where: { id: userId }, select: { role: true } });
-  if (!target) return { error: "User not found." };
+  if (!target) return { error: "User not found.", key: Date.now() };
   if (!canManage(actor.role, target.role as AppRole)) {
-    return { error: "Only an administrator can change this account." };
+    return { error: "Only an administrator can change this account.", key: Date.now() };
   }
 
   await db.user.update({ where: { id: userId }, data: { passwordHash: await hashPassword(parsed.data) } });
-  return { done: true };
+  return { done: true, key: Date.now() };
 }
 
 // Staff roles an administrator can switch between. Student and parent accounts keep their role.
@@ -196,5 +196,5 @@ export async function deleteUserPermanently(formData: FormData) {
   });
 
   revalidatePath("/portal", "layout");
-  redirect(back);
+  redirect(`${back}${back.includes("?") ? "&" : "?"}ok=Deleted+permanently.`);
 }

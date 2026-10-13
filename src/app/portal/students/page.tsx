@@ -3,6 +3,7 @@ import Link from "next/link";
 import { db } from "@/lib/db";
 import { requireRole } from "@/lib/session";
 import { STAFF_ROLES, USER_ADMIN_ROLES } from "@/lib/roles";
+import { btnPrimary } from "@/components/ui";
 import { DeleteForever } from "@/components/portal/delete-forever";
 
 export const metadata: Metadata = { title: "Students" };
@@ -48,11 +49,8 @@ export default async function StudentsPage(props: PageProps<"/portal/students">)
           </p>
         </div>
         {canManage && (
-          <Link
-            href="/portal/students/new"
-            className="rounded-md bg-emerald-700 px-4 py-2 text-sm font-medium text-white hover:bg-emerald-800"
-          >
-            Admit student
+          <Link href="/portal/students/new" className={btnPrimary}>
+            + Admit student
           </Link>
         )}
       </div>

@@ -48,14 +48,14 @@ export async function createExam(_prev: FormState, formData: FormData): Promise<
     select: { id: true },
   });
   revalidatePath("/portal/exams");
-  redirect(`/portal/exams/${exam.id}`);
+  redirect(`/portal/exams/${exam.id}?ok=Exam+created.`);
 }
 
 export async function deleteExam(formData: FormData) {
   await requireRole(USER_ADMIN_ROLES);
   await db.exam.delete({ where: { id: text(formData, "id") } }).catch(() => undefined);
   revalidatePath("/portal/exams");
-  redirect("/portal/exams");
+  redirect("/portal/exams?ok=Exam+deleted.");
 }
 
 /** Save one subject's marks for a whole class. Inputs are named m_<studentId>; a blank box clears the mark. */
@@ -112,5 +112,5 @@ export async function saveMarks(formData: FormData) {
     ),
   );
   revalidatePath(`/portal/exams/${examId}`);
-  back("saved=1");
+  back("ok=Marks+saved.");
 }

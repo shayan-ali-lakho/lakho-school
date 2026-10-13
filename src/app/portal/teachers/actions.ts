@@ -62,7 +62,7 @@ export async function createTeacher(_prev: FormState, formData: FormData): Promi
   });
 
   revalidatePath("/portal/teachers");
-  redirect("/portal/teachers");
+  redirect("/portal/teachers?ok=Teacher+added.");
 }
 
 const editSchema = z.object({
@@ -112,5 +112,5 @@ export async function updateTeacher(_prev: FormState, formData: FormData): Promi
   ]);
 
   revalidatePath("/portal", "layout");
-  redirect("/portal/teachers");
+  redirect("/portal/teachers?ok=Teacher+updated.");
 }

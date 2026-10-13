@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { btnDanger, btnSm } from "@/components/ui";
+import { ConfirmButton } from "@/components/confirm-button";
 import { db } from "@/lib/db";
 import { requireRole } from "@/lib/session";
 import { EXPENSE_CATEGORIES, FINANCE_ROLES, currentMonth, parseMonth, pkr, shiftMonth } from "@/lib/finance";
@@ -13,7 +15,6 @@ export default async function ExpensesPage(props: PageProps<"/portal/expenses">)
   await requireRole(FINANCE_ROLES);
   const sp = await props.searchParams;
   const month = parseMonth(sp.month);
-  const error = typeof sp.error === "string" ? sp.error : undefined;
 
   const expenses = await db.expense.findMany({
     where: { date: { gte: new Date(`${month}-01T00:00:00.000Z`), lt: new Date(`${shiftMonth(month, 1)}-01T00:00:00.000Z`) } },
@@ -38,11 +39,6 @@ export default async function ExpensesPage(props: PageProps<"/portal/expenses">)
         <MonthNav basePath="/portal/expenses" month={month} />
       </div>
 
-      {error && (
-        <p role="alert" className="rounded-md bg-red-50 px-3 py-2 text-sm text-red-700">
-          {error}
-        </p>
-      )}
 
       <section className="rounded-lg border border-zinc-200 bg-white p-4">
         <h2 className="font-medium">Add an expense</h2>
@@ -110,9 +106,7 @@ export default async function ExpensesPage(props: PageProps<"/portal/expenses">)
                     <form action={deleteExpense}>
                       <input type="hidden" name="id" value={e.id} />
                       <input type="hidden" name="month" value={month} />
-                      <button type="submit" className="text-red-700 hover:underline">
-                        Delete
-                      </button>
+                      <ConfirmButton label="Delete" title="Delete this expense?" message="It will be removed from the monthly report. This cannot be undone." className={`${btnDanger} ${btnSm}`} />
                     </form>
                   </td>
                 </tr>

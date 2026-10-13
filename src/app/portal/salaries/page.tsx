@@ -13,7 +13,6 @@ export default async function SalariesPage(props: PageProps<"/portal/salaries">)
   await requireRole(PAYROLL_ROLES);
   const sp = await props.searchParams;
   const month = parseMonth(sp.month);
-  const error = typeof sp.error === "string" ? sp.error : undefined;
 
   const records = await db.salaryRecord.findMany({
     where: { month },
@@ -46,11 +45,6 @@ export default async function SalariesPage(props: PageProps<"/portal/salaries">)
         <MonthNav basePath="/portal/salaries" month={month} />
       </div>
 
-      {error && (
-        <p role="alert" className="rounded-md bg-red-50 px-3 py-2 text-sm text-red-700">
-          {error}
-        </p>
-      )}
 
       <div className="grid gap-4 sm:grid-cols-3">
         <div className={stat}>

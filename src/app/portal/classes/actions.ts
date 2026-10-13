@@ -47,5 +47,5 @@ export async function createClass(_prev: FormState, formData: FormData): Promise
   });
 
   revalidatePath("/portal/classes");
-  redirect(`/portal/classes/${created.id}`);
+  redirect(`/portal/classes/${created.id}?ok=Class+added.`);
 }

@@ -52,5 +52,5 @@ export async function saveAttendance(formData: FormData) {
     ),
   );
   revalidatePath("/portal/attendance");
-  back("saved=1");
+  back("ok=Attendance+saved.");
 }

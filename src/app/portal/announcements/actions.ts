@@ -35,7 +35,7 @@ export async function postAnnouncement(_prev: FormState, formData: FormData): Pr
   revalidatePath("/portal", "layout");
   revalidatePath("/news");
   revalidatePath("/");
-  redirect("/portal/announcements?posted=1");
+  redirect("/portal/announcements?ok=Announcement+posted.");
 }
 
 export async function deleteAnnouncement(formData: FormData) {
@@ -48,5 +48,5 @@ export async function deleteAnnouncement(formData: FormData) {
   revalidatePath("/portal", "layout");
   revalidatePath("/news");
   revalidatePath("/");
-  redirect("/portal/announcements");
+  redirect("/portal/announcements?ok=Announcement+deleted.");
 }

@@ -7,10 +7,11 @@ import { requireRole } from "@/lib/session";
 import { USER_ADMIN_ROLES } from "@/lib/roles";
 import { optionalText, text } from "@/lib/form";
 
-function back(classId: string, error?: string) {
+function back(classId: string, error?: string, ok?: string) {
   const q = new URLSearchParams();
   if (classId) q.set("classId", classId);
   if (error) q.set("error", error);
+  if (ok) q.set("ok", ok);
   return `/portal/courses?${q.toString()}`;
 }
 
@@ -24,7 +25,7 @@ export async function addSubject(formData: FormData) {
   if (exists) redirect(back(classId, `${name} already exists.`));
   await db.subject.create({ data: { name } });
   revalidatePath("/portal/courses");
-  redirect(back(classId));
+  redirect(back(classId, undefined, "Subject added."));
 }
 
 export async function deleteSubject(formData: FormData) {
@@ -35,7 +36,7 @@ export async function deleteSubject(formData: FormData) {
   if (used > 0) redirect(back(classId, "This subject is taught in a class. Remove it from those classes first."));
   await db.subject.delete({ where: { id } }).catch(() => undefined);
   revalidatePath("/portal/courses");
-  redirect(back(classId));
+  redirect(back(classId, undefined, "Subject deleted."));
 }
 
 export async function addCourse(formData: FormData) {
@@ -49,7 +50,7 @@ export async function addCourse(formData: FormData) {
   if (exists) redirect(back(classId, "That subject is already in this class."));
   await db.course.create({ data: { classId, subjectId, teacherId: teacherId ?? null } });
   revalidatePath("/portal/courses");
-  redirect(back(classId));
+  redirect(back(classId, undefined, "Course added to the class."));
 }
 
 export async function setCourseTeacher(formData: FormData) {
@@ -60,7 +61,7 @@ export async function setCourseTeacher(formData: FormData) {
     data: { teacherId: optionalText(formData, "teacherId") ?? null },
   });
   revalidatePath("/portal/courses");
-  redirect(back(classId));
+  redirect(back(classId, undefined, "Teacher saved."));
 }
 
 export async function removeCourse(formData: FormData) {
@@ -68,5 +69,5 @@ export async function removeCourse(formData: FormData) {
   const classId = text(formData, "classId");
   await db.course.delete({ where: { id: text(formData, "id") } }).catch(() => undefined);
   revalidatePath("/portal/courses");
-  redirect(back(classId));
+  redirect(back(classId, undefined, "Course removed from the class."));
 }

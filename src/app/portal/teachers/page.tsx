@@ -5,6 +5,7 @@ import { loginName } from "@/lib/accounts";
 import { requireRole } from "@/lib/session";
 import { USER_ADMIN_ROLES } from "@/lib/roles";
 import { setUserActive } from "../admin/users/actions";
+import { btnPrimary, btnSecondary, btnSm } from "@/components/ui";
 import { DeleteForever } from "@/components/portal/delete-forever";
 
 export const metadata: Metadata = { title: "Teachers" };
@@ -48,11 +49,8 @@ export default async function TeachersPage(props: PageProps<"/portal/teachers">)
           >
             {showRemoved ? "Show current teachers" : "Show removed"}
           </Link>
-          <Link
-            href="/portal/teachers/new"
-            className="rounded-md bg-emerald-700 px-4 py-2 text-sm font-medium text-white hover:bg-emerald-800"
-          >
-            Add teacher
+          <Link href="/portal/teachers/new" className={btnPrimary}>
+            + Add teacher
           </Link>
         </div>
       </div>
@@ -104,20 +102,17 @@ export default async function TeachersPage(props: PageProps<"/portal/teachers">)
                 </td>
                 <td className="px-4 py-3 text-right tabular-nums">{pkr.format(t.baseSalary)}</td>
                 <td className="whitespace-nowrap px-4 py-3 text-right">
-                  <Link href={`/portal/teachers/${t.id}/edit`} className="mr-4 text-emerald-700 hover:underline">
+                  <Link href={`/portal/teachers/${t.id}/edit`} className={`${btnSecondary} ${btnSm} mr-2`}>
                     Edit
                   </Link>
                   <form action={setUserActive} className="inline">
                     <input type="hidden" name="userId" value={t.userId} />
                     <input type="hidden" name="active" value={String(!t.user.isActive)} />
-                    <button
-                      type="submit"
-                      className={t.user.isActive ? "text-red-700 hover:underline" : "text-emerald-700 hover:underline"}
-                    >
+                    <button type="submit" className={`${btnSecondary} ${btnSm}`}>
                       {t.user.isActive ? "Remove" : "Restore"}
                     </button>
                   </form>
-                  <span className="ml-4">
+                  <span className="ml-2">
                     <DeleteForever userId={t.userId} name={t.user.name} back="/portal/teachers" />
                   </span>
                 </td>

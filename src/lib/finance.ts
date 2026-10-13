@@ -85,3 +85,14 @@ export function daysAgo(n: number): Date {
 export function dayOffDeduction(baseSalary: number, daysOff: number): number {
   return Math.round((baseSalary / 30) * daysOff);
 }
+
+export const FEE_TYPES = ["ADMISSION", "MONTHLY", "EXAM"] as const;
+export type FeeTypeValue = (typeof FEE_TYPES)[number];
+export const FEE_TYPE_LABELS: Record<FeeTypeValue, string> = {
+  ADMISSION: "Admission fee",
+  MONTHLY: "Monthly fee",
+  EXAM: "Exam fee",
+};
+export function parseFeeType(value: unknown): FeeTypeValue | undefined {
+  return typeof value === "string" && (FEE_TYPES as readonly string[]).includes(value) ? (value as FeeTypeValue) : undefined;
+}

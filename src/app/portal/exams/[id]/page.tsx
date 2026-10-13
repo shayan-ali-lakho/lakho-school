@@ -13,7 +13,6 @@ export default async function ExamPage(props: PageProps<"/portal/exams/[id]">) {
   const user = await requireRole(STAFF_ROLES);
   const { id } = await props.params;
   const sp = await props.searchParams;
-  const error = typeof sp.error === "string" ? sp.error : undefined;
 
   const exam = await db.exam.findUnique({
     where: { id },
@@ -69,8 +68,6 @@ export default async function ExamPage(props: PageProps<"/portal/exams/[id]">) {
         </div>
       </div>
 
-      {error && <p role="alert" className="rounded-md bg-red-50 px-3 py-2 text-sm text-red-700">{error}</p>}
-      {sp.saved && <p role="status" className="rounded-md bg-emerald-50 px-3 py-2 text-sm text-emerald-800">Marks saved.</p>}
 
       {courses.length === 0 ? (
         <p className="rounded-lg border border-dashed border-zinc-300 bg-white p-6 text-zinc-600">

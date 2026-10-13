@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { btnDanger, btnSm } from "@/components/ui";
+import { ConfirmButton } from "@/components/confirm-button";
 import { db } from "@/lib/db";
 import { requireRole } from "@/lib/session";
 import { ROLE_LABELS, USER_ADMIN_ROLES, type AppRole } from "@/lib/roles";
@@ -9,10 +11,9 @@ import { deleteAnnouncement, postAnnouncement } from "./actions";
 
 export const metadata: Metadata = { title: "Announcements" };
 
-export default async function AnnouncementsPage(props: PageProps<"/portal/announcements">) {
+export default async function AnnouncementsPage() {
   const user = await requireRole(["ADMIN"]);
   const isManager = USER_ADMIN_ROLES.includes(user.role);
-  const sp = await props.searchParams;
 
   const items = await db.announcement.findMany({
     orderBy: { publishedAt: "desc" },
@@ -28,7 +29,6 @@ export default async function AnnouncementsPage(props: PageProps<"/portal/announ
         <h1 className="text-2xl font-semibold tracking-tight">Announcements</h1>
         <p className="mt-1 text-zinc-600">Notices appear on each person&apos;s dashboard. Public ones also show on the school website.</p>
       </div>
-      {sp.posted && <p role="status" className="rounded-md bg-emerald-50 px-3 py-2 text-sm text-emerald-800">Announcement posted.</p>}
 
       <Card title="New announcement">
         <ActionForm action={postAnnouncement} submitLabel="Post announcement">
@@ -72,7 +72,7 @@ export default async function AnnouncementsPage(props: PageProps<"/portal/announ
                 {(isManager || a.authorId === user.id) && (
                   <form action={deleteAnnouncement}>
                     <input type="hidden" name="id" value={a.id} />
-                    <button type="submit" className="text-sm text-red-700 hover:underline">Delete</button>
+                    <ConfirmButton label="Delete" title="Delete this announcement?" message="It will disappear for everyone, including the website news page." className={`${btnDanger} ${btnSm}`} />
                   </form>
                 )}
               </div>

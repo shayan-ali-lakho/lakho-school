@@ -25,8 +25,8 @@ export default async function PortalHome() {
     const billed = invoices.reduce((s, i) => s + i.amount, 0);
     const paid = invoices.reduce((s, i) => s + i.payments.reduce((a, p) => a + p.amount, 0), 0);
     stats.push(
-      { label: `Fees collected, ${monthLabel(month)}`, value: pkr(paid), href: "/portal/fees", tone: "good" },
-      { label: "Fees still due this month", value: pkr(billed - paid), href: "/portal/fees?filter=unpaid", tone: billed - paid > 0 ? "bad" : undefined },
+      { label: `Fees collected, ${monthLabel(month)}`, value: pkr(paid), href: "/portal/fees?type=MONTHLY", tone: "good" },
+      { label: "Fees still due this month", value: pkr(billed - paid), href: "/portal/fees?status=Unpaid", tone: billed - paid > 0 ? "bad" : undefined },
     );
   }
 

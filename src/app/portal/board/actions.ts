@@ -26,5 +26,5 @@ export async function saveBoardRecord(formData: FormData) {
     create: { studentId, examYear, ...data },
   });
   revalidatePath("/portal/board");
-  redirect(`${back}&saved=${studentId}`);
+  redirect(`${back}&saved=${studentId}&ok=Board+record+saved.`);
 }

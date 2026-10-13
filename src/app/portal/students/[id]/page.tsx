@@ -4,7 +4,7 @@ import { notFound, redirect } from "next/navigation";
 import { db } from "@/lib/db";
 import { requireUser } from "@/lib/session";
 import { STAFF_ROLES, USER_ADMIN_ROLES } from "@/lib/roles";
-import { daysAgo, feeStatus, monthLabel, pkr } from "@/lib/finance";
+import { FEE_TYPE_LABELS, daysAgo, feeStatus, monthLabel, pkr } from "@/lib/finance";
 import { loginName } from "@/lib/accounts";
 import { DeleteForever } from "@/components/portal/delete-forever";
 import { LoginTools } from "@/components/portal/login-tools";
@@ -38,7 +38,7 @@ export default async function StudentProfilePage(props: PageProps<"/portal/stude
       invoices: {
         orderBy: { month: "desc" },
         take: 12,
-        select: { id: true, month: true, amount: true, payments: { select: { id: true, amount: true, receiptNo: true } } },
+        select: { id: true, month: true, type: true, amount: true, payments: { select: { id: true, amount: true, receiptNo: true } } },
       },
     },
   });
@@ -148,6 +148,7 @@ export default async function StudentProfilePage(props: PageProps<"/portal/stude
           <table className="mt-3 w-full text-left">
             <thead className="text-zinc-500">
               <tr>
+                <th className="py-1.5 font-medium">Fee</th>
                 <th className="py-1.5 font-medium">Month</th>
                 <th className="py-1.5 text-right font-medium">Due</th>
                 <th className="py-1.5 text-right font-medium">Paid</th>
@@ -161,6 +162,7 @@ export default async function StudentProfilePage(props: PageProps<"/portal/stude
                 const status = feeStatus(inv.amount, paid);
                 return (
                   <tr key={inv.id} className="border-t border-zinc-100">
+                    <td className="py-1.5">{FEE_TYPE_LABELS[inv.type]}</td>
                     <td className="py-1.5">{monthLabel(inv.month)}</td>
                     <td className="py-1.5 text-right tabular-nums">{inv.amount.toLocaleString("en-PK")}</td>
                     <td className="py-1.5 text-right tabular-nums">{paid.toLocaleString("en-PK")}</td>

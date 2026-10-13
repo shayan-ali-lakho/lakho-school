@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { btnDanger, btnSm } from "@/components/ui";
+import { ConfirmButton } from "@/components/confirm-button";
 import { db } from "@/lib/db";
 import { requireUser } from "@/lib/session";
 import { USER_ADMIN_ROLES } from "@/lib/roles";
@@ -14,7 +16,6 @@ export default async function TimetablePage(props: PageProps<"/portal/timetable"
   const user = await requireUser();
   const canManage = USER_ADMIN_ROLES.includes(user.role);
   const sp = await props.searchParams;
-  const error = typeof sp.error === "string" ? sp.error : undefined;
 
   const classes = await visibleClasses(user);
   const classId = classes.find((c) => c.id === sp.classId)?.id ?? classes[0]?.id ?? "";
@@ -60,7 +61,6 @@ export default async function TimetablePage(props: PageProps<"/portal/timetable"
         )}
       </div>
 
-      {error && <p role="alert" className="rounded-md bg-red-50 px-3 py-2 text-sm text-red-700">{error}</p>}
 
       {classes.length === 0 ? (
         <p className="text-zinc-500">No class to show.</p>
@@ -88,7 +88,7 @@ export default async function TimetablePage(props: PageProps<"/portal/timetable"
                               <form action={deleteSlot}>
                                 <input type="hidden" name="id" value={s.id} />
                                 <input type="hidden" name="classId" value={classId} />
-                                <button type="submit" className="text-xs text-red-700 hover:underline">Delete</button>
+                                <ConfirmButton label="Delete" title="Delete this lesson?" message="The lesson will be removed from the timetable." className={`${btnDanger} ${btnSm}`} />
                               </form>
                             )}
                           </div>

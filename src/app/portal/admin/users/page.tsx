@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { btnPrimary, btnSecondary, btnSm } from "@/components/ui";
 import { db } from "@/lib/db";
 import { requireRole } from "@/lib/session";
 import { ROLE_LABELS, USER_ADMIN_ROLES, type AppRole } from "@/lib/roles";
@@ -26,11 +27,8 @@ export default async function UsersPage() {
           <h1 className="text-2xl font-semibold tracking-tight">Logins and roles</h1>
           <p className="mt-1 text-zinc-600">{users.length} accounts</p>
         </div>
-        <Link
-          href="/portal/admin/users/new"
-          className="rounded-md bg-emerald-700 px-4 py-2 text-sm font-medium text-white hover:bg-emerald-800"
-        >
-          New user
+        <Link href="/portal/admin/users/new" className={btnPrimary}>
+          + New account
         </Link>
       </div>
       <div className="mt-6 overflow-x-auto rounded-lg border border-zinc-200 bg-white">
@@ -75,14 +73,14 @@ export default async function UsersPage() {
                 </td>
                 <td className="px-4 py-3">{u.isActive ? "Active" : "Disabled"}</td>
                 <td className="px-4 py-3 text-right">
-                  <Link href={`/portal/admin/users/${u.id}`} className="mr-4 text-emerald-700 hover:underline">
+                  <Link href={`/portal/admin/users/${u.id}`} className={`${btnSecondary} ${btnSm} mr-2`}>
                     Edit
                   </Link>
                   {u.id !== actor.id && (
                     <form action={setUserActive} className="inline">
                       <input type="hidden" name="userId" value={u.id} />
                       <input type="hidden" name="active" value={String(!u.isActive)} />
-                      <button type="submit" className="text-emerald-700 hover:underline">
+                      <button type="submit" className={`${btnSecondary} ${btnSm}`}>
                         {u.isActive ? "Disable" : "Enable"}
                       </button>
                     </form>

@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { btnDanger, btnPrimary, btnSm } from "@/components/ui";
+import { ConfirmButton } from "@/components/confirm-button";
 import { db } from "@/lib/db";
 import { requireRole } from "@/lib/session";
 import { STAFF_ROLES, USER_ADMIN_ROLES } from "@/lib/roles";
@@ -13,7 +15,6 @@ export default async function CoursesPage(props: PageProps<"/portal/courses">) {
   const user = await requireRole(STAFF_ROLES);
   const canManage = USER_ADMIN_ROLES.includes(user.role);
   const sp = await props.searchParams;
-  const error = typeof sp.error === "string" ? sp.error : undefined;
 
   const classes = await visibleClasses(user);
   const classId = classes.find((c) => c.id === sp.classId)?.id ?? classes[0]?.id ?? "";
@@ -42,11 +43,6 @@ export default async function CoursesPage(props: PageProps<"/portal/courses">) {
         <p className="mt-1 text-zinc-600">The subjects each class studies and who teaches them.</p>
       </div>
 
-      {error && (
-        <p role="alert" className="rounded-md bg-red-50 px-3 py-2 text-sm text-red-700">
-          {error}
-        </p>
-      )}
 
       <section className="space-y-3">
         <h2 className="text-lg font-medium">Subjects</h2>
@@ -59,9 +55,7 @@ export default async function CoursesPage(props: PageProps<"/portal/courses">) {
                 <form action={deleteSubject}>
                   <input type="hidden" name="id" value={s.id} />
                   <input type="hidden" name="classId" value={classId} />
-                  <button type="submit" aria-label={`Delete ${s.name}`} className="text-zinc-400 hover:text-red-700">
-                    ✕
-                  </button>
+                  <ConfirmButton label="✕" title={`Delete ${s.name}?`} message="The subject will be removed. This cannot be undone." className="text-zinc-400 hover:text-red-700" />
                 </form>
               )}
             </li>
@@ -71,8 +65,8 @@ export default async function CoursesPage(props: PageProps<"/portal/courses">) {
           <form action={addSubject} className="flex gap-2">
             <input type="hidden" name="classId" value={classId} />
             <input name="name" required maxLength={60} placeholder="New subject, e.g. Mathematics" aria-label="New subject name" className="w-72 rounded-md border border-zinc-300 px-3 py-2 text-sm" />
-            <button type="submit" className="rounded-md bg-emerald-700 px-4 py-2 text-sm font-medium text-white hover:bg-emerald-800">
-              Add subject
+            <button type="submit" className={btnPrimary}>
+              + Add subject
             </button>
           </form>
         )}
@@ -133,7 +127,7 @@ export default async function CoursesPage(props: PageProps<"/portal/courses">) {
                         <form action={removeCourse}>
                           <input type="hidden" name="id" value={c.id} />
                           <input type="hidden" name="classId" value={classId} />
-                          <button type="submit" className="text-red-700 hover:underline">Remove</button>
+                          <ConfirmButton label="Remove" title="Remove this course from the class?" message="Marks entered for it stay with the exam, but the class will no longer study this subject." confirmLabel="Yes, remove" className={`${btnDanger} ${btnSm}`} />
                         </form>
                       )}
                     </td>
@@ -165,8 +159,8 @@ export default async function CoursesPage(props: PageProps<"/portal/courses">) {
                 ))}
               </select>
             </div>
-            <button type="submit" className="rounded-md bg-emerald-700 px-4 py-2 text-sm font-medium text-white hover:bg-emerald-800">
-              Add course
+            <button type="submit" className={btnPrimary}>
+              + Add course
             </button>
           </form>
         )}

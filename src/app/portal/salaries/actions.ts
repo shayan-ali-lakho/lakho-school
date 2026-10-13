@@ -22,7 +22,7 @@ export async function generateSalaries(formData: FormData) {
     skipDuplicates: true,
   });
   revalidatePath("/portal/salaries");
-  redirect(`/portal/salaries?month=${month}`);
+  redirect(`/portal/salaries?month=${month}&ok=Salary+lines+created.`);
 }
 
 const lineSchema = z.object({
@@ -49,7 +49,7 @@ export async function saveSalary(formData: FormData) {
 
   await db.salaryRecord.update({ where: { id }, data: { baseSalary: v.baseSalary, daysOff: v.daysOff, allowances: 0, deductions: dayOffDeduction(v.baseSalary, v.daysOff), note: optionalText(formData, "note") ?? null } });
   revalidatePath("/portal/salaries");
-  redirect(back);
+  redirect(`${back}&ok=Salary+saved.`);
 }
 
 export async function setSalaryPaid(formData: FormData) {
@@ -60,5 +60,5 @@ export async function setSalaryPaid(formData: FormData) {
 
   await db.salaryRecord.update({ where: { id }, data: { paidOn: paid ? new Date() : null } });
   revalidatePath("/portal/salaries");
-  redirect(`/portal/salaries?month=${month}`);
+  redirect(`/portal/salaries?month=${month}&ok=${paid ? "Marked+as+paid." : "Marked+as+unpaid."}`);
 }

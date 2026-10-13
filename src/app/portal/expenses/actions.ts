@@ -32,7 +32,7 @@ export async function addExpense(formData: FormData) {
     data: { date: new Date(`${v.date}T00:00:00.000Z`), category: v.category, description: v.description, amount: v.amount, createdById: actor.id },
   });
   revalidatePath("/portal/expenses");
-  redirect(`/portal/expenses?month=${v.date.slice(0, 7)}`);
+  redirect(`/portal/expenses?month=${v.date.slice(0, 7)}&ok=Expense+added.`);
 }
 
 export async function deleteExpense(formData: FormData) {
@@ -40,5 +40,5 @@ export async function deleteExpense(formData: FormData) {
   const month = parseMonth(text(formData, "month"));
   await db.expense.delete({ where: { id: text(formData, "id") } }).catch(() => undefined);
   revalidatePath("/portal/expenses");
-  redirect(`/portal/expenses?month=${month}`);
+  redirect(`/portal/expenses?month=${month}&ok=Expense+deleted.`);
 }

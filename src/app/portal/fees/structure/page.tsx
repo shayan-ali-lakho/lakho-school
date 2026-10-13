@@ -10,7 +10,6 @@ export const metadata: Metadata = { title: "Class fees" };
 export default async function ClassFeesPage(props: PageProps<"/portal/fees/structure">) {
   await requireRole(FINANCE_ROLES);
   const sp = await props.searchParams;
-  const saved = sp.saved;
 
   const classes = await db.class.findMany({
     orderBy: [{ academicYear: "desc" }, { name: "asc" }, { section: "asc" }],
@@ -35,7 +34,6 @@ export default async function ClassFeesPage(props: PageProps<"/portal/fees/struc
           invoices that already exist. Each student can also have their own monthly fee, set below.
         </p>
       </div>
-      {saved && <p role="status" className="rounded-md bg-emerald-50 px-3 py-2 text-sm text-emerald-800">Fees saved.</p>}
       <Card>
         {classes.length === 0 ? (
           <p className="text-zinc-500">No classes yet. Add classes first.</p>

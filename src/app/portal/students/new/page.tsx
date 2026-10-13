@@ -76,7 +76,8 @@ export default async function AdmitStudentPage() {
               />
             </div>
             <Field label="Address" name="address" />
-            <Field label="Monthly fee (PKR)" name="monthlyFee" type="number" hint="Leave empty to charge the class fee." />
+            <Field label="Monthly fee (PKR)" name="monthlyFee" type="number" hint="This student's monthly tuition fee. Leave empty to use the class fee." />
+            <Field label="Admission fee (PKR)" name="admissionFee" type="number" hint="Optional. Adds an admission fee for this student, which you can receive from View fees." />
           </div>
         </Card>
 

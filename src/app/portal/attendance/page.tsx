@@ -17,7 +17,6 @@ const OPTIONS = [
 export default async function AttendancePage(props: PageProps<"/portal/attendance">) {
   const user = await requireRole(["ADMIN", "PRINCIPAL", "TEACHER"]);
   const sp = await props.searchParams;
-  const error = typeof sp.error === "string" ? sp.error : undefined;
 
   const today = todayKarachi();
   const date = typeof sp.date === "string" && /^\d{4}-\d{2}-\d{2}$/.test(sp.date) && sp.date <= today ? sp.date : today;
@@ -70,8 +69,6 @@ export default async function AttendancePage(props: PageProps<"/portal/attendanc
         <button type="submit" className="rounded-md border border-zinc-300 px-3 py-1.5 hover:bg-zinc-100">Show</button>
       </form>
 
-      {error && <p role="alert" className="rounded-md bg-red-50 px-3 py-2 text-sm text-red-700">{error}</p>}
-      {sp.saved && <p role="status" className="rounded-md bg-emerald-50 px-3 py-2 text-sm text-emerald-800">Attendance saved.</p>}
 
       {classes.length === 0 ? (
         <p className="rounded-lg border border-dashed border-zinc-300 bg-white p-6 text-zinc-600">

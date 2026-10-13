@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { db } from "@/lib/db";
 import { requireUser } from "@/lib/session";
-import { FINANCE_ROLES, dateTime, monthLabel, pkr } from "@/lib/finance";
+import { FEE_TYPE_LABELS, FINANCE_ROLES, dateTime, monthLabel, pkr } from "@/lib/finance";
 import { site } from "@/lib/site";
 import { PrintButton } from "@/components/portal/print-button";
 
@@ -25,6 +25,7 @@ export default async function ReceiptPage(props: PageProps<"/portal/fees/receipt
       invoice: {
         select: {
           month: true,
+          type: true,
           amount: true,
           payments: { select: { amount: true } },
           student: {
@@ -55,9 +56,9 @@ export default async function ReceiptPage(props: PageProps<"/portal/fees/receipt
     ["Student", st.user.name],
     ["Class", st.class ? `${st.class.name} ${st.class.section}` : "-"],
     ["Roll number", st.rollNumber],
-    ["Fee for", monthLabel(p.invoice.month)],
+    ["Fee for", `${FEE_TYPE_LABELS[p.invoice.type]} · ${monthLabel(p.invoice.month)}`],
     ["Payment method", p.method],
-    ["Amount due for the month", pkr(p.invoice.amount)],
+    ["Fee amount", pkr(p.invoice.amount)],
     ["Paid to date", pkr(totalPaid)],
     ["Balance", pkr(Math.max(0, p.invoice.amount - totalPaid))],
   ];

@@ -14,6 +14,7 @@ import {
   loginIdSchema,
   passwordSchema,
 } from "@/lib/accounts";
+import { currentMonth } from "@/lib/finance";
 import { firstIssue, optionalText, text, type FormState } from "@/lib/form";
 
 const studentSchema = accountSchema.omit({ role: true }).extend({
@@ -26,6 +27,7 @@ const studentSchema = accountSchema.omit({ role: true }).extend({
   gender: z.enum(["Male", "Female", "Other"]).optional(),
   address: z.string().max(300).optional(),
   monthlyFee: z.coerce.number().int("must be a whole number").min(0, "cannot be negative").max(1_000_000).optional(),
+  admissionFee: z.coerce.number().int("must be a whole number").min(0, "cannot be negative").max(1_000_000).optional(),
 });
 
 const newGuardianSchema = z.object({
@@ -48,6 +50,7 @@ export async function admitStudent(_prev: FormState, formData: FormData): Promis
     gender: optionalText(formData, "gender"),
     address: optionalText(formData, "address"),
     monthlyFee: optionalText(formData, "monthlyFee"),
+    admissionFee: optionalText(formData, "admissionFee"),
   });
   if (!parsed.success) return { error: firstIssue(parsed.error) };
   const s = parsed.data;
@@ -131,6 +134,7 @@ export async function admitStudent(_prev: FormState, formData: FormData): Promis
           gender: s.gender,
           address: s.address,
           monthlyFee: s.monthlyFee,
+          ...(s.admissionFee ? { invoices: { create: { month: currentMonth(), type: "ADMISSION" as const, amount: s.admissionFee } } } : {}),
           dateOfBirth: s.dateOfBirth ? new Date(`${s.dateOfBirth}T00:00:00.000Z`) : undefined,
           class: { connect: { id: s.classId } },
           guardian: guardianInput,
@@ -142,7 +146,7 @@ export async function admitStudent(_prev: FormState, formData: FormData): Promis
 
   revalidatePath("/portal/students");
   revalidatePath("/portal/classes");
-  redirect(`/portal/students/${created.studentProfile?.id ?? ""}`);
+  redirect(`/portal/students/${created.studentProfile?.id ?? ""}?ok=Student+admitted.`);
 }
 
 const editSchema = z.object({
@@ -196,5 +200,5 @@ export async function updateStudent(_prev: FormState, formData: FormData): Promi
   ]);
 
   revalidatePath("/portal", "layout");
-  redirect(`/portal/students/${id}`);
+  redirect(`/portal/students/${id}?ok=Student+updated.`);
 }

@@ -156,20 +156,29 @@ model ContactMessage {
 }
 
 /// One monthly fee bill per student. `month` is "YYYY-MM".
+enum FeeType {
+  ADMISSION
+  MONTHLY
+  EXAM
+}
+
 model FeeInvoice {
   id        String   @id @default(cuid())
   studentId String
   student   Student  @relation(fields: [studentId], references: [id])
   month     String
-  /// Amount due in PKR (class fee minus the student's discount, fixed when the invoice is created).
+  /// Admission, monthly tuition or exam fee.
+  type      FeeType  @default(MONTHLY)
+  /// Amount due in PKR (fixed when the fee is created).
   amount    Int
   note      String?
   createdAt DateTime @default(now())
 
   payments FeePayment[]
 
-  @@unique([studentId, month])
+  @@index([studentId, month, type])
   @@index([month])
+  @@index([type])
 }
 
 model FeePayment {
