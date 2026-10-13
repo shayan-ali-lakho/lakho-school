@@ -4,6 +4,7 @@ import { notFound, redirect } from "next/navigation";
 import { db } from "@/lib/db";
 import { requireUser } from "@/lib/session";
 import { STAFF_ROLES, USER_ADMIN_ROLES } from "@/lib/roles";
+import { feeStatus, monthLabel, pkr } from "@/lib/finance";
 import { LoginTools } from "@/components/portal/login-tools";
 import { setUserActive } from "../../admin/users/actions";
 
@@ -25,6 +26,12 @@ export default async function StudentProfilePage(props: PageProps<"/portal/stude
       user: { select: { name: true, email: true, isActive: true } },
       class: { select: { id: true, name: true, section: true, academicYear: true } },
       guardian: { select: { userId: true, phone: true, user: { select: { name: true, email: true } } } },
+      feeDiscount: true,
+      invoices: {
+        orderBy: { month: "desc" },
+        take: 12,
+        select: { id: true, month: true, amount: true, payments: { select: { id: true, amount: true, receiptNo: true } } },
+      },
     },
   });
   if (!student) notFound();
@@ -86,6 +93,49 @@ export default async function StudentProfilePage(props: PageProps<"/portal/stude
           </p>
         ) : (
           <p className="mt-2 text-zinc-500">No parent linked yet.</p>
+        )}
+      </section>
+
+      <section className="rounded-lg border border-zinc-200 bg-white p-4 text-sm">
+        <h2 className="font-medium">Fees</h2>
+        {student.feeDiscount > 0 && isStaff && (
+          <p className="mt-1 text-zinc-500">Monthly discount: {pkr(student.feeDiscount)}</p>
+        )}
+        {student.invoices.length === 0 ? (
+          <p className="mt-2 text-zinc-500">No fee invoices yet.</p>
+        ) : (
+          <table className="mt-3 w-full text-left">
+            <thead className="text-zinc-500">
+              <tr>
+                <th className="py-1.5 font-medium">Month</th>
+                <th className="py-1.5 text-right font-medium">Due</th>
+                <th className="py-1.5 text-right font-medium">Paid</th>
+                <th className="py-1.5 pl-4 font-medium">Status</th>
+                <th className="py-1.5 font-medium">Receipts</th>
+              </tr>
+            </thead>
+            <tbody>
+              {student.invoices.map((inv) => {
+                const paid = inv.payments.reduce((a, p) => a + p.amount, 0);
+                const status = feeStatus(inv.amount, paid);
+                return (
+                  <tr key={inv.id} className="border-t border-zinc-100">
+                    <td className="py-1.5">{monthLabel(inv.month)}</td>
+                    <td className="py-1.5 text-right tabular-nums">{inv.amount.toLocaleString("en-PK")}</td>
+                    <td className="py-1.5 text-right tabular-nums">{paid.toLocaleString("en-PK")}</td>
+                    <td className={`py-1.5 pl-4 ${status === "Paid" ? "text-emerald-700" : status === "Partly paid" ? "text-amber-700" : "text-red-700"}`}>{status}</td>
+                    <td className="py-1.5">
+                      {inv.payments.map((p) => (
+                        <Link key={p.id} href={`/portal/fees/receipt/${p.id}`} className="mr-2 text-emerald-700 hover:underline">
+                          #{p.receiptNo}
+                        </Link>
+                      ))}
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
         )}
       </section>
 

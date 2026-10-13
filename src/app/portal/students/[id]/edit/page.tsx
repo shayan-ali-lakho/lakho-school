@@ -22,6 +22,7 @@ export default async function EditStudentPage(props: PageProps<"/portal/students
         classId: true,
         gender: true,
         address: true,
+        feeDiscount: true,
         dateOfBirth: true,
         user: { select: { name: true } },
       },
@@ -72,6 +73,13 @@ export default async function EditStudentPage(props: PageProps<"/portal/students
             ]}
           />
           <Field label="Address" name="address" defaultValue={student.address ?? ""} />
+          <Field
+            label="Monthly fee discount (PKR)"
+            name="feeDiscount"
+            type="number"
+            defaultValue={String(student.feeDiscount)}
+            hint="Taken off the class fee on invoices created from now on."
+          />
         </ActionForm>
       </Card>
     </div>

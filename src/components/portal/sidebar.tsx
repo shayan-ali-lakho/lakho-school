@@ -19,7 +19,12 @@ export function Sidebar({
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
 
-  const isActive = (href: string) => (href === "/portal" ? pathname === href : pathname.startsWith(href));
+  // The most specific matching link is the active one (so /portal/fees/structure does not also light up /portal/fees).
+  const activeHref = groups
+    .flatMap((g) => g.items.map((i) => i.href))
+    .filter((h) => (h === "/portal" ? pathname === h : pathname === h || pathname.startsWith(`${h}/`)))
+    .sort((a, b) => b.length - a.length)[0];
+  const isActive = (href: string) => href === activeHref;
 
   const nav = (
     <nav aria-label="Portal" className="flex-1 space-y-6 overflow-y-auto px-3 py-5">

@@ -148,6 +148,7 @@ const editSchema = z.object({
   dateOfBirth: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "must be a valid date").optional(),
   gender: z.enum(["Male", "Female", "Other"]).optional(),
   address: z.string().max(300).optional(),
+  feeDiscount: z.coerce.number().int("must be a whole number").min(0, "cannot be negative").max(1_000_000),
 });
 
 export async function updateStudent(_prev: FormState, formData: FormData): Promise<FormState> {
@@ -161,6 +162,7 @@ export async function updateStudent(_prev: FormState, formData: FormData): Promi
     dateOfBirth: optionalText(formData, "dateOfBirth"),
     gender: optionalText(formData, "gender"),
     address: optionalText(formData, "address"),
+    feeDiscount: text(formData, "feeDiscount") || "0",
   });
   if (!parsed.success) return { error: firstIssue(parsed.error) };
   const s = parsed.data;
@@ -181,6 +183,7 @@ export async function updateStudent(_prev: FormState, formData: FormData): Promi
       data: {
         rollNumber: s.rollNumber,
         classId: s.classId,
+        feeDiscount: s.feeDiscount,
         gender: s.gender ?? null,
         address: s.address ?? null,
         dateOfBirth: s.dateOfBirth ? new Date(`${s.dateOfBirth}T00:00:00.000Z`) : null,

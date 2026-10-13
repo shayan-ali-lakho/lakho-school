@@ -30,6 +30,8 @@ model User {
   studentProfile  Student?
   guardianProfile Guardian?
   announcements   Announcement[]
+  paymentsTaken   FeePayment[]
+  expensesAdded   Expense[]
 }
 
 model Teacher {
@@ -45,6 +47,7 @@ model Teacher {
   joinedOn      DateTime @default(now())
 
   classesLed Class[]
+  salaries   SalaryRecord[]
 }
 
 model Guardian {
@@ -62,6 +65,8 @@ model Class {
   academicYear   String
   classTeacherId String?
   classTeacher   Teacher? @relation(fields: [classTeacherId], references: [id], onDelete: SetNull)
+  /// Monthly tuition fee in PKR for every student of this class.
+  monthlyFee     Int     @default(0)
 
   students Student[]
 
@@ -81,6 +86,10 @@ model Student {
   gender      String?
   address     String?
   admittedOn  DateTime  @default(now())
+  /// Monthly discount in PKR taken off the class fee (concession, sibling discount, etc.).
+  feeDiscount Int       @default(0)
+
+  invoices FeeInvoice[]
 
   @@unique([classId, rollNumber])
 }
@@ -135,4 +144,65 @@ model ContactMessage {
   createdAt DateTime @default(now())
 
   @@index([createdAt])
+}
+
+/// One monthly fee bill per student. `month` is "YYYY-MM".
+model FeeInvoice {
+  id        String   @id @default(cuid())
+  studentId String
+  student   Student  @relation(fields: [studentId], references: [id])
+  month     String
+  /// Amount due in PKR (class fee minus the student's discount, fixed when the invoice is created).
+  amount    Int
+  note      String?
+  createdAt DateTime @default(now())
+
+  payments FeePayment[]
+
+  @@unique([studentId, month])
+  @@index([month])
+}
+
+model FeePayment {
+  id           String     @id @default(cuid())
+  receiptNo    Int        @unique @default(autoincrement())
+  invoiceId    String
+  invoice      FeeInvoice @relation(fields: [invoiceId], references: [id])
+  amount       Int
+  paidOn       DateTime   @default(now())
+  method       String     @default("Cash")
+  note         String?
+  receivedById String?
+  receivedBy   User?      @relation(fields: [receivedById], references: [id], onDelete: SetNull)
+
+  @@index([paidOn])
+}
+
+/// Monthly salary line for a teacher. `month` is "YYYY-MM".
+model SalaryRecord {
+  id            String    @id @default(cuid())
+  teacherId     String
+  teacher       Teacher   @relation(fields: [teacherId], references: [id])
+  month         String
+  baseSalary    Int
+  allowances    Int       @default(0)
+  deductions    Int       @default(0)
+  note          String?
+  paidOn        DateTime?
+
+  @@unique([teacherId, month])
+  @@index([month])
+}
+
+model Expense {
+  id          String   @id @default(cuid())
+  date        DateTime @db.Date
+  category    String
+  description String
+  amount      Int
+  createdById String?
+  createdBy   User?    @relation(fields: [createdById], references: [id], onDelete: SetNull)
+  createdAt   DateTime @default(now())
+
+  @@index([date])
 }
