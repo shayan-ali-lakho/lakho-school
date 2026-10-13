@@ -3,7 +3,9 @@ import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { db } from "@/lib/db";
 import { requireUser } from "@/lib/session";
-import { STAFF_ROLES } from "@/lib/roles";
+import { STAFF_ROLES, USER_ADMIN_ROLES } from "@/lib/roles";
+import { LoginTools } from "@/components/portal/login-tools";
+import { setUserActive } from "../../admin/users/actions";
 
 export const metadata: Metadata = { title: "Student" };
 
@@ -29,6 +31,7 @@ export default async function StudentProfilePage(props: PageProps<"/portal/stude
 
   // Staff can open any profile. A student may open their own, and a parent their child's.
   const isStaff = STAFF_ROLES.includes(user.role);
+  const canManage = USER_ADMIN_ROLES.includes(user.role);
   const isSelf = user.role === "STUDENT" && student.userId === user.id;
   const isParent = user.role === "PARENT" && student.guardian?.userId === user.id;
   if (!isStaff && !isSelf && !isParent) redirect("/portal");
@@ -41,7 +44,7 @@ export default async function StudentProfilePage(props: PageProps<"/portal/stude
     ["Gender", student.gender ?? "-"],
     ["Address", student.address ?? "-"],
     ["Admitted on", student.admittedOn.toLocaleDateString("en-GB", { dateStyle: "medium" })],
-    ["Status", student.user.isActive ? "Active" : "Disabled"],
+    ["Status", student.user.isActive ? "Active" : "Removed (cannot sign in)"],
   ];
 
   return (
@@ -52,7 +55,17 @@ export default async function StudentProfilePage(props: PageProps<"/portal/stude
             ← Students
           </Link>
         )}
-        <h1 className="mt-2 text-2xl font-semibold tracking-tight">{student.user.name}</h1>
+        <div className="mt-2 flex flex-wrap items-center justify-between gap-3">
+          <h1 className="text-2xl font-semibold tracking-tight">{student.user.name}</h1>
+          {canManage && (
+            <Link
+              href={`/portal/students/${id}/edit`}
+              className="rounded-md border border-zinc-300 px-3 py-1.5 text-sm hover:bg-zinc-100"
+            >
+              Edit details
+            </Link>
+          )}
+        </div>
       </div>
 
       <dl className="divide-y divide-zinc-100 rounded-lg border border-zinc-200 bg-white">
@@ -75,6 +88,32 @@ export default async function StudentProfilePage(props: PageProps<"/portal/stude
           <p className="mt-2 text-zinc-500">No parent linked yet.</p>
         )}
       </section>
+
+      {canManage && (
+        <section className="space-y-4 rounded-lg border border-zinc-200 bg-white p-4">
+          <h2 className="font-medium">Login and access</h2>
+          <LoginTools userId={student.userId} email={student.user.email} />
+          <form action={setUserActive} className="border-t border-zinc-100 pt-4">
+            <input type="hidden" name="userId" value={student.userId} />
+            <input type="hidden" name="active" value={String(!student.user.isActive)} />
+            <button
+              type="submit"
+              className={`rounded-md border px-3 py-1.5 text-sm ${
+                student.user.isActive
+                  ? "border-red-300 text-red-700 hover:bg-red-50"
+                  : "border-emerald-300 text-emerald-700 hover:bg-emerald-50"
+              }`}
+            >
+              {student.user.isActive ? "Remove student from school" : "Restore student"}
+            </button>
+            <p className="mt-2 text-xs text-zinc-500">
+              {student.user.isActive
+                ? "Removing blocks sign-in and hides the student from lists. Records are kept and the student can be restored."
+                : "This student is removed. Restoring lets them sign in again."}
+            </p>
+          </form>
+        </section>
+      )}
     </div>
   );
 }

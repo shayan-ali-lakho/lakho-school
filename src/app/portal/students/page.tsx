@@ -10,8 +10,9 @@ export default async function StudentsPage(props: PageProps<"/portal/students">)
   const user = await requireRole(STAFF_ROLES);
   const canManage = USER_ADMIN_ROLES.includes(user.role);
 
-  const { classId } = await props.searchParams;
+  const { classId, removed } = await props.searchParams;
   const selectedClass = typeof classId === "string" && classId ? classId : undefined;
+  const showRemoved = removed === "1";
 
   const [classes, students] = await Promise.all([
     db.class.findMany({
@@ -19,7 +20,10 @@ export default async function StudentsPage(props: PageProps<"/portal/students">)
       select: { id: true, name: true, section: true, academicYear: true },
     }),
     db.student.findMany({
-      where: selectedClass ? { classId: selectedClass } : {},
+      where: {
+        ...(selectedClass ? { classId: selectedClass } : {}),
+        user: { isActive: !showRemoved },
+      },
       orderBy: [{ class: { name: "asc" } }, { rollNumber: "asc" }],
       take: 300,
       select: {
@@ -37,7 +41,9 @@ export default async function StudentsPage(props: PageProps<"/portal/students">)
       <div className="flex items-end justify-between">
         <div>
           <h1 className="text-2xl font-semibold tracking-tight">Students</h1>
-          <p className="mt-1 text-zinc-600">{students.length} students</p>
+          <p className="mt-1 text-zinc-600">
+            {students.length} {showRemoved ? "removed students" : "students"}
+          </p>
         </div>
         {canManage && (
           <Link
@@ -66,6 +72,10 @@ export default async function StudentsPage(props: PageProps<"/portal/students">)
             </option>
           ))}
         </select>
+        <label className="ml-2 flex items-center gap-1.5 text-zinc-600">
+          <input type="checkbox" name="removed" value="1" defaultChecked={showRemoved} />
+          Show removed
+        </label>
         <button type="submit" className="rounded-md border border-zinc-300 px-3 py-1.5 hover:bg-zinc-100">
           Filter
         </button>
@@ -100,7 +110,7 @@ export default async function StudentsPage(props: PageProps<"/portal/students">)
                 </td>
                 <td className="px-4 py-3">{s.class ? `${s.class.name} ${s.class.section}` : "-"}</td>
                 <td className="px-4 py-3 text-zinc-600">{s.guardian?.user.name ?? "-"}</td>
-                <td className="px-4 py-3">{s.user.isActive ? "Active" : "Disabled"}</td>
+                <td className="px-4 py-3">{s.user.isActive ? "Active" : "Removed"}</td>
               </tr>
             ))}
           </tbody>

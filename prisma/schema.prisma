@@ -39,6 +39,9 @@ model Teacher {
   employeeId    String?  @unique
   phone         String?
   qualification String?
+  position      String?
+  /// Monthly base salary in PKR.
+  baseSalary    Int      @default(0)
   joinedOn      DateTime @default(now())
 
   classesLed Class[]

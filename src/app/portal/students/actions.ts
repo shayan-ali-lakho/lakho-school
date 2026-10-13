@@ -140,3 +140,54 @@ export async function admitStudent(_prev: FormState, formData: FormData): Promis
   revalidatePath("/portal/classes");
   redirect(`/portal/students/${created.studentProfile?.id ?? ""}`);
 }
+
+const editSchema = z.object({
+  name: z.string().trim().min(2, "is required").max(100),
+  rollNumber: z.string().trim().min(1, "is required").max(20),
+  classId: z.string().min(1, "is required"),
+  dateOfBirth: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "must be a valid date").optional(),
+  gender: z.enum(["Male", "Female", "Other"]).optional(),
+  address: z.string().max(300).optional(),
+});
+
+export async function updateStudent(_prev: FormState, formData: FormData): Promise<FormState> {
+  await requireRole(USER_ADMIN_ROLES);
+  const id = text(formData, "id");
+
+  const parsed = editSchema.safeParse({
+    name: text(formData, "name"),
+    rollNumber: text(formData, "rollNumber"),
+    classId: text(formData, "classId"),
+    dateOfBirth: optionalText(formData, "dateOfBirth"),
+    gender: optionalText(formData, "gender"),
+    address: optionalText(formData, "address"),
+  });
+  if (!parsed.success) return { error: firstIssue(parsed.error) };
+  const s = parsed.data;
+
+  const student = await db.student.findUnique({ where: { id }, select: { id: true, userId: true } });
+  if (!student) return { error: "Student not found." };
+
+  const clash = await db.student.findUnique({
+    where: { classId_rollNumber: { classId: s.classId, rollNumber: s.rollNumber } },
+    select: { id: true },
+  });
+  if (clash && clash.id !== id) return { error: `Roll number ${s.rollNumber} is already used in this class.` };
+
+  await db.$transaction([
+    db.user.update({ where: { id: student.userId }, data: { name: s.name } }),
+    db.student.update({
+      where: { id },
+      data: {
+        rollNumber: s.rollNumber,
+        classId: s.classId,
+        gender: s.gender ?? null,
+        address: s.address ?? null,
+        dateOfBirth: s.dateOfBirth ? new Date(`${s.dateOfBirth}T00:00:00.000Z`) : null,
+      },
+    }),
+  ]);
+
+  revalidatePath("/portal", "layout");
+  redirect(`/portal/students/${id}`);
+}

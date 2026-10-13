@@ -34,6 +34,14 @@ export default async function NewTeacherPage() {
           <Field label="Employee ID" name="employeeId" />
           <Field label="Phone" name="phone" type="tel" />
           <Field label="Qualification" name="qualification" placeholder="e.g. M.Sc. Mathematics" />
+          <Field label="Position" name="position" placeholder="e.g. Senior Teacher, Head of Science" />
+          <Field
+            label="Monthly base salary (PKR)"
+            name="baseSalary"
+            type="number"
+            defaultValue="0"
+            hint="Monthly bonuses and deductions are added later, when salaries are processed."
+          />
         </ActionForm>
       </Card>
     </div>

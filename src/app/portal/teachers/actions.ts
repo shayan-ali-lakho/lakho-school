@@ -18,6 +18,8 @@ const teacherSchema = accountSchema.omit({ role: true }).extend({
   employeeId: z.string().max(40).optional(),
   phone: z.string().max(30).optional(),
   qualification: z.string().max(200).optional(),
+  position: z.string().max(100).optional(),
+  baseSalary: z.coerce.number().int("must be a whole number").min(0, "cannot be negative").max(10_000_000),
 });
 
 export async function createTeacher(_prev: FormState, formData: FormData): Promise<FormState> {
@@ -30,9 +32,11 @@ export async function createTeacher(_prev: FormState, formData: FormData): Promi
     employeeId: optionalText(formData, "employeeId"),
     phone: optionalText(formData, "phone"),
     qualification: optionalText(formData, "qualification"),
+    position: optionalText(formData, "position"),
+    baseSalary: text(formData, "baseSalary") || "0",
   });
   if (!parsed.success) return { error: firstIssue(parsed.error) };
-  const { name, email, password, employeeId, phone, qualification } = parsed.data;
+  const { name, email, password, employeeId, phone, qualification, position, baseSalary } = parsed.data;
 
   try {
     await assertEmailFree(email);
@@ -53,10 +57,60 @@ export async function createTeacher(_prev: FormState, formData: FormData): Promi
       email,
       role: "TEACHER",
       passwordHash: await hashPassword(password),
-      teacherProfile: { create: { employeeId, phone, qualification } },
+      teacherProfile: { create: { employeeId, phone, qualification, position, baseSalary } },
     },
   });
 
   revalidatePath("/portal/teachers");
+  redirect("/portal/teachers");
+}
+
+const editSchema = z.object({
+  name: z.string().trim().min(2, "is required").max(100),
+  employeeId: z.string().max(40).optional(),
+  phone: z.string().max(30).optional(),
+  qualification: z.string().max(200).optional(),
+  position: z.string().max(100).optional(),
+  baseSalary: z.coerce.number().int("must be a whole number").min(0, "cannot be negative").max(10_000_000),
+});
+
+export async function updateTeacher(_prev: FormState, formData: FormData): Promise<FormState> {
+  await requireRole(USER_ADMIN_ROLES);
+  const id = text(formData, "id");
+
+  const parsed = editSchema.safeParse({
+    name: text(formData, "name"),
+    employeeId: optionalText(formData, "employeeId"),
+    phone: optionalText(formData, "phone"),
+    qualification: optionalText(formData, "qualification"),
+    position: optionalText(formData, "position"),
+    baseSalary: text(formData, "baseSalary") || "0",
+  });
+  if (!parsed.success) return { error: firstIssue(parsed.error) };
+  const t = parsed.data;
+
+  const teacher = await db.teacher.findUnique({ where: { id }, select: { id: true, userId: true } });
+  if (!teacher) return { error: "Teacher not found." };
+
+  if (t.employeeId) {
+    const clash = await db.teacher.findUnique({ where: { employeeId: t.employeeId }, select: { id: true } });
+    if (clash && clash.id !== id) return { error: `Employee ID ${t.employeeId} is already used by another teacher.` };
+  }
+
+  await db.$transaction([
+    db.user.update({ where: { id: teacher.userId }, data: { name: t.name } }),
+    db.teacher.update({
+      where: { id },
+      data: {
+        employeeId: t.employeeId ?? null,
+        phone: t.phone ?? null,
+        qualification: t.qualification ?? null,
+        position: t.position ?? null,
+        baseSalary: t.baseSalary,
+      },
+    }),
+  ]);
+
+  revalidatePath("/portal", "layout");
   redirect("/portal/teachers");
 }
