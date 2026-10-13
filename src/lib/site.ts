@@ -1,6 +1,8 @@
-// Placeholder school details. Replace these with the real school's information.
+// School details. The name comes from the school's logo. Contact details, hours and the
+// principal's name are still placeholders: replace them with the real information.
 export const site = {
-  name: "Lakho School",
+  name: "Dr. G.M. Lakho Memorial Sec. School",
+  shortName: "G.M. Lakho School",
   tagline: "A school where every child is known by name.",
   email: "info@school.test",
   phone: "+92 000 0000000",

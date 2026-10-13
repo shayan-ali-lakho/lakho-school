@@ -1,21 +1,38 @@
+import Image from "next/image";
 import Link from "next/link";
 import { site } from "@/lib/site";
 
 export function SiteFooter() {
   return (
-    <footer className="border-t border-paper-rule bg-paper">
-      <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-4 px-6 py-8 font-body text-sm text-ink-soft">
-        <p>
+    <footer className="bg-board text-chalk">
+      <div className="mx-auto grid max-w-5xl gap-10 px-6 py-12 md:grid-cols-[1.4fr_1fr_1fr]">
+        <div className="flex items-start gap-4">
+          <Image src="/logo.png" alt="" width={56} height={56} className="h-14 w-14 shrink-0" />
+          <div>
+            <p className="font-display text-xl font-semibold leading-snug">{site.name}</p>
+            <p className="mt-2 max-w-xs text-chalk/75">{site.tagline}</p>
+          </div>
+        </div>
+
+        <nav aria-label="Footer" className="flex flex-col gap-2">
+          <p className="font-display text-lg font-semibold">Explore</p>
+          <Link href="/" className="link-grow w-fit text-chalk/80 hover:text-chalk">Home</Link>
+          <Link href="/about" className="link-grow w-fit text-chalk/80 hover:text-chalk">About</Link>
+          <Link href="/#admissions" className="link-grow w-fit text-chalk/80 hover:text-chalk">Admissions</Link>
+          <Link href="/login" className="link-grow w-fit text-chalk/80 hover:text-chalk">Portal login</Link>
+        </nav>
+
+        <div className="flex flex-col gap-2 text-chalk/80">
+          <p className="font-display text-lg font-semibold text-chalk">Contact</p>
+          <p>{site.address}</p>
+          <p>{site.phone}</p>
+          <p>{site.email}</p>
+        </div>
+      </div>
+      <div className="border-t border-chalk/15">
+        <p className="mx-auto max-w-5xl px-6 py-4 text-sm text-chalk/60">
           © {new Date().getFullYear()} {site.name}. This is a test site with demo data.
         </p>
-        <nav aria-label="Footer" className="flex gap-6">
-          <Link href="/about" className="hover:text-ink hover:underline">
-            About
-          </Link>
-          <Link href="/login" className="hover:text-ink hover:underline">
-            Portal login
-          </Link>
-        </nav>
       </div>
     </footer>
   );
