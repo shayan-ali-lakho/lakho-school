@@ -1,5 +1,6 @@
 "use server";
 
+import { redirect } from "next/navigation";
 import { AuthError } from "next-auth";
 import { signIn } from "@/auth";
 
@@ -11,7 +12,9 @@ export async function authenticate(
     await signIn("credentials", {
       email: String(formData.get("email") ?? ""),
       password: String(formData.get("password") ?? ""),
-      redirectTo: "/portal",
+      // Do not let Auth.js build the redirect: it uses AUTH_URL as the host, and a wrong AUTH_URL
+      // sends people to a site that does not exist. A relative redirect always stays on this site.
+      redirect: false,
     });
   } catch (error) {
     if (error instanceof AuthError) {
@@ -24,4 +27,5 @@ export async function authenticate(
     // A successful sign-in throws a redirect; it must be re-thrown.
     throw error;
   }
+  redirect("/portal");
 }

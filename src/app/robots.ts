@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 
-const base = process.env.AUTH_URL ?? "https://lakho-school.netlify.app";
+const base = process.env.AUTH_URL ?? "https://lakhoschool.netlify.app";
 
 export default function robots(): MetadataRoute.Robots {
   return {

@@ -1,3 +1,4 @@
+import { redirect } from "next/navigation";
 import { signOut } from "@/auth";
 import { Sidebar } from "@/components/portal/sidebar";
 import { navFor } from "@/lib/portal-nav";
@@ -22,7 +23,8 @@ export default async function PortalLayout({ children }: LayoutProps<"/portal">)
             <form
               action={async () => {
                 "use server";
-                await signOut({ redirectTo: "/" });
+                await signOut({ redirect: false });
+                redirect("/");
               }}
             >
               <button
