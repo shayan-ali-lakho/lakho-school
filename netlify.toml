@@ -3,3 +3,7 @@
 
 [build.environment]
   NODE_VERSION = "22"
+  # AUTH_URL is just the public site address (it appears in sitemap.xml and robots.txt),
+  # so Netlify's secrets scanner must not treat it as a secret. The real secrets
+  # (AUTH_SECRET, DATABASE_URL, DIRECT_URL) are still scanned.
+  SECRETS_SCAN_OMIT_KEYS = "AUTH_URL"
