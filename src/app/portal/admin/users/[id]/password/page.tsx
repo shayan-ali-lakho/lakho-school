@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { db } from "@/lib/db";
 import { requireRole } from "@/lib/session";
 import { USER_ADMIN_ROLES } from "@/lib/roles";
+import { loginName } from "@/lib/accounts";
 import { ActionForm } from "@/components/action-form";
 import { Card, Field } from "@/components/fields";
 import { resetPassword } from "../../actions";
@@ -25,7 +26,7 @@ export default async function ResetPasswordPage(props: PageProps<"/portal/admin/
         </Link>
         <h1 className="mt-2 text-2xl font-semibold tracking-tight">Reset password</h1>
         <p className="mt-1 text-sm text-zinc-600">
-          {user.name} ({user.email})
+          {user.name} ({loginName(user.email)})
         </p>
       </div>
       <Card>

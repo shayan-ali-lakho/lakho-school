@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { db } from "@/lib/db";
 import { requireRole } from "@/lib/session";
-import { PAYROLL_ROLES, feeStatus, monthLabel, monthRange, parseMonth, pkr } from "@/lib/finance";
+import { PAYROLL_ROLES, feeStatus, monthLabel, monthRange, parseMonth, pkr, shiftMonth } from "@/lib/finance";
 import { MonthNav } from "@/components/portal/month-nav";
 import { PrintButton } from "@/components/portal/print-button";
 
@@ -26,7 +26,7 @@ export default async function MonthlyReportPage(props: PageProps<"/portal/report
     db.feePayment.aggregate({ where: { paidOn: { gte: start, lt: end } }, _sum: { amount: true } }),
     db.salaryRecord.findMany({ where: { month }, select: { baseSalary: true, allowances: true, deductions: true, paidOn: true } }),
     db.expense.findMany({
-      where: { date: { gte: new Date(`${month}-01T00:00:00.000Z`), lt: new Date(end.toISOString().slice(0, 7) + "-01T00:00:00.000Z") } },
+      where: { date: { gte: new Date(`${month}-01T00:00:00.000Z`), lt: new Date(`${shiftMonth(month, 1)}-01T00:00:00.000Z`) } },
       select: { category: true, amount: true },
     }),
   ]);

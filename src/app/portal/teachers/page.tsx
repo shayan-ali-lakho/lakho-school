@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { db } from "@/lib/db";
+import { loginName } from "@/lib/accounts";
 import { requireRole } from "@/lib/session";
 import { USER_ADMIN_ROLES } from "@/lib/roles";
 import { setUserActive } from "../admin/users/actions";
@@ -84,7 +85,7 @@ export default async function TeachersPage(props: PageProps<"/portal/teachers">)
                 </td>
                 <td className="px-4 py-3 text-zinc-600">{t.position ?? "-"}</td>
                 <td className="px-4 py-3 text-zinc-600">
-                  <div>{t.user.email}</div>
+                  <div>{loginName(t.user.email)}</div>
                   {t.phone && <div className="text-xs">{t.phone}</div>}
                 </td>
                 <td className="px-4 py-3">

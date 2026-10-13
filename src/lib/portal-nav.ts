@@ -15,6 +15,13 @@ export const PORTAL_NAV: NavGroup[] = [
     items: [{ href: "/portal", label: "Dashboard", roles: ALL }],
   },
   {
+    label: "My family",
+    items: [
+      { href: "/portal/my", label: "My profile / children", roles: ["STUDENT", "PARENT"] },
+      { href: "/portal/results", label: "Results", roles: ["STUDENT", "PARENT"] },
+    ],
+  },
+  {
     label: "People",
     items: [
       { href: "/portal/students", label: "Students", roles: STAFF },
@@ -22,6 +29,20 @@ export const PORTAL_NAV: NavGroup[] = [
       { href: "/portal/classes", label: "Classes", roles: STAFF },
       { href: "/portal/admin/users", label: "Logins and roles", roles: MANAGERS },
     ],
+  },
+  {
+    label: "Academics",
+    items: [
+      { href: "/portal/courses", label: "Courses", roles: STAFF },
+      { href: "/portal/timetable", label: "Timetable", roles: ALL },
+      { href: "/portal/exams", label: "Exams and results", roles: STAFF },
+      { href: "/portal/attendance", label: "Attendance", roles: ["ADMIN", "PRINCIPAL", "TEACHER"] },
+      { href: "/portal/board", label: "Board exams", roles: MANAGERS },
+    ],
+  },
+  {
+    label: "Communication",
+    items: [{ href: "/portal/announcements", label: "Announcements", roles: ["ADMIN", "PRINCIPAL", "TEACHER"] }],
   },
   {
     label: "Money",

@@ -68,3 +68,15 @@ export function feeStatus(due: number, paid: number): "Paid" | "Partly paid" | "
   if (paid >= due) return "Paid";
   return paid > 0 ? "Partly paid" : "Unpaid";
 }
+
+/** Today's date in Pakistan time, as "YYYY-MM-DD". */
+export function todayKarachi(): string {
+  const parts = new Intl.DateTimeFormat("en-GB", { timeZone: TZ, year: "numeric", month: "2-digit", day: "2-digit" }).formatToParts(new Date());
+  const get = (t: string) => parts.find((p) => p.type === t)?.value;
+  return `${get("year")}-${get("month")}-${get("day")}`;
+}
+
+/** A moment `n` days before now. */
+export function daysAgo(n: number): Date {
+  return new Date(Date.now() - n * 24 * 3600 * 1000);
+}

@@ -4,10 +4,12 @@ import bcrypt from "bcryptjs";
 import { z } from "zod";
 import { db } from "@/lib/db";
 import { authConfig } from "@/auth.config";
+import { loginToEmail } from "@/lib/accounts";
 import type { AppRole } from "@/lib/roles";
 
 const credentialsSchema = z.object({
-  email: z.string().email(),
+  // "email" holds either an email address or a username.
+  email: z.string().min(1),
   password: z.string().min(1),
 });
 
@@ -23,7 +25,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         const parsed = credentialsSchema.safeParse(raw);
         if (!parsed.success) return null;
 
-        const email = parsed.data.email.toLowerCase().trim();
+        const email = loginToEmail(parsed.data.email);
         const user = await db.user.findUnique({ where: { email } });
         if (!user || !user.isActive) return null;
 

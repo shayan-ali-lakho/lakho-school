@@ -4,7 +4,8 @@ import { notFound, redirect } from "next/navigation";
 import { db } from "@/lib/db";
 import { requireUser } from "@/lib/session";
 import { STAFF_ROLES, USER_ADMIN_ROLES } from "@/lib/roles";
-import { feeStatus, monthLabel, pkr } from "@/lib/finance";
+import { daysAgo, feeStatus, monthLabel, pkr } from "@/lib/finance";
+import { loginName } from "@/lib/accounts";
 import { LoginTools } from "@/components/portal/login-tools";
 import { setUserActive } from "../../admin/users/actions";
 
@@ -27,6 +28,11 @@ export default async function StudentProfilePage(props: PageProps<"/portal/stude
       class: { select: { id: true, name: true, section: true, academicYear: true } },
       guardian: { select: { userId: true, phone: true, user: { select: { name: true, email: true } } } },
       feeDiscount: true,
+      attendance: {
+        where: { date: { gte: daysAgo(30) } },
+        orderBy: { date: "desc" },
+        select: { date: true, status: true },
+      },
       invoices: {
         orderBy: { month: "desc" },
         take: 12,
@@ -46,7 +52,7 @@ export default async function StudentProfilePage(props: PageProps<"/portal/stude
   const rows: [string, string][] = [
     ["Roll number", student.rollNumber],
     ["Class", student.class ? `${student.class.name} ${student.class.section} (${student.class.academicYear})` : "-"],
-    ["Email", student.user.email],
+    ["Login name", loginName(student.user.email)],
     ["Date of birth", student.dateOfBirth ? student.dateOfBirth.toLocaleDateString("en-GB", { dateStyle: "medium", timeZone: "UTC" }) : "-"],
     ["Gender", student.gender ?? "-"],
     ["Address", student.address ?? "-"],
@@ -88,11 +94,44 @@ export default async function StudentProfilePage(props: PageProps<"/portal/stude
         <h2 className="font-medium">Parent / guardian</h2>
         {student.guardian ? (
           <p className="mt-2 text-zinc-700">
-            {student.guardian.user.name} · {student.guardian.user.email}
+            {student.guardian.user.name} · {loginName(student.guardian.user.email)}
             {student.guardian.phone ? ` · ${student.guardian.phone}` : ""}
           </p>
         ) : (
           <p className="mt-2 text-zinc-500">No parent linked yet.</p>
+        )}
+      </section>
+
+      <section className="rounded-lg border border-zinc-200 bg-white p-4 text-sm">
+        <h2 className="font-medium">Attendance, last 30 days</h2>
+        {student.attendance.length === 0 ? (
+          <p className="mt-2 text-zinc-500">No attendance recorded yet.</p>
+        ) : (
+          (() => {
+            const count = (st: string) => student.attendance.filter((a) => a.status === st).length;
+            const present = count("PRESENT") + count("LATE");
+            const pct = Math.round((present / student.attendance.length) * 100);
+            return (
+              <>
+                <p className="mt-2 text-zinc-700">
+                  {pct}% present ({present} of {student.attendance.length} days) · {count("ABSENT")} absent · {count("LATE")} late · {count("LEAVE")} on leave
+                </p>
+                <ul className="mt-3 flex flex-wrap gap-1.5">
+                  {student.attendance.slice(0, 14).map((a) => (
+                    <li
+                      key={a.date.toISOString()}
+                      title={`${a.date.toLocaleDateString("en-GB", { dateStyle: "medium", timeZone: "UTC" })}: ${a.status.toLowerCase()}`}
+                      className={`rounded px-2 py-0.5 text-xs ${
+                        a.status === "PRESENT" ? "bg-emerald-100 text-emerald-800" : a.status === "ABSENT" ? "bg-red-100 text-red-800" : a.status === "LATE" ? "bg-amber-100 text-amber-800" : "bg-sky-100 text-sky-800"
+                      }`}
+                    >
+                      {a.date.toLocaleDateString("en-GB", { day: "numeric", month: "short", timeZone: "UTC" })} · {a.status[0]}
+                    </li>
+                  ))}
+                </ul>
+              </>
+            );
+          })()
         )}
       </section>
 
@@ -142,7 +181,7 @@ export default async function StudentProfilePage(props: PageProps<"/portal/stude
       {canManage && (
         <section className="space-y-4 rounded-lg border border-zinc-200 bg-white p-4">
           <h2 className="font-medium">Login and access</h2>
-          <LoginTools userId={student.userId} email={student.user.email} />
+          <LoginTools userId={student.userId} email={loginName(student.user.email)} />
           <form action={setUserActive} className="border-t border-zinc-100 pt-4">
             <input type="hidden" name="userId" value={student.userId} />
             <input type="hidden" name="active" value={String(!student.user.isActive)} />

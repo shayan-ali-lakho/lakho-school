@@ -32,6 +32,7 @@ model User {
   announcements   Announcement[]
   paymentsTaken   FeePayment[]
   expensesAdded   Expense[]
+  attendanceMarks Attendance[]
 }
 
 model Teacher {
@@ -48,6 +49,7 @@ model Teacher {
 
   classesLed Class[]
   salaries   SalaryRecord[]
+  courses    Course[]
 }
 
 model Guardian {
@@ -69,6 +71,8 @@ model Class {
   monthlyFee     Int     @default(0)
 
   students Student[]
+  courses  Course[]
+  exams    Exam[]
 
   @@unique([name, section, academicYear])
 }
@@ -89,7 +93,10 @@ model Student {
   /// Monthly discount in PKR taken off the class fee (concession, sibling discount, etc.).
   feeDiscount Int       @default(0)
 
-  invoices FeeInvoice[]
+  invoices     FeeInvoice[]
+  marks        Mark[]
+  attendance   Attendance[]
+  boardRecords BoardRecord[]
 
   @@unique([classId, rollNumber])
 }
@@ -204,5 +211,106 @@ model Expense {
   createdBy   User?    @relation(fields: [createdById], references: [id], onDelete: SetNull)
   createdAt   DateTime @default(now())
 
+  @@index([date])
+}
+
+enum AttendanceStatus {
+  PRESENT
+  ABSENT
+  LATE
+  LEAVE
+}
+
+/// A subject taught at the school (Mathematics, English...).
+model Subject {
+  id      String   @id @default(cuid())
+  name    String   @unique
+  courses Course[]
+  marks   Mark[]
+}
+
+/// A subject taught to one class, optionally with its teacher.
+model Course {
+  id        String   @id @default(cuid())
+  classId   String
+  class     Class    @relation(fields: [classId], references: [id], onDelete: Cascade)
+  subjectId String
+  subject   Subject  @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  teacherId String?
+  teacher   Teacher? @relation(fields: [teacherId], references: [id], onDelete: SetNull)
+
+  slots TimetableSlot[]
+
+  @@unique([classId, subjectId])
+}
+
+/// One lesson in a class timetable. `day`: 1 = Monday ... 6 = Saturday.
+model TimetableSlot {
+  id        String @id @default(cuid())
+  courseId  String
+  course    Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  day       Int
+  startTime String
+  endTime   String
+
+  @@index([courseId])
+}
+
+/// A test or examination for one class (monthly test, mid-term, final...).
+model Exam {
+  id          String    @id @default(cuid())
+  name        String
+  kind        String
+  classId     String
+  class       Class     @relation(fields: [classId], references: [id], onDelete: Cascade)
+  examDate    DateTime? @db.Date
+  totalMarks  Int       @default(100)
+  passPercent Int       @default(33)
+  createdAt   DateTime  @default(now())
+
+  marks Mark[]
+
+  @@index([classId])
+}
+
+model Mark {
+  id        String  @id @default(cuid())
+  examId    String
+  exam      Exam    @relation(fields: [examId], references: [id], onDelete: Cascade)
+  studentId String
+  student   Student @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  subjectId String
+  subject   Subject @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  /// null = not entered yet (or absent).
+  obtained  Int?
+
+  @@unique([examId, studentId, subjectId])
+}
+
+/// Board examination details for Class 9 and 10 students.
+model BoardRecord {
+  id             String   @id @default(cuid())
+  studentId      String
+  student        Student  @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  examYear       String
+  boardRollNo    String?
+  registrationNo String?
+  groupName      String?
+  result         String?
+  updatedAt      DateTime @updatedAt
+
+  @@unique([studentId, examYear])
+}
+
+model Attendance {
+  id          String           @id @default(cuid())
+  studentId   String
+  student     Student          @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  date        DateTime         @db.Date
+  status      AttendanceStatus
+  markedById  String?
+  markedBy    User?            @relation(fields: [markedById], references: [id], onDelete: SetNull)
+
+  @@unique([studentId, date])
   @@index([date])
 }

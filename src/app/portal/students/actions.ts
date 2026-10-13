@@ -11,6 +11,7 @@ import {
   assertEmailFree,
   DuplicateEmailError,
   hashPassword,
+  loginIdSchema,
   passwordSchema,
 } from "@/lib/accounts";
 import { firstIssue, optionalText, text, type FormState } from "@/lib/form";
@@ -28,7 +29,7 @@ const studentSchema = accountSchema.omit({ role: true }).extend({
 
 const newGuardianSchema = z.object({
   guardianName: z.string().trim().min(2, "is required").max(100),
-  guardianEmail: z.string().trim().toLowerCase().pipe(z.email("must be a valid email")),
+  guardianEmail: loginIdSchema,
   guardianPassword: passwordSchema,
   guardianPhone: z.string().max(30).optional(),
 });
@@ -91,7 +92,7 @@ export async function admitStudent(_prev: FormState, formData: FormData): Promis
       throw e;
     }
     if (gp.data.guardianEmail === s.email) {
-      return { error: "The parent and the student need different email addresses." };
+      return { error: "The parent and the student need different login names." };
     }
     guardianInput = {
       create: {

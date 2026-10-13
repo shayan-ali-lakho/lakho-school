@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { db } from "@/lib/db";
 import { requireRole } from "@/lib/session";
 import { USER_ADMIN_ROLES } from "@/lib/roles";
+import { setApplicationStatus, setMessageHandled } from "./actions";
 
 export const metadata: Metadata = { title: "Website inquiries" };
 
@@ -62,7 +63,18 @@ export default async function InquiriesPage() {
                     {a.email && <div className="text-zinc-500">{a.email}</div>}
                     {a.address && <div className="text-zinc-500">{a.address}</div>}
                   </td>
-                  <td className="px-4 py-3">{a.status}</td>
+                  <td className="px-4 py-3">
+                    <form action={setApplicationStatus} className="flex items-center gap-2">
+                      <input type="hidden" name="id" value={a.id} />
+                      <select name="status" defaultValue={a.status} aria-label={`Status for ${a.childName}`} className="rounded-md border border-zinc-300 bg-white px-2 py-1">
+                        <option value="NEW">New</option>
+                        <option value="CONTACTED">Contacted</option>
+                        <option value="ACCEPTED">Accepted</option>
+                        <option value="DECLINED">Declined</option>
+                      </select>
+                      <button type="submit" className="text-emerald-700 hover:underline">Save</button>
+                    </form>
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -82,6 +94,13 @@ export default async function InquiriesPage() {
               </div>
               <p className="text-sm text-zinc-500">{[m.phone, m.email].filter(Boolean).join(" · ")}</p>
               <p className="mt-2 whitespace-pre-line">{m.message}</p>
+              <form action={setMessageHandled} className="mt-3">
+                <input type="hidden" name="id" value={m.id} />
+                <input type="hidden" name="handled" value={String(!m.handled)} />
+                <button type="submit" className="text-sm text-emerald-700 hover:underline">
+                  {m.handled ? "Handled. Mark as not handled" : "Mark as handled"}
+                </button>
+              </form>
             </li>
           ))}
         </ul>

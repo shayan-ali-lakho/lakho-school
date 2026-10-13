@@ -10,13 +10,14 @@ export function LoginForm() {
     <form action={formAction} className="mt-6 space-y-4">
       <div>
         <label htmlFor="email" className="block text-sm font-medium text-zinc-700">
-          Email
+          Username or email
         </label>
         <input
           id="email"
           name="email"
-          type="email"
+          type="text"
           required
+          autoCapitalize="none"
           autoComplete="username"
           className="mt-1 w-full rounded-md border border-zinc-300 px-3 py-2 text-zinc-900 focus:border-emerald-600 focus:outline-none focus:ring-1 focus:ring-emerald-600"
         />

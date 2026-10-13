@@ -22,7 +22,7 @@ export default async function NewTeacherPage() {
       <Card>
         <ActionForm action={createTeacher} submitLabel="Add teacher">
           <Field label="Full name" name="name" required />
-          <Field label="Email (used to sign in)" name="email" type="email" required autoComplete="off" />
+          <Field label="Username or email (used to sign in)" name="email" required autoComplete="off" hint="e.g. m.ahmed or ahmed@example.com" />
           <Field
             label="Temporary password"
             name="password"

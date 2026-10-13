@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { db } from "@/lib/db";
+import { loginName } from "@/lib/accounts";
 import { requireRole } from "@/lib/session";
 import { USER_ADMIN_ROLES } from "@/lib/roles";
 import { ActionForm } from "@/components/action-form";
@@ -41,7 +42,7 @@ export default async function AdmitStudentPage() {
         <Card title="Student">
           <div className="space-y-4">
             <Field label="Full name" name="name" required />
-            <Field label="Email (used to sign in)" name="email" type="email" required autoComplete="off" />
+            <Field label="Username or email (used to sign in)" name="email" required autoComplete="off" hint="e.g. ali.raza or ali@example.com. A username works without an email address." />
             <Field
               label="Temporary password"
               name="password"
@@ -86,7 +87,7 @@ export default async function AdmitStudentPage() {
               placeholder="None / create a new parent below"
               options={guardians.map((g) => ({
                 value: g.id,
-                label: `${g.user.name} (${g.user.email})`,
+                label: `${g.user.name} (${loginName(g.user.email)})`,
               }))}
               hint="Pick a parent who already has an account (for example, for a second child)."
             />
@@ -95,7 +96,7 @@ export default async function AdmitStudentPage() {
             </p>
             <div className="grid gap-4 sm:grid-cols-2">
               <Field label="Parent name" name="guardianName" />
-              <Field label="Parent email" name="guardianEmail" type="email" autoComplete="off" />
+              <Field label="Parent username or email" name="guardianEmail" autoComplete="off" />
               <Field label="Parent phone" name="guardianPhone" type="tel" />
               <Field
                 label="Parent temporary password"

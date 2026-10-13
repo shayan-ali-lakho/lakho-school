@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { db } from "@/lib/db";
+import { loginName } from "@/lib/accounts";
 import { requireRole } from "@/lib/session";
 import { USER_ADMIN_ROLES } from "@/lib/roles";
 import { ActionForm } from "@/components/action-form";
@@ -36,7 +37,7 @@ export default async function EditTeacherPage(props: PageProps<"/portal/teachers
           ← Teachers
         </Link>
         <h1 className="mt-2 text-2xl font-semibold tracking-tight">Edit teacher</h1>
-        <p className="mt-1 text-sm text-zinc-600">{teacher.user.email}</p>
+        <p className="mt-1 text-sm text-zinc-600">{loginName(teacher.user.email)}</p>
       </div>
       <Card>
         <ActionForm action={updateTeacher} submitLabel="Save changes">
@@ -55,7 +56,7 @@ export default async function EditTeacherPage(props: PageProps<"/portal/teachers
         </ActionForm>
       </Card>
       <Card title="Login">
-        <LoginTools userId={teacher.userId} email={teacher.user.email} />
+        <LoginTools userId={teacher.userId} email={loginName(teacher.user.email)} />
       </Card>
     </div>
   );

@@ -5,6 +5,7 @@ import { requireRole } from "@/lib/session";
 import { ROLE_LABELS, USER_ADMIN_ROLES, type AppRole } from "@/lib/roles";
 
 const ASSIGNABLE: AppRole[] = ["ADMIN", "PRINCIPAL", "ACCOUNTANT", "TEACHER"];
+import { loginName } from "@/lib/accounts";
 import { changeRole, setUserActive } from "./actions";
 
 export const metadata: Metadata = { title: "Users" };
@@ -37,7 +38,7 @@ export default async function UsersPage() {
           <thead className="border-b border-zinc-200 bg-zinc-50 text-zinc-600">
             <tr>
               <th className="px-4 py-3 font-medium">Name</th>
-              <th className="px-4 py-3 font-medium">Email</th>
+              <th className="px-4 py-3 font-medium">Login name</th>
               <th className="px-4 py-3 font-medium">Role</th>
               <th className="px-4 py-3 font-medium">Status</th>
               <th className="px-4 py-3 font-medium" />
@@ -47,7 +48,7 @@ export default async function UsersPage() {
             {users.map((u) => (
               <tr key={u.id} className="border-b border-zinc-100 last:border-0">
                 <td className="px-4 py-3">{u.name}</td>
-                <td className="px-4 py-3 text-zinc-600">{u.email}</td>
+                <td className="px-4 py-3 text-zinc-600">{loginName(u.email)}</td>
                 <td className="px-4 py-3">
                   {ASSIGNABLE.includes(u.role) && u.id !== actor.id && (actor.role === "ADMIN" || (u.role !== "ADMIN" && u.role !== "PRINCIPAL")) ? (
                     <form action={changeRole} className="flex items-center gap-2">
@@ -74,6 +75,9 @@ export default async function UsersPage() {
                 </td>
                 <td className="px-4 py-3">{u.isActive ? "Active" : "Disabled"}</td>
                 <td className="px-4 py-3 text-right">
+                  <Link href={`/portal/admin/users/${u.id}`} className="mr-4 text-emerald-700 hover:underline">
+                    Edit
+                  </Link>
                   <Link
                     href={`/portal/admin/users/${u.id}/password`}
                     className="mr-4 text-emerald-700 hover:underline"
