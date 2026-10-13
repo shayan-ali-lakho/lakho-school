@@ -5,10 +5,15 @@ import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Academics",
-  description: `Classes 1 to 10 at ${site.name}: what children study and how progress is checked.`,
+  description: `Nursery to Class 10 at ${site.name}: what children study and how progress is checked.`,
 };
 
 const stages = [
+  {
+    name: "Early years",
+    classes: "Nursery",
+    text: "Children settle into school life with play, stories, letters, numbers and simple routines.",
+  },
   {
     name: "Primary",
     classes: "Classes 1 to 5",
@@ -37,7 +42,7 @@ const assessment = [
 export default function AcademicsPage() {
   return (
     <>
-      <PageHero title="Academics">Classes 1 to 10, with regular assessment and clear reports to parents.</PageHero>
+      <PageHero title="Academics">Nursery to Class 10, with regular assessment and clear reports to parents.</PageHero>
 
       <section className="wrap grid gap-8 py-16 md:grid-cols-[15rem_1fr] md:gap-12">
         <h2 className="reveal font-display text-3xl font-semibold tracking-tight">Stages</h2>

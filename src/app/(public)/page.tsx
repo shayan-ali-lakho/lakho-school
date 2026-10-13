@@ -27,6 +27,11 @@ const highlights = [
 
 const stages = [
   {
+    name: "Early years",
+    classes: "Nursery",
+    text: "Children settle into school life with play, stories, letters, numbers and simple routines.",
+  },
+  {
     name: "Primary",
     classes: "Classes 1 to 5",
     text: "Reading, writing and number work come first, with Urdu, English and Islamiyat taught from the start.",
@@ -44,12 +49,8 @@ const stages = [
 ];
 
 const day = [
-  { time: "8:00", what: "Morning assembly" },
-  { time: "8:20", what: "First lessons" },
-  { time: "10:30", what: "Break" },
-  { time: "11:00", what: "More lessons" },
-  { time: "12:45", what: "Activities and sports" },
-  { time: "1:45", what: "Dismissal" },
+  { time: "7:45", what: "School begins" },
+  { time: "12:00", what: "School ends" },
 ];
 
 const steps = [
@@ -62,7 +63,7 @@ const steps = [
 const faqs = [
   {
     q: "Which classes can my child join?",
-    a: "We teach Classes 1 to 10. Contact the office to check whether a place is open in the class you need.",
+    a: "We teach Nursery to Class 10. Contact the office to check whether a place is open in the class you need.",
   },
   {
     q: "What do I bring when applying?",
@@ -205,9 +206,9 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* A day at school: a real sequence, so times lead each row */}
+      {/* School timing: a real sequence, so times lead each row */}
       <section className="grid wrap gap-8 py-20 md:grid-cols-[15rem_1fr] md:gap-12">
-        <h2 className="reveal font-display text-3xl font-semibold tracking-tight">A day at school</h2>
+        <h2 className="reveal font-display text-3xl font-semibold tracking-tight">School timing</h2>
         <ol className="divide-y divide-paper-rule border-y border-paper-rule">
           {day.map((d, i) => (
             <li
@@ -317,7 +318,7 @@ export default async function Home() {
             ...(site.address ? [["Address", site.address]] : []),
             ["Phone", site.phone],
             ["Email", site.email],
-            ["Office hours", site.hours],
+            ["School time", site.hours],
           ].map(([label, value], i) => (
             <div
               key={label}

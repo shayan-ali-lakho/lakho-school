@@ -14,7 +14,7 @@ export default function ContactPage() {
     ["Phone", <a key="p" href={site.phoneHref} className="link-grow hover:text-pen">{site.phone}</a>],
     ["WhatsApp", <a key="w" href={site.whatsappHref} className="link-grow hover:text-pen">Send a message</a>],
     ["Email", <a key="e" href={`mailto:${site.email}`} className="link-grow hover:text-pen">{site.email}</a>],
-    ["Office hours", site.hours],
+    ["School time", site.hours],
   ];
   if (site.address) rows.unshift(["Address", site.address]);
 
