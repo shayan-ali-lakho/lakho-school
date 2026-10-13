@@ -8,18 +8,18 @@ import { requireRole } from "@/lib/session";
 import { FINANCE_ROLES, PAYMENT_METHODS, parseMonth } from "@/lib/finance";
 import { optionalText, text } from "@/lib/form";
 
-/** Create this month's invoice for every active student whose class has a fee. Safe to run twice. */
+/** Create this month's invoice for every active student with a fee (their own, or their class fee). Safe to run twice. */
 export async function generateInvoices(formData: FormData) {
   await requireRole(FINANCE_ROLES);
   const month = parseMonth(text(formData, "month"));
 
   const students = await db.student.findMany({
-    where: { user: { isActive: true }, class: { monthlyFee: { gt: 0 } } },
-    select: { id: true, feeDiscount: true, class: { select: { monthlyFee: true } } },
+    where: { user: { isActive: true } },
+    select: { id: true, feeDiscount: true, monthlyFee: true, class: { select: { monthlyFee: true } } },
   });
 
   const data = students
-    .map((s) => ({ studentId: s.id, month, amount: Math.max(0, (s.class?.monthlyFee ?? 0) - s.feeDiscount) }))
+    .map((s) => ({ studentId: s.id, month, amount: s.monthlyFee ?? Math.max(0, (s.class?.monthlyFee ?? 0) - s.feeDiscount) }))
     .filter((r) => r.amount > 0);
 
   await db.feeInvoice.createMany({ data, skipDuplicates: true });
@@ -78,4 +78,28 @@ export async function saveClassFees(formData: FormData) {
   await db.$transaction(updates.map((u) => db.class.update({ where: { id: u.id }, data: { monthlyFee: u.fee } })));
   revalidatePath("/portal/fees", "layout");
   redirect("/portal/fees/structure?saved=1");
+}
+
+/** Save the monthly fee for each student. A blank box means "use the class fee". */
+export async function saveStudentFees(formData: FormData) {
+  await requireRole(FINANCE_ROLES);
+  const classId = text(formData, "classId");
+  const students = await db.student.findMany({
+    where: { classId, user: { isActive: true } },
+    select: { id: true },
+  });
+  const updates = [];
+  for (const st of students) {
+    const raw = text(formData, `sf_${st.id}`);
+    if (raw === "") {
+      updates.push(db.student.update({ where: { id: st.id }, data: { monthlyFee: null } }));
+      continue;
+    }
+    const n = Number(raw);
+    if (!Number.isInteger(n) || n < 0 || n > 1_000_000) continue;
+    updates.push(db.student.update({ where: { id: st.id }, data: { monthlyFee: n } }));
+  }
+  await db.$transaction(updates);
+  revalidatePath("/portal/fees", "layout");
+  redirect(`/portal/fees/structure?classId=${encodeURIComponent(classId)}&saved=1`);
 }

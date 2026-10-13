@@ -78,12 +78,6 @@ export default async function UsersPage() {
                   <Link href={`/portal/admin/users/${u.id}`} className="mr-4 text-emerald-700 hover:underline">
                     Edit
                   </Link>
-                  <Link
-                    href={`/portal/admin/users/${u.id}/password`}
-                    className="mr-4 text-emerald-700 hover:underline"
-                  >
-                    Reset password
-                  </Link>
                   {u.id !== actor.id && (
                     <form action={setUserActive} className="inline">
                       <input type="hidden" name="userId" value={u.id} />

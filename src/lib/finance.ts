@@ -80,3 +80,8 @@ export function todayKarachi(): string {
 export function daysAgo(n: number): Date {
   return new Date(Date.now() - n * 24 * 3600 * 1000);
 }
+
+/** Salary taken off for days off: base salary / 30 for each day, rounded to the nearest rupee. */
+export function dayOffDeduction(baseSalary: number, daysOff: number): number {
+  return Math.round((baseSalary / 30) * daysOff);
+}

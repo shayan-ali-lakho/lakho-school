@@ -42,7 +42,7 @@ export const PORTAL_NAV: NavGroup[] = [
   },
   {
     label: "Communication",
-    items: [{ href: "/portal/announcements", label: "Announcements", roles: ["ADMIN", "PRINCIPAL", "TEACHER"] }],
+    items: [{ href: "/portal/announcements", label: "Announcements", roles: ["ADMIN"] }],
   },
   {
     label: "Money",

@@ -92,6 +92,8 @@ model Student {
   admittedOn  DateTime  @default(now())
   /// Monthly discount in PKR taken off the class fee (concession, sibling discount, etc.).
   feeDiscount Int       @default(0)
+  /// Monthly fee set for this student. When empty, the class fee (less any discount) is used.
+  monthlyFee  Int?
 
   invoices     FeeInvoice[]
   marks        Mark[]
@@ -193,6 +195,8 @@ model SalaryRecord {
   month         String
   baseSalary    Int
   allowances    Int       @default(0)
+  /// Days the teacher was off this month; deductions = baseSalary / 30 x daysOff.
+  daysOff       Int       @default(0)
   deductions    Int       @default(0)
   note          String?
   paidOn        DateTime?

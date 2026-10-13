@@ -3,6 +3,7 @@ import Link from "next/link";
 import { db } from "@/lib/db";
 import { requireRole } from "@/lib/session";
 import { STAFF_ROLES, USER_ADMIN_ROLES } from "@/lib/roles";
+import { DeleteForever } from "@/components/portal/delete-forever";
 
 export const metadata: Metadata = { title: "Students" };
 
@@ -28,6 +29,7 @@ export default async function StudentsPage(props: PageProps<"/portal/students">)
       take: 300,
       select: {
         id: true,
+        userId: true,
         rollNumber: true,
         user: { select: { name: true, isActive: true } },
         class: { select: { name: true, section: true } },
@@ -90,12 +92,13 @@ export default async function StudentsPage(props: PageProps<"/portal/students">)
               <th className="px-4 py-3 font-medium">Class</th>
               <th className="px-4 py-3 font-medium">Parent / guardian</th>
               <th className="px-4 py-3 font-medium">Status</th>
+              {canManage && <th className="px-4 py-3" />}
             </tr>
           </thead>
           <tbody>
             {students.length === 0 && (
               <tr>
-                <td colSpan={5} className="px-4 py-6 text-center text-zinc-500">
+                <td colSpan={6} className="px-4 py-6 text-center text-zinc-500">
                   No students found.
                 </td>
               </tr>
@@ -111,6 +114,11 @@ export default async function StudentsPage(props: PageProps<"/portal/students">)
                 <td className="px-4 py-3">{s.class ? `${s.class.name} ${s.class.section}` : "-"}</td>
                 <td className="px-4 py-3 text-zinc-600">{s.guardian?.user.name ?? "-"}</td>
                 <td className="px-4 py-3">{s.user.isActive ? "Active" : "Removed"}</td>
+                {canManage && (
+                  <td className="px-4 py-3 text-right">
+                    <DeleteForever userId={s.userId} name={s.user.name} back="/portal/students" />
+                  </td>
+                )}
               </tr>
             ))}
           </tbody>

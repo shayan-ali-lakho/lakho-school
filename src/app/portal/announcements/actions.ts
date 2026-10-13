@@ -5,7 +5,6 @@ import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { db } from "@/lib/db";
 import { requireRole } from "@/lib/session";
-import { USER_ADMIN_ROLES } from "@/lib/roles";
 import { firstIssue, text, type FormState } from "@/lib/form";
 
 const AUDIENCES = ["TEACHER", "ACCOUNTANT", "STUDENT", "PARENT"] as const;
@@ -16,7 +15,7 @@ const schema = z.object({
 });
 
 export async function postAnnouncement(_prev: FormState, formData: FormData): Promise<FormState> {
-  const user = await requireRole(["ADMIN", "PRINCIPAL", "TEACHER"]);
+  const user = await requireRole(["ADMIN"]);
 
   const parsed = schema.safeParse({ title: text(formData, "title"), body: text(formData, "body") });
   if (!parsed.success) return { error: firstIssue(parsed.error) };
@@ -24,10 +23,9 @@ export async function postAnnouncement(_prev: FormState, formData: FormData): Pr
   const picked = formData.getAll("audience").filter((a): a is (typeof AUDIENCES)[number] =>
     (AUDIENCES as readonly string[]).includes(String(a)),
   );
-  // Teachers can only write to students and parents, and never publish to the website.
-  const isManager = USER_ADMIN_ROLES.includes(user.role);
-  const audience = isManager ? picked : picked.filter((a) => a === "STUDENT" || a === "PARENT");
-  const isPublic = isManager && formData.get("isPublic") === "on";
+  // Only the administrator posts announcements.
+  const audience = picked;
+  const isPublic = formData.get("isPublic") === "on";
 
   if (audience.length === 0 && !isPublic) return { error: "Choose who should see this announcement." };
 
@@ -41,10 +39,10 @@ export async function postAnnouncement(_prev: FormState, formData: FormData): Pr
 }
 
 export async function deleteAnnouncement(formData: FormData) {
-  const user = await requireRole(["ADMIN", "PRINCIPAL", "TEACHER"]);
+  await requireRole(["ADMIN"]);
   const id = text(formData, "id");
-  const a = await db.announcement.findUnique({ where: { id }, select: { authorId: true } });
-  if (a && (USER_ADMIN_ROLES.includes(user.role) || a.authorId === user.id)) {
+  const a = await db.announcement.findUnique({ where: { id }, select: { id: true } });
+  if (a) {
     await db.announcement.delete({ where: { id } });
   }
   revalidatePath("/portal", "layout");

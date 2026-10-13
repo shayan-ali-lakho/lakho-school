@@ -6,7 +6,6 @@ import { z } from "zod";
 import { db } from "@/lib/db";
 import { requireRole } from "@/lib/session";
 import { USER_ADMIN_ROLES, type AppRole } from "@/lib/roles";
-import { generatePassword } from "@/lib/passwords";
 import {
   accountSchema,
   assertEmailFree,
@@ -31,18 +30,15 @@ export type CreateUserState =
 // Student accounts need a class and roll number, so they are admitted from the Students page.
 const CREATABLE: AppRole[] = ["ADMIN", "PRINCIPAL", "ACCOUNTANT", "TEACHER", "PARENT"];
 
-/** Create an account for any staff member or parent. A blank password is generated and shown once. */
+/** Create an account for any staff member or parent. The admin chooses the username and password. */
 export async function createUser(_prev: CreateUserState, formData: FormData): Promise<CreateUserState> {
   const actor = await requireRole(USER_ADMIN_ROLES);
-
-  const typedPassword = text(formData, "password");
-  const password = typedPassword || generatePassword();
 
   const parsed = accountSchema.safeParse({
     name: text(formData, "name"),
     email: text(formData, "email"),
     role: text(formData, "role"),
-    password,
+    password: text(formData, "password"),
   });
   if (!parsed.success) return { error: firstIssue(parsed.error) };
   const u = parsed.data;
@@ -124,22 +120,24 @@ export async function setUserActive(formData: FormData) {
   revalidatePath("/portal", "layout");
 }
 
-export type LoginState = { error?: string; password?: string; email?: string } | undefined;
+export type PasswordState = { error?: string; done?: boolean } | undefined;
 
-/** Sets a new random password and returns it once so the admin can hand it over. */
-export async function generateLogin(_prev: LoginState, formData: FormData): Promise<LoginState> {
+/** Admin types a new password for any account (add or update). */
+export async function setPassword(_prev: PasswordState, formData: FormData): Promise<PasswordState> {
   const actor = await requireRole(USER_ADMIN_ROLES);
   const userId = text(formData, "userId");
 
-  const target = await db.user.findUnique({ where: { id: userId }, select: { role: true, email: true } });
+  const parsed = passwordSchema.safeParse(text(formData, "password"));
+  if (!parsed.success) return { error: `Password ${firstIssue(parsed.error)}` };
+
+  const target = await db.user.findUnique({ where: { id: userId }, select: { role: true } });
   if (!target) return { error: "User not found." };
   if (!canManage(actor.role, target.role as AppRole)) {
     return { error: "Only an administrator can change this account." };
   }
 
-  const password = generatePassword();
-  await db.user.update({ where: { id: userId }, data: { passwordHash: await hashPassword(password) } });
-  return { password, email: loginName(target.email) };
+  await db.user.update({ where: { id: userId }, data: { passwordHash: await hashPassword(parsed.data) } });
+  return { done: true };
 }
 
 // Staff roles an administrator can switch between. Student and parent accounts keep their role.
@@ -169,22 +167,34 @@ export async function changeRole(formData: FormData) {
   revalidatePath("/portal", "layout");
 }
 
-export async function resetPassword(_prev: FormState, formData: FormData): Promise<FormState> {
+/** Permanently deletes an account and everything attached to it. Cannot be undone. */
+export async function deleteUserPermanently(formData: FormData) {
   const actor = await requireRole(USER_ADMIN_ROLES);
   const userId = text(formData, "userId");
+  const back = text(formData, "back") || "/portal/admin/users";
+  if (!userId || userId === actor.id) return;
 
-  const parsed = passwordSchema.safeParse(text(formData, "password"));
-  if (!parsed.success) return { error: `password ${firstIssue(parsed.error)}` };
-
-  const target = await db.user.findUnique({ where: { id: userId }, select: { role: true } });
-  if (!target) return { error: "User not found." };
-  if (!canManage(actor.role, target.role as AppRole)) {
-    return { error: "Only an administrator can change this account." };
-  }
-
-  await db.user.update({
+  const target = await db.user.findUnique({
     where: { id: userId },
-    data: { passwordHash: await hashPassword(parsed.data) },
+    select: { role: true, studentProfile: { select: { id: true } }, teacherProfile: { select: { id: true } } },
   });
-  redirect("/portal/admin/users");
+  if (!target || !canManage(actor.role, target.role as AppRole)) return;
+
+  await db.$transaction(async (tx) => {
+    // Posts written by this person stay on the notice board under the admin who deleted them.
+    await tx.announcement.updateMany({ where: { authorId: userId }, data: { authorId: actor.id } });
+    if (target.studentProfile) {
+      const invoices = await tx.feeInvoice.findMany({ where: { studentId: target.studentProfile.id }, select: { id: true } });
+      const ids = invoices.map((i) => i.id);
+      await tx.feePayment.deleteMany({ where: { invoiceId: { in: ids } } });
+      await tx.feeInvoice.deleteMany({ where: { id: { in: ids } } });
+    }
+    if (target.teacherProfile) {
+      await tx.salaryRecord.deleteMany({ where: { teacherId: target.teacherProfile.id } });
+    }
+    await tx.user.delete({ where: { id: userId } });
+  });
+
+  revalidatePath("/portal", "layout");
+  redirect(back);
 }

@@ -15,7 +15,7 @@ export function NewUserForm({ roles }: { roles: { value: string; label: string }
       <div role="status" className="space-y-4">
         <div className="rounded-md border border-emerald-200 bg-emerald-50 p-4 text-sm">
           <p className="font-medium text-emerald-900">
-            Account created for {c.name}. Write the login down now: the password will not be shown again.
+            Account created for {c.name}. Give them this login.
           </p>
           <dl className="mt-3 grid grid-cols-[6rem_1fr] gap-y-1">
             <dt className="text-zinc-600">Username</dt>
@@ -52,8 +52,9 @@ export function NewUserForm({ roles }: { roles: { value: string; label: string }
         label="Password"
         name="password"
         type="text"
+        required
         autoComplete="off"
-        hint="At least 8 characters. Leave blank to generate one automatically."
+        hint="At least 8 characters. You choose it and give it to the person."
       />
       {state?.error && (
         <p role="alert" className="rounded-md bg-red-50 px-3 py-2 text-sm text-red-700">

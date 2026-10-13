@@ -43,14 +43,7 @@ export default async function EditUserPage(props: PageProps<"/portal/admin/users
         </ActionForm>
       </Card>
       <Card title="Password">
-        <LoginTools userId={user.id} email={loginName(user.email)} />
-        <p className="mt-4 text-sm text-zinc-600">
-          Or{" "}
-          <Link href={`/portal/admin/users/${user.id}/password`} className="text-emerald-700 hover:underline">
-            type a password yourself
-          </Link>
-          .
-        </p>
+        <LoginTools userId={user.id} />
       </Card>
     </div>
   );

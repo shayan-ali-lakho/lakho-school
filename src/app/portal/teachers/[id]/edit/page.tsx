@@ -56,7 +56,7 @@ export default async function EditTeacherPage(props: PageProps<"/portal/teachers
         </ActionForm>
       </Card>
       <Card title="Login">
-        <LoginTools userId={teacher.userId} email={loginName(teacher.user.email)} />
+        <LoginTools userId={teacher.userId} />
       </Card>
     </div>
   );

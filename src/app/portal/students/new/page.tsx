@@ -76,6 +76,7 @@ export default async function AdmitStudentPage() {
               />
             </div>
             <Field label="Address" name="address" />
+            <Field label="Monthly fee (PKR)" name="monthlyFee" type="number" hint="Leave empty to charge the class fee." />
           </div>
         </Card>
 

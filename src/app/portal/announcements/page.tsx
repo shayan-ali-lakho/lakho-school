@@ -10,7 +10,7 @@ import { deleteAnnouncement, postAnnouncement } from "./actions";
 export const metadata: Metadata = { title: "Announcements" };
 
 export default async function AnnouncementsPage(props: PageProps<"/portal/announcements">) {
-  const user = await requireRole(["ADMIN", "PRINCIPAL", "TEACHER"]);
+  const user = await requireRole(["ADMIN"]);
   const isManager = USER_ADMIN_ROLES.includes(user.role);
   const sp = await props.searchParams;
 

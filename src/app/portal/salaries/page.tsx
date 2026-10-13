@@ -21,7 +21,7 @@ export default async function SalariesPage(props: PageProps<"/portal/salaries">)
     select: {
       id: true,
       baseSalary: true,
-      allowances: true,
+      daysOff: true,
       deductions: true,
       note: true,
       paidOn: true,
@@ -29,8 +29,7 @@ export default async function SalariesPage(props: PageProps<"/portal/salaries">)
     },
   });
 
-  const net = (r: { baseSalary: number; allowances: number; deductions: number }) =>
-    r.baseSalary + r.allowances - r.deductions;
+  const net = (r: { baseSalary: number; deductions: number }) => r.baseSalary - r.deductions;
   const total = records.reduce((s, r) => s + net(r), 0);
   const paid = records.filter((r) => r.paidOn).reduce((s, r) => s + net(r), 0);
   const stat = "rounded-lg border border-zinc-200 bg-white p-4";
@@ -41,8 +40,7 @@ export default async function SalariesPage(props: PageProps<"/portal/salaries">)
         <div>
           <h1 className="text-2xl font-semibold tracking-tight">Teacher salaries</h1>
           <p className="mt-1 text-zinc-600">
-            Net salary = base + allowances − deductions (absences, advances, tax). Base salary for each teacher is set
-            on the Teachers page.
+            Net salary = base salary − (base ÷ 30 × days off). Base salary for each teacher is set on the Teachers page.
           </p>
         </div>
         <MonthNav basePath="/portal/salaries" month={month} />
@@ -83,8 +81,8 @@ export default async function SalariesPage(props: PageProps<"/portal/salaries">)
             <tr>
               <th className="px-4 py-3 font-medium">Teacher</th>
               <th className="px-4 py-3 font-medium">Base</th>
-              <th className="px-4 py-3 font-medium">Allowances</th>
-              <th className="px-4 py-3 font-medium">Deductions</th>
+              <th className="px-4 py-3 font-medium">Days off</th>
+              <th className="px-4 py-3 text-right font-medium">Deducted</th>
               <th className="px-4 py-3 font-medium">Note</th>
               <th className="px-4 py-3 text-right font-medium">Net (PKR)</th>
               <th className="px-4 py-3 font-medium">Status</th>
@@ -112,13 +110,11 @@ export default async function SalariesPage(props: PageProps<"/portal/salaries">)
                     <input form={formId} name="baseSalary" type="number" min={0} defaultValue={r.baseSalary} disabled={locked} aria-label="Base salary" className={input} />
                   </td>
                   <td className="px-4 py-3">
-                    <input form={formId} name="allowances" type="number" min={0} defaultValue={r.allowances} disabled={locked} aria-label="Allowances" className={input} />
+                    <input form={formId} name="daysOff" type="number" min={0} max={30} defaultValue={r.daysOff} disabled={locked} aria-label="Days off" className={input} />
                   </td>
+                  <td className="px-4 py-3 text-right tabular-nums text-zinc-600">{r.deductions.toLocaleString("en-PK")}</td>
                   <td className="px-4 py-3">
-                    <input form={formId} name="deductions" type="number" min={0} defaultValue={r.deductions} disabled={locked} aria-label="Deductions" className={input} />
-                  </td>
-                  <td className="px-4 py-3">
-                    <input form={formId} name="note" defaultValue={r.note ?? ""} disabled={locked} aria-label="Note" placeholder="e.g. 2 days absent" className="w-40 rounded-md border border-zinc-300 px-2 py-1" />
+                    <input form={formId} name="note" defaultValue={r.note ?? ""} disabled={locked} aria-label="Note" placeholder="Optional note" className="w-40 rounded-md border border-zinc-300 px-2 py-1" />
                   </td>
                   <td className="px-4 py-3 text-right font-medium tabular-nums">{net(r).toLocaleString("en-PK")}</td>
                   <td className="px-4 py-3">

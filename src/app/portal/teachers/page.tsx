@@ -5,6 +5,7 @@ import { loginName } from "@/lib/accounts";
 import { requireRole } from "@/lib/session";
 import { USER_ADMIN_ROLES } from "@/lib/roles";
 import { setUserActive } from "../admin/users/actions";
+import { DeleteForever } from "@/components/portal/delete-forever";
 
 export const metadata: Metadata = { title: "Teachers" };
 
@@ -116,6 +117,9 @@ export default async function TeachersPage(props: PageProps<"/portal/teachers">)
                       {t.user.isActive ? "Remove" : "Restore"}
                     </button>
                   </form>
+                  <span className="ml-4">
+                    <DeleteForever userId={t.userId} name={t.user.name} back="/portal/teachers" />
+                  </span>
                 </td>
               </tr>
             ))}
@@ -123,8 +127,8 @@ export default async function TeachersPage(props: PageProps<"/portal/teachers">)
         </table>
       </div>
       <p className="mt-3 text-xs text-zinc-500">
-        Removing a teacher blocks their sign-in and unassigns them as class teacher. Their records are kept and they
-        can be restored.
+        Remove blocks a teacher&apos;s sign-in and can be undone with Restore. Delete permanently erases the teacher, their login
+        and their salary records for good.
       </p>
     </div>
   );

@@ -6,6 +6,7 @@ import { requireUser } from "@/lib/session";
 import { STAFF_ROLES, USER_ADMIN_ROLES } from "@/lib/roles";
 import { daysAgo, feeStatus, monthLabel, pkr } from "@/lib/finance";
 import { loginName } from "@/lib/accounts";
+import { DeleteForever } from "@/components/portal/delete-forever";
 import { LoginTools } from "@/components/portal/login-tools";
 import { setUserActive } from "../../admin/users/actions";
 
@@ -28,6 +29,7 @@ export default async function StudentProfilePage(props: PageProps<"/portal/stude
       class: { select: { id: true, name: true, section: true, academicYear: true } },
       guardian: { select: { userId: true, phone: true, user: { select: { name: true, email: true } } } },
       feeDiscount: true,
+      monthlyFee: true,
       attendance: {
         where: { date: { gte: daysAgo(30) } },
         orderBy: { date: "desc" },
@@ -137,8 +139,8 @@ export default async function StudentProfilePage(props: PageProps<"/portal/stude
 
       <section className="rounded-lg border border-zinc-200 bg-white p-4 text-sm">
         <h2 className="font-medium">Fees</h2>
-        {student.feeDiscount > 0 && isStaff && (
-          <p className="mt-1 text-zinc-500">Monthly discount: {pkr(student.feeDiscount)}</p>
+        {student.monthlyFee !== null && isStaff && (
+          <p className="mt-1 text-zinc-500">Monthly fee: {pkr(student.monthlyFee)}</p>
         )}
         {student.invoices.length === 0 ? (
           <p className="mt-2 text-zinc-500">No fee invoices yet.</p>
@@ -181,7 +183,7 @@ export default async function StudentProfilePage(props: PageProps<"/portal/stude
       {canManage && (
         <section className="space-y-4 rounded-lg border border-zinc-200 bg-white p-4">
           <h2 className="font-medium">Login and access</h2>
-          <LoginTools userId={student.userId} email={loginName(student.user.email)} />
+          <LoginTools userId={student.userId} />
           <form action={setUserActive} className="border-t border-zinc-100 pt-4">
             <input type="hidden" name="userId" value={student.userId} />
             <input type="hidden" name="active" value={String(!student.user.isActive)} />
@@ -201,6 +203,10 @@ export default async function StudentProfilePage(props: PageProps<"/portal/stude
                 : "This student is removed. Restoring lets them sign in again."}
             </p>
           </form>
+          <div className="border-t border-zinc-100 pt-4">
+            <DeleteForever userId={student.userId} name={student.user.name} back="/portal/students" className="rounded-md border border-red-300 px-3 py-1.5 text-sm text-red-700 hover:bg-red-50" />
+            <p className="mt-2 text-xs text-zinc-500">Erases the student, their login, attendance, marks and fee records for good.</p>
+          </div>
         </section>
       )}
     </div>
