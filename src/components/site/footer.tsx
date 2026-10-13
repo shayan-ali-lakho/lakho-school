@@ -18,15 +18,19 @@ export function SiteFooter() {
           <p className="font-display text-lg font-semibold">Explore</p>
           <Link href="/" className="link-grow w-fit text-chalk/80 hover:text-chalk">Home</Link>
           <Link href="/about" className="link-grow w-fit text-chalk/80 hover:text-chalk">About</Link>
-          <Link href="/#admissions" className="link-grow w-fit text-chalk/80 hover:text-chalk">Admissions</Link>
+          <Link href="/academics" className="link-grow w-fit text-chalk/80 hover:text-chalk">Academics</Link>
+          <Link href="/admissions" className="link-grow w-fit text-chalk/80 hover:text-chalk">Admissions</Link>
+          <Link href="/news" className="link-grow w-fit text-chalk/80 hover:text-chalk">News</Link>
+          <Link href="/contact" className="link-grow w-fit text-chalk/80 hover:text-chalk">Contact</Link>
           <Link href="/login" className="link-grow w-fit text-chalk/80 hover:text-chalk">Portal login</Link>
         </nav>
 
         <div className="flex flex-col gap-2 text-chalk/80">
           <p className="font-display text-lg font-semibold text-chalk">Contact</p>
-          <p>{site.address}</p>
-          <p>{site.phone}</p>
-          <p>{site.email}</p>
+          {site.address && <p>{site.address}</p>}
+          <a href={site.phoneHref} className="link-grow w-fit hover:text-chalk">{site.phone}</a>
+          <a href={site.whatsappHref} className="link-grow w-fit hover:text-chalk">WhatsApp</a>
+          <a href={`mailto:${site.email}`} className="link-grow w-fit hover:text-chalk">{site.email}</a>
         </div>
       </div>
       <div className="border-t border-chalk/15">

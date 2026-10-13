@@ -139,7 +139,7 @@ export default async function Home() {
               style={{ "--d": 450 } as React.CSSProperties}
             >
               <Link
-                href="/#admissions"
+                href="/admissions"
                 className="rounded-sm bg-ink px-6 py-3 text-lg font-medium text-paper transition-all duration-200 hover:-translate-y-0.5 hover:bg-[#2a3753] hover:shadow-lg active:translate-y-0"
               >
                 Apply for admission
@@ -266,7 +266,7 @@ export default async function Home() {
       </section>
 
       {/* Admissions */}
-      <section id="admissions" className="grid wrap gap-8 py-20 md:grid-cols-[15rem_1fr] md:gap-12">
+      <section className="grid wrap gap-8 py-20 md:grid-cols-[15rem_1fr] md:gap-12">
         <h2 className="reveal font-display text-3xl font-semibold tracking-tight">How to apply</h2>
         <div>
           <ol className="divide-y divide-paper-rule border-y border-paper-rule">
@@ -282,8 +282,9 @@ export default async function Home() {
             ))}
           </ol>
           <p className="reveal mt-6 text-lg text-ink-soft">
-            Call the office on <span className="text-ink">{site.phone}</span> or visit during office hours to
-            begin.
+            Ready to start? <Link href="/admissions" className="link-grow text-ink hover:text-pen">Fill in the online application</Link>{" "}
+            or call the office on{" "}
+            <a href={site.phoneHref} className="link-grow text-ink hover:text-pen">{site.phone}</a>.
           </p>
         </div>
       </section>
@@ -309,11 +310,11 @@ export default async function Home() {
       </section>
 
       {/* Contact */}
-      <section id="contact" className="grid wrap gap-8 py-20 md:grid-cols-[15rem_1fr] md:gap-12">
+      <section className="grid wrap gap-8 py-20 md:grid-cols-[15rem_1fr] md:gap-12">
         <h2 className="reveal font-display text-3xl font-semibold tracking-tight">Contact us</h2>
         <dl className="divide-y divide-paper-rule border-y border-paper-rule">
           {[
-            ["Address", site.address],
+            ...(site.address ? [["Address", site.address]] : []),
             ["Phone", site.phone],
             ["Email", site.email],
             ["Office hours", site.hours],
@@ -328,6 +329,11 @@ export default async function Home() {
             </div>
           ))}
         </dl>
+        <p className="reveal md:col-start-2">
+          <Link href="/contact" className="link-grow text-lg text-ink hover:text-pen">
+            Send us a message
+          </Link>
+        </p>
       </section>
     </>
   );

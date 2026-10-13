@@ -94,3 +94,42 @@ model Announcement {
 
   @@index([publishedAt])
 }
+
+enum ApplicationStatus {
+  NEW
+  CONTACTED
+  ACCEPTED
+  DECLINED
+}
+
+/// Submitted from the public admissions form.
+model AdmissionApplication {
+  id             String            @id @default(cuid())
+  childName      String
+  dateOfBirth    DateTime          @db.Date
+  gender         String
+  classApplied   String
+  previousSchool String?
+  guardianName   String
+  phone          String
+  email          String?
+  address        String?
+  notes          String?
+  status         ApplicationStatus @default(NEW)
+  createdAt      DateTime          @default(now())
+
+  @@index([createdAt])
+}
+
+/// Submitted from the public contact form.
+model ContactMessage {
+  id        String   @id @default(cuid())
+  name      String
+  phone     String?
+  email     String?
+  message   String
+  handled   Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
+}

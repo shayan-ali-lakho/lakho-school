@@ -5,8 +5,10 @@ import { site } from "@/lib/site";
 const links = [
   { href: "/", label: "Home" },
   { href: "/about", label: "About" },
-  { href: "/#admissions", label: "Admissions" },
-  { href: "/#contact", label: "Contact" },
+  { href: "/academics", label: "Academics" },
+  { href: "/admissions", label: "Admissions" },
+  { href: "/news", label: "News" },
+  { href: "/contact", label: "Contact" },
 ];
 
 export function SiteHeader() {

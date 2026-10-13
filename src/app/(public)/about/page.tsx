@@ -73,26 +73,13 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="border-t border-paper-rule">
-        <div className="grid wrap gap-8 py-16 md:grid-cols-[15rem_1fr] md:gap-12">
-          <h2 className="reveal font-display text-3xl font-semibold tracking-tight">From the principal</h2>
-          <figure className="reveal max-w-prose">
-            <blockquote className="font-display text-2xl leading-snug">
-              Our job is simple to say and hard to do: help every child learn, and tell their parents the truth
-              about how they are doing.
-            </blockquote>
-            <figcaption className="mt-4 text-ink-soft">{site.principalName}, Principal</figcaption>
-          </figure>
-        </div>
-      </section>
-
       <section className="bg-board text-chalk">
         <div className="flex wrap flex-wrap items-center justify-between gap-8 py-14">
           <h2 className="reveal max-w-xl font-display text-3xl font-semibold tracking-tight">
             Come and see the school for yourself
           </h2>
           <Link
-            href="/#admissions"
+            href="/admissions"
             className="rounded-sm bg-chalk px-6 py-3 text-lg font-medium text-board hover:bg-white"
           >
             How to apply

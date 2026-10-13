@@ -34,6 +34,9 @@ export default async function PortalLayout({ children }: LayoutProps<"/portal">)
                   <Link href="/portal/admin/users" className="hover:text-zinc-900">
                     Users
                   </Link>
+                  <Link href="/portal/inquiries" className="hover:text-zinc-900">
+                    Inquiries
+                  </Link>
                 </>
               )}
             </nav>
