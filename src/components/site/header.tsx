@@ -12,7 +12,7 @@ const links = [
 export function SiteHeader() {
   return (
     <header className="site-header sticky top-0 z-30 border-b border-paper-rule bg-paper/90 backdrop-blur">
-      <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-x-8 gap-y-2 px-6 py-3">
+      <div className="flex wrap flex-wrap items-center justify-between gap-x-8 gap-y-2 py-3">
         <Link href="/" className="group flex items-center gap-3 text-ink">
           <Image
             src="/logo.png"

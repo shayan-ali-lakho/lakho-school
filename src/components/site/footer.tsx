@@ -5,7 +5,7 @@ import { site } from "@/lib/site";
 export function SiteFooter() {
   return (
     <footer className="bg-board text-chalk">
-      <div className="mx-auto grid max-w-5xl gap-10 px-6 py-12 md:grid-cols-[1.4fr_1fr_1fr]">
+      <div className="grid wrap gap-10 py-12 md:grid-cols-[1.4fr_1fr_1fr]">
         <div className="flex items-start gap-4">
           <Image src="/logo.png" alt="" width={56} height={56} className="h-14 w-14 shrink-0" />
           <div>
@@ -30,7 +30,7 @@ export function SiteFooter() {
         </div>
       </div>
       <div className="border-t border-chalk/15">
-        <p className="mx-auto max-w-5xl px-6 py-4 text-sm text-chalk/60">
+        <p className="wrap py-4 text-sm text-chalk/60">
           © {new Date().getFullYear()} {site.name}. This is a test site with demo data.
         </p>
       </div>

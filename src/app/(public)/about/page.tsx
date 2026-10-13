@@ -29,7 +29,7 @@ const beliefs = [
 export default function AboutPage() {
   return (
     <>
-      <section className="mx-auto max-w-5xl px-6 pb-16 pt-14 sm:pt-20">
+      <section className="wrap pb-16 pt-14 sm:pt-20">
         <h1 className="rise max-w-3xl font-display text-4xl font-semibold leading-[1.1] tracking-tight sm:text-5xl">
           About {site.name}
         </h1>
@@ -43,7 +43,7 @@ export default function AboutPage() {
       </section>
 
       <section className="border-t border-paper-rule">
-        <div className="mx-auto grid max-w-5xl gap-8 px-6 py-16 md:grid-cols-[15rem_1fr] md:gap-12">
+        <div className="grid wrap gap-8 py-16 md:grid-cols-[15rem_1fr] md:gap-12">
           <h2 className="reveal font-display text-3xl font-semibold tracking-tight">Our story</h2>
           <div className="max-w-prose space-y-5 text-lg leading-relaxed">
             <p>
@@ -60,7 +60,7 @@ export default function AboutPage() {
       </section>
 
       <section className="border-t border-paper-rule bg-white">
-        <div className="mx-auto grid max-w-5xl gap-8 px-6 py-16 md:grid-cols-[15rem_1fr] md:gap-12">
+        <div className="grid wrap gap-8 py-16 md:grid-cols-[15rem_1fr] md:gap-12">
           <h2 className="reveal font-display text-3xl font-semibold tracking-tight">What we believe</h2>
           <dl className="divide-y divide-paper-rule border-y border-paper-rule">
             {beliefs.map((b) => (
@@ -74,7 +74,7 @@ export default function AboutPage() {
       </section>
 
       <section className="border-t border-paper-rule">
-        <div className="mx-auto grid max-w-5xl gap-8 px-6 py-16 md:grid-cols-[15rem_1fr] md:gap-12">
+        <div className="grid wrap gap-8 py-16 md:grid-cols-[15rem_1fr] md:gap-12">
           <h2 className="reveal font-display text-3xl font-semibold tracking-tight">From the principal</h2>
           <figure className="reveal max-w-prose">
             <blockquote className="font-display text-2xl leading-snug">
@@ -87,7 +87,7 @@ export default function AboutPage() {
       </section>
 
       <section className="bg-board text-chalk">
-        <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-8 px-6 py-14">
+        <div className="flex wrap flex-wrap items-center justify-between gap-8 py-14">
           <h2 className="reveal max-w-xl font-display text-3xl font-semibold tracking-tight">
             Come and see the school for yourself
           </h2>

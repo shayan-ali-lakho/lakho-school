@@ -104,9 +104,9 @@ export default async function Home() {
       <section className="notebook relative overflow-hidden">
         <div
           aria-hidden
-          className="absolute inset-y-0 w-px bg-pen/60 left-[max(0.75rem,calc((100%-64rem)/2+0.75rem))]"
+          className="absolute inset-y-0 w-px bg-pen/60 margin-line"
         />
-        <div className="mx-auto grid max-w-5xl items-center gap-12 px-6 pb-24 pt-14 sm:pt-20 md:grid-cols-[1fr_20rem]">
+        <div className="grid wrap items-center gap-12 pb-24 pt-14 sm:pt-20 md:grid-cols-[1fr_20rem]">
           <div>
             <p className="rise relative flex h-16 w-80 whitespace-nowrap -rotate-2 items-center justify-center font-hand text-3xl text-pen">
               <svg aria-hidden viewBox="0 0 320 64" fill="none" className="pen-circle absolute inset-0 h-full w-full">
@@ -167,7 +167,7 @@ export default async function Home() {
       </section>
 
       {/* Why families choose us */}
-      <section className="mx-auto max-w-5xl px-6 py-20">
+      <section className="wrap py-20">
         <h2 className="reveal font-display text-3xl font-semibold tracking-tight">Why families choose us</h2>
         <ul className="mt-10 grid gap-5 sm:grid-cols-2">
           {highlights.map((h, i) => (
@@ -185,7 +185,7 @@ export default async function Home() {
 
       {/* What children study */}
       <section className="border-t border-paper-rule bg-white">
-        <div className="mx-auto grid max-w-5xl gap-8 px-6 py-20 md:grid-cols-[15rem_1fr] md:gap-12">
+        <div className="grid wrap gap-8 py-20 md:grid-cols-[15rem_1fr] md:gap-12">
           <h2 className="reveal font-display text-3xl font-semibold tracking-tight">What children study</h2>
           <dl className="divide-y divide-paper-rule border-y border-paper-rule">
             {stages.map((s, i) => (
@@ -206,7 +206,7 @@ export default async function Home() {
       </section>
 
       {/* A day at school: a real sequence, so times lead each row */}
-      <section className="mx-auto grid max-w-5xl gap-8 px-6 py-20 md:grid-cols-[15rem_1fr] md:gap-12">
+      <section className="grid wrap gap-8 py-20 md:grid-cols-[15rem_1fr] md:gap-12">
         <h2 className="reveal font-display text-3xl font-semibold tracking-tight">A day at school</h2>
         <ol className="divide-y divide-paper-rule border-y border-paper-rule">
           {day.map((d, i) => (
@@ -225,7 +225,7 @@ export default async function Home() {
       {/* Notices from the school (only shown when there are public ones) */}
       {notices.length > 0 && (
         <section className="border-t border-paper-rule bg-white">
-          <div className="mx-auto grid max-w-5xl gap-8 px-6 py-20 md:grid-cols-[15rem_1fr] md:gap-12">
+          <div className="grid wrap gap-8 py-20 md:grid-cols-[15rem_1fr] md:gap-12">
             <h2 className="reveal font-display text-3xl font-semibold tracking-tight">School notices</h2>
             <ul className="space-y-5">
               {notices.map((n, i) => (
@@ -246,7 +246,7 @@ export default async function Home() {
 
       {/* Portal: the blackboard */}
       <section className="bg-board text-chalk">
-        <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-8 px-6 py-16">
+        <div className="flex wrap flex-wrap items-center justify-between gap-8 py-16">
           <div className="reveal max-w-xl">
             <h2 className="font-display text-3xl font-semibold tracking-tight">
               Parents and students, sign in to the portal
@@ -266,7 +266,7 @@ export default async function Home() {
       </section>
 
       {/* Admissions */}
-      <section id="admissions" className="mx-auto grid max-w-5xl gap-8 px-6 py-20 md:grid-cols-[15rem_1fr] md:gap-12">
+      <section id="admissions" className="grid wrap gap-8 py-20 md:grid-cols-[15rem_1fr] md:gap-12">
         <h2 className="reveal font-display text-3xl font-semibold tracking-tight">How to apply</h2>
         <div>
           <ol className="divide-y divide-paper-rule border-y border-paper-rule">
@@ -290,7 +290,7 @@ export default async function Home() {
 
       {/* Questions */}
       <section className="border-t border-paper-rule bg-white">
-        <div className="mx-auto grid max-w-5xl gap-8 px-6 py-20 md:grid-cols-[15rem_1fr] md:gap-12">
+        <div className="grid wrap gap-8 py-20 md:grid-cols-[15rem_1fr] md:gap-12">
           <h2 className="reveal font-display text-3xl font-semibold tracking-tight">Common questions</h2>
           <div className="divide-y divide-paper-rule border-y border-paper-rule">
             {faqs.map((f, i) => (
@@ -309,7 +309,7 @@ export default async function Home() {
       </section>
 
       {/* Contact */}
-      <section id="contact" className="mx-auto grid max-w-5xl gap-8 px-6 py-20 md:grid-cols-[15rem_1fr] md:gap-12">
+      <section id="contact" className="grid wrap gap-8 py-20 md:grid-cols-[15rem_1fr] md:gap-12">
         <h2 className="reveal font-display text-3xl font-semibold tracking-tight">Contact us</h2>
         <dl className="divide-y divide-paper-rule border-y border-paper-rule">
           {[
