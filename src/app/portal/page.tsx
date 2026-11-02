@@ -87,7 +87,7 @@ export default async function PortalHome() {
               </>
             );
             return s.href ? (
-              <Link key={s.label} href={s.href} className="rounded-lg border border-zinc-200 bg-white p-4 transition-colors hover:border-emerald-400">{body}</Link>
+              <Link key={s.label} href={s.href} className="rounded-lg border border-zinc-200 bg-white p-4 transition-colors hover:border-maroon-400">{body}</Link>
             ) : (
               <div key={s.label} className="rounded-lg border border-zinc-200 bg-white p-4">{body}</div>
             );
@@ -100,7 +100,7 @@ export default async function PortalHome() {
         <ul className="mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           {links.map((l) => (
             <li key={l.href}>
-              <Link href={l.href} className="block rounded-lg border border-zinc-200 bg-white px-4 py-3 text-sm font-medium transition-colors hover:border-emerald-400 hover:text-emerald-800">
+              <Link href={l.href} className="block rounded-lg border border-zinc-200 bg-white px-4 py-3 text-sm font-medium transition-colors hover:border-maroon-400 hover:text-maroon-800">
                 {l.label}
               </Link>
             </li>

@@ -14,7 +14,7 @@ export default async function NewTeacherPage() {
   return (
     <div className="max-w-xl space-y-6">
       <div>
-        <Link href="/portal/teachers" className="text-sm text-emerald-700 hover:underline">
+        <Link href="/portal/teachers" className="text-sm text-maroon-700 hover:underline">
           ← Teachers
         </Link>
         <h1 className="mt-2 text-2xl font-semibold tracking-tight">Add teacher</h1>

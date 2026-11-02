@@ -116,7 +116,7 @@ export default async function CoursesPage(props: PageProps<"/portal/courses">) {
                               <option key={t.id} value={t.id}>{t.user.name}</option>
                             ))}
                           </select>
-                          <button type="submit" className="text-emerald-700 hover:underline">Save</button>
+                          <button type="submit" className="text-maroon-700 hover:underline">Save</button>
                         </form>
                       ) : (
                         teachers.find((t) => t.id === c.teacherId)?.user.name ?? "-"

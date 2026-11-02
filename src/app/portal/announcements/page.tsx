@@ -35,7 +35,7 @@ export default async function AnnouncementsPage() {
           <Field label="Title" name="title" required />
           <div>
             <label htmlFor="body" className="block text-sm font-medium text-zinc-700">Message <span className="text-red-600"> *</span></label>
-            <textarea id="body" name="body" required rows={4} className="mt-1 w-full rounded-md border border-zinc-300 bg-white px-3 py-2 focus:border-emerald-600 focus:outline-none focus:ring-1 focus:ring-emerald-600" />
+            <textarea id="body" name="body" required rows={4} className="mt-1 w-full rounded-md border border-zinc-300 bg-white px-3 py-2 focus:border-maroon-600 focus:outline-none focus:ring-1 focus:ring-maroon-600" />
           </div>
           <fieldset>
             <legend className="text-sm font-medium text-zinc-700">Who should see it</legend>

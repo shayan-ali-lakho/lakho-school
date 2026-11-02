@@ -141,7 +141,7 @@ export default async function Home() {
             >
               <Link
                 href="/admissions"
-                className="rounded-sm bg-ink px-6 py-3 text-lg font-medium text-paper transition-all duration-200 hover:-translate-y-0.5 hover:bg-[#2a3753] hover:shadow-lg active:translate-y-0"
+                className="rounded-sm bg-board px-6 py-3 text-lg font-medium text-paper transition-all duration-200 hover:-translate-y-0.5 hover:bg-[#7a1d33] hover:shadow-lg active:translate-y-0"
               >
                 Apply for admission
               </Link>

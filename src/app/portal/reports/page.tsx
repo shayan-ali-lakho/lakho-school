@@ -116,7 +116,7 @@ export default async function MonthlyReportPage(props: PageProps<"/portal/report
       <section className={card}>
         <div className="flex items-center justify-between">
           <h2 className="font-medium">Fee defaulters ({defaulters.length})</h2>
-          <Link href={`/portal/fees?month=${month}&filter=unpaid`} className="text-sm text-emerald-700 hover:underline print:hidden">
+          <Link href={`/portal/fees?month=${month}&filter=unpaid`} className="text-sm text-maroon-700 hover:underline print:hidden">
             Open in Student fees
           </Link>
         </div>

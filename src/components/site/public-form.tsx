@@ -116,7 +116,7 @@ export function PublicForm({
       <button
         type="submit"
         disabled={pending}
-        className="rounded-sm bg-ink px-6 py-3 text-lg font-medium text-paper transition-all duration-200 hover:-translate-y-0.5 hover:bg-[#2a3753] hover:shadow-lg active:translate-y-0 disabled:opacity-60 disabled:hover:translate-y-0"
+        className="rounded-sm bg-board px-6 py-3 text-lg font-medium text-paper transition-all duration-200 hover:-translate-y-0.5 hover:bg-[#7a1d33] hover:shadow-lg active:translate-y-0 disabled:opacity-60 disabled:hover:translate-y-0"
       >
         {pending ? "Sending…" : submitLabel}
       </button>

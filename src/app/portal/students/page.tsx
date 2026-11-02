@@ -105,7 +105,7 @@ export default async function StudentsPage(props: PageProps<"/portal/students">)
               <tr key={s.id} className="border-b border-zinc-100 last:border-0">
                 <td className="px-4 py-3">{s.rollNumber}</td>
                 <td className="px-4 py-3">
-                  <Link href={`/portal/students/${s.id}`} className="text-emerald-700 hover:underline">
+                  <Link href={`/portal/students/${s.id}`} className="text-maroon-700 hover:underline">
                     {s.user.name}
                   </Link>
                 </td>

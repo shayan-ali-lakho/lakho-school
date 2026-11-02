@@ -44,7 +44,7 @@ export default async function ExamPage(props: PageProps<"/portal/exams/[id]">) {
   return (
     <div className="space-y-6">
       <div>
-        <Link href="/portal/exams" className="text-sm text-emerald-700 hover:underline">← Exams</Link>
+        <Link href="/portal/exams" className="text-sm text-maroon-700 hover:underline">← Exams</Link>
         <div className="mt-2 flex flex-wrap items-center justify-between gap-3">
           <div>
             <h1 className="text-2xl font-semibold tracking-tight">{exam.name}</h1>
@@ -123,7 +123,7 @@ export default async function ExamPage(props: PageProps<"/portal/exams/[id]">) {
               </table>
             </div>
             {canEnter && students.length > 0 && (
-              <button type="submit" className="rounded-md bg-emerald-700 px-5 py-2.5 font-medium text-white hover:bg-emerald-800">
+              <button type="submit" className="rounded-md bg-maroon-700 px-5 py-2.5 font-medium text-white hover:bg-maroon-800">
                 Save marks
               </button>
             )}

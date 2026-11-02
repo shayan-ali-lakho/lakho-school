@@ -66,7 +66,7 @@ export default async function ReceiptPage(props: PageProps<"/portal/fees/receipt
   return (
     <div className="mx-auto max-w-xl space-y-4">
       <div className="flex items-center justify-between print:hidden">
-        <Link href={FINANCE_ROLES.includes(user.role) ? "/portal/fees" : "/portal"} className="text-sm text-emerald-700 hover:underline">
+        <Link href={FINANCE_ROLES.includes(user.role) ? "/portal/fees" : "/portal"} className="text-sm text-maroon-700 hover:underline">
           ← Back
         </Link>
         <PrintButton />

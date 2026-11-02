@@ -63,7 +63,7 @@ export default async function UsersPage() {
                           </option>
                         ))}
                       </select>
-                      <button type="submit" className="text-emerald-700 hover:underline">
+                      <button type="submit" className="text-maroon-700 hover:underline">
                         Save
                       </button>
                     </form>

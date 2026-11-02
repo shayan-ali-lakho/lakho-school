@@ -9,9 +9,9 @@
   --paper-rule: #d3e1f2;
   --ink: #172033;
   --ink-soft: #4f5a6e;
-  --pen-red: #c5283d;
-  --board: #1e3b34;
-  --chalk: #eef1ea;
+  --pen-red: #8c1d35;
+  --board: #5a1426;
+  --chalk: #f8efe9;
   --saffron: #e0873a;
 
   /* Side gutter of the public site: 30% of the old centred 64rem column's margin, never under 1rem */
@@ -32,6 +32,18 @@
   --color-board: var(--board);
   --color-chalk: var(--chalk);
   --color-saffron: var(--saffron);
+
+  /* Maroon: the school's main colour, used across the portal */
+  --color-maroon-50: #fbf1f3;
+  --color-maroon-100: #f6dde2;
+  --color-maroon-200: #eab8c2;
+  --color-maroon-300: #d98a9a;
+  --color-maroon-400: #c25570;
+  --color-maroon-500: #a63352;
+  --color-maroon-600: #8c1d35;
+  --color-maroon-700: #751729;
+  --color-maroon-800: #5a1426;
+  --color-maroon-900: #3f0e1b;
 
   --font-display: var(--font-source-serif), Georgia, serif;
   --font-body: var(--font-atkinson), system-ui, sans-serif;
@@ -81,7 +93,7 @@ button:focus-visible,
 select:focus-visible,
 input:focus-visible,
 summary:focus-visible {
-  outline: 2px solid #1f4fd8;
+  outline: 2px solid #8c1d35;
   outline-offset: 3px;
 }
 

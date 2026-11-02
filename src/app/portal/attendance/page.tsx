@@ -113,7 +113,7 @@ export default async function AttendancePage(props: PageProps<"/portal/attendanc
             </table>
           </div>
           {students.length > 0 && (
-            <button type="submit" className="rounded-md bg-emerald-700 px-5 py-2.5 font-medium text-white hover:bg-emerald-800">
+            <button type="submit" className="rounded-md bg-maroon-700 px-5 py-2.5 font-medium text-white hover:bg-maroon-800">
               Save attendance
             </button>
           )}

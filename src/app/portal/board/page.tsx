@@ -80,7 +80,7 @@ export default async function BoardPage(props: PageProps<"/portal/board">) {
                       <form id={formId} action={saveBoardRecord}>
                         <input type="hidden" name="studentId" value={s.id} />
                         <input type="hidden" name="examYear" value={year} />
-                        <button type="submit" className="text-emerald-700 hover:underline">Save</button>
+                        <button type="submit" className="text-maroon-700 hover:underline">Save</button>
                         {savedId === s.id && <span className="ml-2 text-xs text-emerald-700">Saved</span>}
                       </form>
                     </td>

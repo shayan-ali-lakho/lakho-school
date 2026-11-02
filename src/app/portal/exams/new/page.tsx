@@ -20,7 +20,7 @@ export default async function NewExamPage() {
   return (
     <div className="max-w-xl space-y-6">
       <div>
-        <Link href="/portal/exams" className="text-sm text-emerald-700 hover:underline">← Exams</Link>
+        <Link href="/portal/exams" className="text-sm text-maroon-700 hover:underline">← Exams</Link>
         <h1 className="mt-2 text-2xl font-semibold tracking-tight">Create exam</h1>
         <p className="mt-1 text-sm text-zinc-600">One exam covers every subject of one class. Marks are entered per subject afterwards.</p>
       </div>

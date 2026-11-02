@@ -30,7 +30,7 @@ export function Sidebar({
     <nav aria-label="Portal" className="flex-1 space-y-6 overflow-y-auto px-3 py-5">
       {groups.map((g) => (
         <div key={g.label}>
-          <p className="px-3 text-xs font-semibold uppercase tracking-wider text-zinc-400">{g.label}</p>
+          <p className="px-3 text-xs font-semibold uppercase tracking-wider text-maroon-500">{g.label}</p>
           <ul className="mt-2 space-y-0.5">
             {g.items.map((i) => (
               <li key={i.href}>
@@ -40,7 +40,7 @@ export function Sidebar({
                   aria-current={isActive(i.href) ? "page" : undefined}
                   className={`block rounded-md px-3 py-2 text-sm transition-colors ${
                     isActive(i.href)
-                      ? "bg-emerald-50 font-medium text-emerald-800"
+                      ? "bg-maroon-50 font-medium text-maroon-800 shadow-[inset_3px_0_0_var(--saffron)]"
                       : "text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900"
                   }`}
                 >
@@ -57,7 +57,7 @@ export function Sidebar({
   return (
     <>
       {/* Small screens: top bar with menu button */}
-      <div className="sticky top-0 z-30 flex items-center justify-between border-b border-zinc-200 bg-white px-4 py-3 lg:hidden">
+      <div className="sticky top-0 z-30 flex items-center justify-between bg-maroon-800 px-4 py-3 text-white lg:hidden">
         <Link href="/portal" className="font-semibold tracking-tight">
           {title}
         </Link>
@@ -66,7 +66,7 @@ export function Sidebar({
           onClick={() => setOpen(true)}
           aria-expanded={open}
           aria-controls="portal-drawer"
-          className="rounded-md border border-zinc-300 px-3 py-1.5 text-sm"
+          className="rounded-md border border-white/40 px-3 py-1.5 text-sm text-white"
         >
           Menu
         </button>
@@ -82,7 +82,7 @@ export function Sidebar({
           open ? "translate-x-0" : "-translate-x-full"
         }`}
       >
-        <div className="flex items-center justify-between border-b border-zinc-200 px-5 py-4">
+        <div className="flex items-center justify-between border-b-4 border-saffron bg-maroon-800 px-5 py-4 text-white">
           <Link href="/portal" className="font-semibold leading-tight tracking-tight">
             {title}
           </Link>
@@ -90,7 +90,7 @@ export function Sidebar({
             type="button"
             onClick={() => setOpen(false)}
             aria-label="Close menu"
-            className="rounded-md px-2 py-1 text-zinc-500 hover:bg-zinc-100 lg:hidden"
+            className="rounded-md px-2 py-1 text-white/80 hover:bg-white/10 lg:hidden"
           >
             ✕
           </button>

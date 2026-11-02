@@ -34,7 +34,7 @@ export default async function ClassDetailPage(props: PageProps<"/portal/classes/
   return (
     <div className="space-y-6">
       <div>
-        <Link href="/portal/classes" className="text-sm text-emerald-700 hover:underline">
+        <Link href="/portal/classes" className="text-sm text-maroon-700 hover:underline">
           ← Classes
         </Link>
         <h1 className="mt-2 text-2xl font-semibold tracking-tight">
@@ -66,7 +66,7 @@ export default async function ClassDetailPage(props: PageProps<"/portal/classes/
               <tr key={s.id} className="border-b border-zinc-100 last:border-0">
                 <td className="px-4 py-3">{s.rollNumber}</td>
                 <td className="px-4 py-3">
-                  <Link href={`/portal/students/${s.id}`} className="text-emerald-700 hover:underline">
+                  <Link href={`/portal/students/${s.id}`} className="text-maroon-700 hover:underline">
                     {s.user.name}
                   </Link>
                 </td>
