@@ -34,7 +34,7 @@ export function Modal({
     tone === "success" ? "bg-emerald-100 text-emerald-700" : tone === "error" ? "bg-red-100 text-red-700" : "bg-zinc-100 text-zinc-700";
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-zinc-900/50 p-4" onClick={onClose}>
+    <div className="modal-backdrop fixed inset-0 z-50 flex items-center justify-center bg-zinc-900/50 p-4" onClick={onClose}>
       <div
         ref={ref}
         tabIndex={-1}
@@ -42,7 +42,7 @@ export function Modal({
         aria-modal="true"
         aria-label={title}
         onClick={(e) => e.stopPropagation()}
-        className="w-full max-w-md rounded-xl bg-white p-6 shadow-xl outline-none"
+        className="modal-dialog w-full max-w-md rounded-xl bg-white p-6 shadow-xl outline-none"
       >
         <div className="flex items-start gap-4">
           <span aria-hidden className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-lg font-bold ${ring}`}>

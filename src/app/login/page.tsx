@@ -14,7 +14,7 @@ export default async function LoginPage() {
 
   return (
     <main className="flex flex-1 items-center justify-center bg-paper px-6 py-12">
-      <div className="w-full max-w-sm rounded-lg border border-zinc-200 border-t-4 border-t-brand-700 bg-white p-8 shadow-sm">
+      <div className="login-card w-full max-w-sm rounded-lg border border-zinc-200 border-t-4 border-t-brand-700 bg-white p-8 shadow-sm">
         <Link href="/" className="text-sm text-brand-700 hover:underline">
           ← {site.name}
         </Link>

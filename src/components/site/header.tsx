@@ -21,7 +21,7 @@ export function SiteHeader() {
             alt=""
             width={48}
             height={48}
-            className="h-11 w-11 transition-transform duration-500 ease-out group-hover:rotate-[12deg] group-hover:scale-105"
+            className="logo-mark h-11 w-11 transition-transform duration-500 ease-out group-hover:rotate-[12deg] group-hover:scale-105"
           />
           <span className="font-display text-lg font-semibold leading-tight tracking-tight">
             <span className="hidden sm:inline">{site.name}</span>

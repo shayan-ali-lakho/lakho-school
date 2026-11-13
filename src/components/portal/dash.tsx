@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { CountUp } from "@/components/portal/count-up";
 
 /* ---------- icons ---------- */
 
@@ -52,7 +53,7 @@ export function StatCard({ label, value, sub, icon, href }: {
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0">
           <p className="text-sm text-zinc-500">{label}</p>
-          <p className="mt-1.5 truncate text-2xl font-semibold tracking-tight text-zinc-900">{value}</p>
+          <p className="mt-1.5 truncate text-2xl font-semibold tracking-tight text-zinc-900"><CountUp value={value} /></p>
           {sub && <p className="mt-1 text-xs text-zinc-500">{sub}</p>}
         </div>
         <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-brand-100 text-brand-800">
@@ -137,7 +138,7 @@ export function Donut({ segments, centre, sub, empty = "No data yet" }: { segmen
             segments.filter((s) => s.value > 0).map((s) => {
               const len = (s.value / total) * c;
               const el = (
-                <circle key={s.label} cx="70" cy="70" r={r} fill="none" stroke={s.color} strokeWidth="16"
+                <circle key={s.label} className="donut-seg" cx="70" cy="70" r={r} fill="none" stroke={s.color} strokeWidth="16"
                   strokeDasharray={`${Math.max(len - 1.5, 0)} ${c - Math.max(len - 1.5, 0)}`} strokeDashoffset={-offset} />
               );
               offset += len;

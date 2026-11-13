@@ -327,3 +327,171 @@ details[open] .faq-icon {
     transform: scaleX(0);
   }
 }
+
+/* ------------------------------------------------------------------ */
+/* Motion layer: applies across the whole public site and the portal.  */
+/* All of it is off for people who ask for reduced motion.             */
+/* ------------------------------------------------------------------ */
+@keyframes drop-in {
+  from {
+    opacity: 0;
+    transform: translateY(-14px);
+  }
+}
+@keyframes scroll-progress {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+@keyframes header-shadow {
+  to {
+    box-shadow: 0 8px 24px -16px rgb(17 17 17 / 0.35);
+  }
+}
+@keyframes donut-draw {
+  from {
+    stroke-dasharray: 0 400;
+  }
+}
+@keyframes backdrop-in {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes dialog-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.96);
+  }
+}
+@keyframes sweep {
+  from {
+    background-position: 200% 0;
+  }
+}
+
+/* Inputs: smooth border and a soft orange glow on focus (all pages) */
+input,
+select,
+textarea {
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: #d9541e;
+  box-shadow: 0 0 0 3px rgb(217 84 30 / 0.16);
+}
+/* Table rows and links ease their colour changes */
+tbody tr {
+  transition: background-color 0.15s ease;
+}
+tbody tr:hover {
+  background-color: var(--color-brand-50);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Public header drops in, gains a shadow and shows reading progress as you scroll */
+  .site-header {
+    animation: drop-in 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  }
+  .site-header nav a:not([class*="rounded-full"]) {
+    transition: color 0.2s ease, transform 0.2s ease;
+  }
+  .site-header nav a:not([class*="rounded-full"]):hover {
+    transform: translateY(-1px);
+  }
+  .site-header .logo-mark {
+    transition: transform 0.5s ease-out;
+  }
+
+  /* Footer links nudge sideways */
+  footer a {
+    transition: transform 0.2s ease, color 0.2s ease;
+    display: inline-block;
+  }
+  footer a:hover {
+    transform: translateX(4px);
+  }
+
+  /* Buttons press in */
+  button:not(:disabled),
+  a[class*="rounded-full"] {
+    transition-property: color, background-color, border-color, transform, box-shadow, opacity;
+    transition-duration: 0.18s;
+  }
+  button:not(:disabled):active,
+  a[class*="rounded-full"]:active {
+    transform: scale(0.97);
+  }
+
+  /* Dialogs */
+  .modal-backdrop {
+    animation: backdrop-in 0.2s ease-out both;
+  }
+  .modal-dialog {
+    animation: dialog-in 0.3s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  }
+
+  /* Sign-in card */
+  .login-card {
+    animation: portal-in 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  }
+
+  /* Portal: every page's sections rise in one after another, table rows follow */
+  .portal-page > * > *:not(.stagger) {
+    animation: portal-in 0.5s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  }
+  .portal-page > * > *:nth-child(2) { animation-delay: 60ms; }
+  .portal-page > * > *:nth-child(3) { animation-delay: 120ms; }
+  .portal-page > * > *:nth-child(4) { animation-delay: 180ms; }
+  .portal-page > * > *:nth-child(5) { animation-delay: 240ms; }
+  .portal-page > * > *:nth-child(n + 6) { animation-delay: 300ms; }
+
+  .portal-page tbody tr {
+    animation: row-in 0.4s ease-out both;
+  }
+  .portal-page tbody tr:nth-child(2) { animation-delay: 40ms; }
+  .portal-page tbody tr:nth-child(3) { animation-delay: 80ms; }
+  .portal-page tbody tr:nth-child(4) { animation-delay: 120ms; }
+  .portal-page tbody tr:nth-child(5) { animation-delay: 160ms; }
+  .portal-page tbody tr:nth-child(6) { animation-delay: 200ms; }
+  .portal-page tbody tr:nth-child(7) { animation-delay: 240ms; }
+  .portal-page tbody tr:nth-child(8) { animation-delay: 280ms; }
+  .portal-page tbody tr:nth-child(n + 9) { animation-delay: 320ms; }
+
+  /* Donut segments draw themselves */
+  .donut-seg {
+    animation: donut-draw 1s cubic-bezier(0.2, 0.7, 0.2, 1) 0.2s both;
+  }
+
+  /* Scroll-driven extras (progress line, header shadow, automatic reveals on the public pages) */
+  @supports (animation-timeline: view()) {
+    .site-header::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -1px;
+      height: 2px;
+      width: 100%;
+      background: #d9541e;
+      transform-origin: left;
+      animation: scroll-progress linear both;
+      animation-timeline: scroll(root);
+    }
+    .site-header {
+      animation: drop-in 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) both, header-shadow linear both;
+      animation-timeline: auto, scroll(root);
+      animation-range: normal, 0 140px;
+    }
+
+    .page-in section:not(.notebook) :is(h2, article, details, dl > div, ul > li, figure, form):not(.reveal, .reveal-row, .rise, .faq-answer) {
+      animation: reveal-up linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 38%;
+    }
+  }
+}

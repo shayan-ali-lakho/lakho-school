@@ -38,7 +38,7 @@ export function Sidebar({
                   href={i.href}
                   onClick={() => setOpen(false)}
                   aria-current={isActive(i.href) ? "page" : undefined}
-                  className={`block rounded-md px-3 py-2 text-sm transition-colors ${
+                  className={`block rounded-md px-3 py-2 text-sm transition-all duration-200 hover:translate-x-0.5 ${
                     isActive(i.href)
                       ? "bg-brand-50 font-medium text-brand-800 shadow-[inset_3px_0_0_var(--saffron)]"
                       : "text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900"
