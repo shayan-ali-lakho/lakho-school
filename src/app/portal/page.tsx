@@ -137,14 +137,14 @@ export default async function PortalHome() {
   return (
     <div className="stagger space-y-8">
       {/* welcome banner */}
-      <section className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-brand-900 via-brand-800 to-brand-600 p-6 text-white shadow-md sm:p-8">
-        <div className="pointer-events-none absolute -right-10 -top-16 size-56 rounded-full bg-white/5" />
-        <div className="pointer-events-none absolute -bottom-20 right-24 size-44 rounded-full bg-[#d9541e]/20" />
-        <p className="relative text-sm text-brand-100">{dateLine}</p>
+      <section className="relative overflow-hidden rounded-2xl bg-[#111111] p-6 text-white shadow-md sm:p-8">
+        <div className="pointer-events-none absolute -right-10 -top-16 size-56 rounded-full bg-white/[0.04]" />
+        <div className="pointer-events-none absolute -bottom-20 right-24 size-44 rounded-full bg-[#d9541e]/25" />
+        <p className="relative text-sm text-white/70">{dateLine}</p>
         <h1 className="relative mt-1 text-2xl font-semibold tracking-tight !text-white sm:text-3xl">
           {greeting()}, {user.name}
         </h1>
-        <p className="relative mt-2 flex flex-wrap items-center gap-2 text-sm text-brand-100">
+        <p className="relative mt-2 flex flex-wrap items-center gap-2 text-sm text-white/70">
           <span className="rounded-full bg-white/15 px-3 py-0.5 text-white">{ROLE_LABELS[user.role]}</span>
           <span>Dr. G.M. Lakho Memorial Sec. School</span>
         </p>
