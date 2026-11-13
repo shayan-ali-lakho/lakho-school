@@ -44,29 +44,18 @@ export function iconForHref(href: string): IconName {
 
 /* ---------- stat card ---------- */
 
-const TONES = {
-  maroon: { chip: "bg-brand-100 text-brand-800", bar: "bg-brand-700" },
-  green: { chip: "bg-emerald-100 text-emerald-700", bar: "bg-emerald-600" },
-  amber: { chip: "bg-amber-100 text-amber-700", bar: "bg-amber-500" },
-  red: { chip: "bg-red-100 text-red-700", bar: "bg-red-600" },
-  blue: { chip: "bg-sky-100 text-sky-700", bar: "bg-sky-600" },
-} as const;
-export type Tone = keyof typeof TONES;
-
-export function StatCard({ label, value, sub, icon, tone = "maroon", href }: {
-  label: string; value: string; sub?: string; icon: IconName; tone?: Tone; href?: string;
+export function StatCard({ label, value, sub, icon, href }: {
+  label: string; value: string; sub?: string; icon: IconName; href?: string;
 }) {
-  const t = TONES[tone];
   const inner = (
     <>
-      <span className={`absolute inset-x-0 top-0 h-1 ${t.bar}`} />
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0">
           <p className="text-sm text-zinc-500">{label}</p>
           <p className="mt-1.5 truncate text-2xl font-semibold tracking-tight text-zinc-900">{value}</p>
           {sub && <p className="mt-1 text-xs text-zinc-500">{sub}</p>}
         </div>
-        <span className={`grid size-11 shrink-0 place-items-center rounded-xl ${t.chip}`}>
+        <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-brand-100 text-brand-800">
           <Icon name={icon} />
         </span>
       </div>

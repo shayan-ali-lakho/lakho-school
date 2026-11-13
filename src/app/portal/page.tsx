@@ -138,8 +138,6 @@ export default async function PortalHome() {
     <div className="stagger space-y-8">
       {/* welcome banner */}
       <section className="relative overflow-hidden rounded-2xl bg-[#111111] p-6 text-white shadow-md sm:p-8">
-        <div className="pointer-events-none absolute -right-10 -top-16 size-56 rounded-full bg-white/[0.04]" />
-        <div className="pointer-events-none absolute -bottom-20 right-24 size-44 rounded-full bg-[#d9541e]/25" />
         <p className="relative text-sm text-white/70">{dateLine}</p>
         <h1 className="relative mt-1 text-2xl font-semibold tracking-tight !text-white sm:text-3xl">
           {greeting()}, {user.name}
@@ -155,15 +153,15 @@ export default async function PortalHome() {
       <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         {people && (
           <>
-            <StatCard label="Students" value={String(people.students)} sub={`in ${people.classes} ${people.classes === 1 ? "class" : "classes"}`} icon="cap" tone="maroon" href="/portal/students" />
-            <StatCard label="Teachers" value={String(people.teachers)} sub="active staff" icon="users" tone="blue" href="/portal/teachers" />
+            <StatCard label="Students" value={String(people.students)} sub={`in ${people.classes} ${people.classes === 1 ? "class" : "classes"}`} icon="cap" href="/portal/students" />
+            <StatCard label="Teachers" value={String(people.teachers)} sub="active staff" icon="users" href="/portal/teachers" />
           </>
         )}
         {feeCards && (
           <>
-            <StatCard label={`Collected, ${monthLabel(month)}`} value={pkr(feeCards.collected)} sub={`of ${pkr(feeCards.billed)} billed`} icon="wallet" tone="green" href="/portal/fees" />
-            <StatCard label="Still due this month" value={pkr(feeCards.due)} sub={feeCards.due > 0 ? "Tap to see who owes" : "All clear"} icon="alert" tone={feeCards.due > 0 ? "red" : "green"} href="/portal/fees?status=Unpaid" />
-            <StatCard label="Expenses this month" value={pkr(feeCards.expenses)} sub="rent, bills, supplies" icon="trend" tone="amber" href="/portal/expenses" />
+            <StatCard label={`Collected, ${monthLabel(month)}`} value={pkr(feeCards.collected)} sub={`of ${pkr(feeCards.billed)} billed`} icon="wallet" href="/portal/fees" />
+            <StatCard label="Still due this month" value={pkr(feeCards.due)} sub={feeCards.due > 0 ? "Tap to see who owes" : "All clear"} icon="alert" href="/portal/fees?status=Unpaid" />
+            <StatCard label="Expenses this month" value={pkr(feeCards.expenses)} sub="rent, bills, supplies" icon="trend" href="/portal/expenses" />
           </>
         )}
         {people && (
@@ -172,15 +170,15 @@ export default async function PortalHome() {
               label="Present today"
               value={attendanceMarked ? `${attendancePresent} of ${attendanceMarked}` : "Not marked"}
               sub={attendanceMarked ? `${Math.round((attendancePresent / attendanceMarked) * 100)}% attendance` : "Attendance not taken yet"}
-              icon="check" tone="green" href="/portal/attendance"
+              icon="check" href="/portal/attendance"
             />
-            <StatCard label="New inquiries" value={String(people.inquiries)} sub="admissions and messages" icon="mail" tone={people.inquiries > 0 ? "red" : "maroon"} href="/portal/inquiries" />
+            <StatCard label="New inquiries" value={String(people.inquiries)} sub="admissions and messages" icon="mail" href="/portal/inquiries" />
           </>
         )}
         {mine && (
           <>
-            <StatCard label="Subjects I teach" value={String(mine.subjects)} icon="book" tone="maroon" href="/portal/courses" />
-            <StatCard label="Classes I lead" value={String(mine.led)} icon="building" tone="blue" href="/portal/attendance" />
+            <StatCard label="Subjects I teach" value={String(mine.subjects)} icon="book" href="/portal/courses" />
+            <StatCard label="Classes I lead" value={String(mine.led)} icon="building" href="/portal/attendance" />
           </>
         )}
       </section>
