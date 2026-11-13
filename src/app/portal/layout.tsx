@@ -1,6 +1,7 @@
 import { Suspense } from "react";
 import { redirect } from "next/navigation";
 import { Flash } from "@/components/flash";
+import { NavProgress } from "@/components/portal/nav-progress";
 import { signOut } from "@/auth";
 import { Sidebar } from "@/components/portal/sidebar";
 import { navFor } from "@/lib/portal-nav";
@@ -39,9 +40,10 @@ export default async function PortalLayout({ children }: LayoutProps<"/portal">)
           </div>
         }
       />
-      <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-8 sm:px-6 lg:px-10 [&_h1]:text-maroon-900">
+      <main className="mx-auto w-full max-w-5xl flex-1 px-4 py-8 sm:px-6 lg:px-10 [&_h1]:text-maroon-900">
         <Suspense fallback={null}>
           <Flash />
+          <NavProgress />
         </Suspense>
         {children}
       </main>

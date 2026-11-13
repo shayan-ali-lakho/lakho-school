@@ -247,3 +247,89 @@ details[open] .faq-icon {
     }
   }
 }
+
+/* ---------- Portal: page transitions, loading bar and navigation block ---------- */
+@keyframes portal-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+@keyframes nav-bar {
+  from {
+    width: 0;
+  }
+  to {
+    width: 88%;
+  }
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes pop-in {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+}
+
+.nav-bar {
+  height: 3px;
+  background: linear-gradient(90deg, var(--color-maroon-700), var(--saffron));
+  box-shadow: 0 0 8px var(--saffron);
+  transition: width 0.25s ease-out, opacity 0.35s ease 0.2s;
+}
+.nav-bar[data-state="loading"] {
+  width: 0;
+  animation: nav-bar 10s cubic-bezier(0.1, 0.6, 0.2, 1) forwards;
+}
+.nav-bar[data-state="done"] {
+  width: 100%;
+  opacity: 0;
+}
+.nav-block {
+  animation: fade-in 0.2s ease-out 0.15s both;
+}
+.nav-block > div {
+  animation: pop-in 0.25s ease-out 0.15s both;
+}
+.nav-spinner {
+  animation: spin 0.8s linear infinite;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .portal-page {
+    animation: portal-in 0.4s cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+  /* Children of a .stagger block rise in one after another */
+  .stagger > * {
+    animation: portal-in 0.55s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  }
+  .stagger > *:nth-child(2) { animation-delay: 70ms; }
+  .stagger > *:nth-child(3) { animation-delay: 140ms; }
+  .stagger > *:nth-child(4) { animation-delay: 210ms; }
+  .stagger > *:nth-child(5) { animation-delay: 280ms; }
+  .stagger > *:nth-child(6) { animation-delay: 350ms; }
+  .stagger > *:nth-child(n + 7) { animation-delay: 420ms; }
+  /* Charts grow from the baseline */
+  .bar-grow {
+    transform-origin: bottom;
+    animation: bar-grow 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) 0.25s both;
+  }
+  .hbar-grow {
+    transform-origin: left;
+    animation: hbar-grow 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) 0.25s both;
+  }
+}
+@keyframes bar-grow {
+  from {
+    transform: scaleY(0);
+  }
+}
+@keyframes hbar-grow {
+  from {
+    transform: scaleX(0);
+  }
+}

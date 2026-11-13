@@ -135,7 +135,7 @@ export default async function PortalHome() {
   const dateLine = new Intl.DateTimeFormat("en-GB", { weekday: "long", day: "numeric", month: "long", year: "numeric", timeZone: "Asia/Karachi" }).format(new Date());
 
   return (
-    <div className="space-y-8">
+    <div className="stagger space-y-8">
       {/* welcome banner */}
       <section className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-maroon-900 via-maroon-800 to-maroon-700 p-6 text-white shadow-md sm:p-8">
         <div className="pointer-events-none absolute -right-10 -top-16 size-56 rounded-full bg-white/5" />

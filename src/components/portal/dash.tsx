@@ -110,11 +110,11 @@ export function BarChart({ data, aLabel, bLabel }: {
           <div key={d.label} className="flex h-full flex-1 items-end justify-center gap-1">
             <div className="flex h-full w-full max-w-7 flex-col justify-end" title={`${aLabel}: PKR ${d.a.toLocaleString("en-PK")}`}>
               <span className="mb-0.5 text-center text-[10px] text-zinc-400">{d.a ? compact(d.a) : ""}</span>
-              <div className="rounded-t-md bg-maroon-200" style={{ height: `${(d.a / max) * 82}%` }} />
+              <div className="bar-grow rounded-t-md bg-maroon-200" style={{ height: `${(d.a / max) * 82}%` }} />
             </div>
             <div className="flex h-full w-full max-w-7 flex-col justify-end" title={`${bLabel}: PKR ${d.b.toLocaleString("en-PK")}`}>
               <span className="mb-0.5 text-center text-[10px] font-medium text-maroon-800">{d.b ? compact(d.b) : ""}</span>
-              <div className="rounded-t-md bg-maroon-700" style={{ height: `${(d.b / max) * 82}%` }} />
+              <div className="bar-grow rounded-t-md bg-maroon-700" style={{ height: `${(d.b / max) * 82}%` }} />
             </div>
           </div>
         ))}
@@ -182,7 +182,7 @@ export function HBars({ rows, empty = "Nothing to show yet." }: { rows: { label:
         <li key={r.label} className="grid grid-cols-[6.5rem_1fr_2rem] items-center gap-3 text-sm">
           <span className="truncate text-zinc-600">{r.label}</span>
           <span className="h-2.5 overflow-hidden rounded-full bg-maroon-50">
-            <span className="block h-full rounded-full bg-gradient-to-r from-maroon-700 to-[#e0873a]" style={{ width: `${(r.value / max) * 100}%` }} />
+            <span className="hbar-grow block h-full rounded-full bg-gradient-to-r from-maroon-700 to-[#e0873a]" style={{ width: `${(r.value / max) * 100}%` }} />
           </span>
           <span className="text-right font-medium text-zinc-900">{r.value}</span>
         </li>
@@ -200,7 +200,7 @@ export function WeekBars({ days }: { days: { label: string; pct: number | null }
           <div key={d.label} className="mx-auto flex h-full w-full max-w-12 flex-1 flex-col justify-end" title={d.pct === null ? "Not marked" : `${d.pct}% present`}>
             <span className="mb-0.5 text-center text-[10px] text-zinc-500">{d.pct === null ? "" : `${d.pct}%`}</span>
             <div
-              className={`rounded-t-md ${d.pct === null ? "bg-zinc-200" : "bg-emerald-500"}`}
+              className={`bar-grow rounded-t-md ${d.pct === null ? "bg-zinc-200" : "bg-emerald-500"}`}
               style={{ height: d.pct === null ? "4%" : `${Math.max(d.pct, 3) * 0.82}%` }}
             />
           </div>
