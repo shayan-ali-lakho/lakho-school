@@ -40,7 +40,7 @@ export default async function PortalLayout({ children }: LayoutProps<"/portal">)
           </div>
         }
       />
-      <main className="mx-auto w-full max-w-5xl flex-1 px-4 py-8 sm:px-6 lg:px-10 [&_h1]:text-maroon-900">
+      <main className="w-full min-w-0 max-w-none flex-1 px-4 py-6 sm:px-5 lg:px-6 [&_h1]:text-maroon-900">
         <Suspense fallback={null}>
           <Flash />
           <NavProgress />
