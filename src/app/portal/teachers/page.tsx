@@ -45,7 +45,7 @@ export default async function TeachersPage(props: PageProps<"/portal/teachers">)
         <div className="flex items-center gap-3">
           <Link
             href={showRemoved ? "/portal/teachers" : "/portal/teachers?removed=1"}
-            className="text-sm text-maroon-700 hover:underline"
+            className="text-sm text-brand-700 hover:underline"
           >
             {showRemoved ? "Show current teachers" : "Show removed"}
           </Link>
@@ -94,7 +94,7 @@ export default async function TeachersPage(props: PageProps<"/portal/teachers">)
                         <Link
                           key={c.id}
                           href={`/portal/classes/${c.id}`}
-                          className="mr-2 text-maroon-700 hover:underline"
+                          className="mr-2 text-brand-700 hover:underline"
                         >
                           {c.name} {c.section}
                         </Link>

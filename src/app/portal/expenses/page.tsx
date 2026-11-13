@@ -65,7 +65,7 @@ export default async function ExpensesPage(props: PageProps<"/portal/expenses">)
             <label htmlFor="amount" className="text-sm text-zinc-600">Amount (PKR)</label>
             <input id="amount" name="amount" type="number" min={1} required className={field} />
           </div>
-          <button type="submit" className="rounded-md bg-maroon-700 px-4 py-2 font-medium text-white hover:bg-maroon-800">
+          <button type="submit" className="rounded-md bg-brand-700 px-4 py-2 font-medium text-white hover:bg-brand-800">
             Add
           </button>
         </form>

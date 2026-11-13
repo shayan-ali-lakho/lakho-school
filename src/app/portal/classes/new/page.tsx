@@ -22,7 +22,7 @@ export default async function NewClassPage() {
   return (
     <div className="max-w-xl space-y-6">
       <div>
-        <Link href="/portal/classes" className="text-sm text-maroon-700 hover:underline">
+        <Link href="/portal/classes" className="text-sm text-brand-700 hover:underline">
           ← Classes
         </Link>
         <h1 className="mt-2 text-2xl font-semibold tracking-tight">New class</h1>

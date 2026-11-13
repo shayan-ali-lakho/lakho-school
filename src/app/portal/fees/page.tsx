@@ -204,7 +204,7 @@ export default async function ViewFeesPage(props: PageProps<"/portal/fees">) {
             {rows.map((r) => (
               <tr key={r.id} className="border-b border-zinc-100 align-middle last:border-0">
                 <td className="px-4 py-3">
-                  <Link href={`/portal/students/${r.student.id}`} className="text-maroon-700 hover:underline">
+                  <Link href={`/portal/students/${r.student.id}`} className="text-brand-700 hover:underline">
                     {r.student.user.name}
                   </Link>
                   <div className="text-xs text-zinc-500">Roll {r.student.rollNumber}</div>
@@ -218,7 +218,7 @@ export default async function ViewFeesPage(props: PageProps<"/portal/fees">) {
                   {r.payments.length > 0 && (
                     <div className="text-xs">
                       {r.payments.map((p) => (
-                        <Link key={p.id} href={`/portal/fees/receipt/${p.id}`} className="mr-1 text-maroon-700 hover:underline">
+                        <Link key={p.id} href={`/portal/fees/receipt/${p.id}`} className="mr-1 text-brand-700 hover:underline">
                           #{p.receiptNo}
                         </Link>
                       ))}

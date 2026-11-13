@@ -10,7 +10,7 @@ export type FeeStudent = { id: string; name: string; roll: string; classId: stri
 export type FeeClass = { id: string; label: string };
 
 const input =
-  "mt-1 w-full rounded-md border border-zinc-300 bg-white px-3 py-2 focus:border-maroon-600 focus:outline-none focus:ring-1 focus:ring-maroon-600";
+  "mt-1 w-full rounded-md border border-zinc-300 bg-white px-3 py-2 focus:border-brand-600 focus:outline-none focus:ring-1 focus:ring-brand-600";
 const label = "block text-sm font-medium text-zinc-700";
 
 function Fields({ students, classes, defaultMonth, pending }: { students: FeeStudent[]; classes: FeeClass[]; defaultMonth: string; pending: boolean }) {
@@ -39,7 +39,7 @@ function Fields({ students, classes, defaultMonth, pending }: { students: FeeStu
             <label
               key={t}
               className={`cursor-pointer rounded-md border px-4 py-2 text-sm ${
-                type === t ? "border-maroon-600 bg-maroon-50 font-medium text-maroon-800" : "border-zinc-300 bg-white hover:bg-zinc-50"
+                type === t ? "border-brand-600 bg-brand-50 font-medium text-brand-800" : "border-zinc-300 bg-white hover:bg-zinc-50"
               }`}
             >
               <input

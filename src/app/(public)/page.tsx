@@ -109,7 +109,7 @@ export default async function Home() {
         />
         <div className="grid wrap items-center gap-12 pb-24 pt-14 sm:pt-20 md:grid-cols-[1fr_20rem]">
           <div>
-            <p className="rise relative flex h-16 w-80 whitespace-nowrap -rotate-2 items-center justify-center font-hand text-3xl text-pen">
+            <p className="rise relative flex h-16 w-80 whitespace-nowrap -rotate-2 items-center justify-center font-hand text-2xl text-pen">
               <svg aria-hidden viewBox="0 0 320 64" fill="none" className="pen-circle absolute inset-0 h-full w-full">
                 <path
                   pathLength={1}
@@ -126,7 +126,19 @@ export default async function Home() {
               className="rise mt-8 max-w-3xl font-display text-4xl font-semibold leading-[1.08] tracking-tight sm:text-6xl"
               style={{ "--d": 150 } as React.CSSProperties}
             >
-              {site.tagline}
+              {site.tagline.split("known").length > 1 ? (
+                <>
+                  {site.tagline.split("known")[0]}
+                  <em className="relative font-italic font-normal italic text-pen">
+                    known by name.
+                    <svg aria-hidden viewBox="0 0 200 8" preserveAspectRatio="none" className="absolute -bottom-1 left-0 h-2 w-full text-pen">
+                      <path d="M2 5 C 50 1, 120 1, 198 4" stroke="currentColor" strokeWidth="2.5" fill="none" strokeLinecap="round" />
+                    </svg>
+                  </em>
+                </>
+              ) : (
+                site.tagline
+              )}
             </h1>
             <p
               className="rise mt-6 max-w-xl text-lg leading-relaxed text-ink-soft"
@@ -141,7 +153,7 @@ export default async function Home() {
             >
               <Link
                 href="/admissions"
-                className="rounded-sm bg-board px-6 py-3 text-lg font-medium text-paper transition-all duration-200 hover:-translate-y-0.5 hover:bg-[#7a1d33] hover:shadow-lg active:translate-y-0"
+                className="rounded-full bg-pen px-7 py-3 text-lg font-medium text-white transition-all duration-200 hover:-translate-y-0.5 hover:bg-board hover:shadow-lg active:translate-y-0"
               >
                 Apply for admission
               </Link>
@@ -160,7 +172,7 @@ export default async function Home() {
                 height={512}
                 priority
                 sizes="(min-width: 768px) 320px, 224px"
-                className="h-auto w-full drop-shadow-[0_18px_30px_rgba(23,32,51,0.18)]"
+                className="h-auto w-full drop-shadow-[0_18px_30px_rgba(17,17,17,0.18)]"
               />
             </div>
           </div>

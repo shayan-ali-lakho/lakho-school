@@ -37,7 +37,7 @@ export default async function EditStudentPage(props: PageProps<"/portal/students
   return (
     <div className="max-w-xl space-y-6">
       <div>
-        <Link href={`/portal/students/${id}`} className="text-sm text-maroon-700 hover:underline">
+        <Link href={`/portal/students/${id}`} className="text-sm text-brand-700 hover:underline">
           ← {student.user.name}
         </Link>
         <h1 className="mt-2 text-2xl font-semibold tracking-tight">Edit student</h1>

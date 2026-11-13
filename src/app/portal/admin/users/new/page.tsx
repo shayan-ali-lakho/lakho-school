@@ -21,14 +21,14 @@ export default async function NewUserPage() {
   return (
     <div className="max-w-xl space-y-6">
       <div>
-        <Link href="/portal/admin/users" className="text-sm text-maroon-700 hover:underline">
+        <Link href="/portal/admin/users" className="text-sm text-brand-700 hover:underline">
           ← Logins and roles
         </Link>
         <h1 className="mt-2 text-2xl font-semibold tracking-tight">New account</h1>
         <p className="mt-1 text-sm text-zinc-600">
           For administrators, principals, accountants, teachers and parents. To create a student account, admit the
           student from the{" "}
-          <Link href="/portal/students/new" className="text-maroon-700 hover:underline">
+          <Link href="/portal/students/new" className="text-brand-700 hover:underline">
             Students page
           </Link>
           .

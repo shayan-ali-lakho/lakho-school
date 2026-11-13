@@ -61,7 +61,7 @@ export default async function ClassFeesPage(props: PageProps<"/portal/fees/struc
                 </li>
               ))}
             </ul>
-            <button type="submit" className="rounded-md bg-maroon-700 px-5 py-2.5 font-medium text-white hover:bg-maroon-800">
+            <button type="submit" className="rounded-md bg-brand-700 px-5 py-2.5 font-medium text-white hover:bg-brand-800">
               Save fees
             </button>
           </form>
@@ -106,7 +106,7 @@ export default async function ClassFeesPage(props: PageProps<"/portal/fees/struc
                   </li>
                 ))}
               </ul>
-              <button type="submit" className="rounded-md bg-maroon-700 px-5 py-2.5 font-medium text-white hover:bg-maroon-800">
+              <button type="submit" className="rounded-md bg-brand-700 px-5 py-2.5 font-medium text-white hover:bg-brand-800">
                 Save student fees
               </button>
             </form>

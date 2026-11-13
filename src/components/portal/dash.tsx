@@ -45,7 +45,7 @@ export function iconForHref(href: string): IconName {
 /* ---------- stat card ---------- */
 
 const TONES = {
-  maroon: { chip: "bg-maroon-100 text-maroon-800", bar: "bg-maroon-700" },
+  maroon: { chip: "bg-brand-100 text-brand-800", bar: "bg-brand-700" },
   green: { chip: "bg-emerald-100 text-emerald-700", bar: "bg-emerald-600" },
   amber: { chip: "bg-amber-100 text-amber-700", bar: "bg-amber-500" },
   red: { chip: "bg-red-100 text-red-700", bar: "bg-red-600" },
@@ -74,7 +74,7 @@ export function StatCard({ label, value, sub, icon, tone = "maroon", href }: {
   );
   const cls = "relative block overflow-hidden rounded-xl border border-zinc-200 bg-white p-5 shadow-sm";
   return href ? (
-    <Link href={href} className={`${cls} transition hover:-translate-y-0.5 hover:border-maroon-300 hover:shadow-md`}>{inner}</Link>
+    <Link href={href} className={`${cls} transition hover:-translate-y-0.5 hover:border-brand-300 hover:shadow-md`}>{inner}</Link>
   ) : (
     <div className={cls}>{inner}</div>
   );
@@ -110,11 +110,11 @@ export function BarChart({ data, aLabel, bLabel }: {
           <div key={d.label} className="flex h-full flex-1 items-end justify-center gap-1">
             <div className="flex h-full w-full max-w-7 flex-col justify-end" title={`${aLabel}: PKR ${d.a.toLocaleString("en-PK")}`}>
               <span className="mb-0.5 text-center text-[10px] text-zinc-400">{d.a ? compact(d.a) : ""}</span>
-              <div className="bar-grow rounded-t-md bg-maroon-200" style={{ height: `${(d.a / max) * 82}%` }} />
+              <div className="bar-grow rounded-t-md bg-brand-200" style={{ height: `${(d.a / max) * 82}%` }} />
             </div>
             <div className="flex h-full w-full max-w-7 flex-col justify-end" title={`${bLabel}: PKR ${d.b.toLocaleString("en-PK")}`}>
-              <span className="mb-0.5 text-center text-[10px] font-medium text-maroon-800">{d.b ? compact(d.b) : ""}</span>
-              <div className="bar-grow rounded-t-md bg-maroon-700" style={{ height: `${(d.b / max) * 82}%` }} />
+              <span className="mb-0.5 text-center text-[10px] font-medium text-brand-800">{d.b ? compact(d.b) : ""}</span>
+              <div className="bar-grow rounded-t-md bg-brand-700" style={{ height: `${(d.b / max) * 82}%` }} />
             </div>
           </div>
         ))}
@@ -125,8 +125,8 @@ export function BarChart({ data, aLabel, bLabel }: {
         ))}
       </div>
       <div className="mt-4 flex gap-5 text-xs text-zinc-600">
-        <span className="flex items-center gap-1.5"><i className="size-2.5 rounded-sm bg-maroon-200" />{aLabel}</span>
-        <span className="flex items-center gap-1.5"><i className="size-2.5 rounded-sm bg-maroon-700" />{bLabel}</span>
+        <span className="flex items-center gap-1.5"><i className="size-2.5 rounded-sm bg-brand-200" />{aLabel}</span>
+        <span className="flex items-center gap-1.5"><i className="size-2.5 rounded-sm bg-brand-700" />{bLabel}</span>
       </div>
     </div>
   );
@@ -143,7 +143,7 @@ export function Donut({ segments, centre, sub, empty = "No data yet" }: { segmen
     <div className="flex flex-wrap items-center justify-center gap-6">
       <div className="relative size-36 shrink-0">
         <svg viewBox="0 0 140 140" className="size-full -rotate-90" role="img" aria-label={segments.map((s) => `${s.label} ${s.value}`).join(", ")}>
-          <circle cx="70" cy="70" r={r} fill="none" stroke="#f1ebe9" strokeWidth="16" />
+          <circle cx="70" cy="70" r={r} fill="none" stroke="#e9e2d3" strokeWidth="16" />
           {total > 0 &&
             segments.filter((s) => s.value > 0).map((s) => {
               const len = (s.value / total) * c;
@@ -181,8 +181,8 @@ export function HBars({ rows, empty = "Nothing to show yet." }: { rows: { label:
       {rows.map((r) => (
         <li key={r.label} className="grid grid-cols-[6.5rem_1fr_2rem] items-center gap-3 text-sm">
           <span className="truncate text-zinc-600">{r.label}</span>
-          <span className="h-2.5 overflow-hidden rounded-full bg-maroon-50">
-            <span className="hbar-grow block h-full rounded-full bg-gradient-to-r from-maroon-700 to-[#e0873a]" style={{ width: `${(r.value / max) * 100}%` }} />
+          <span className="h-2.5 overflow-hidden rounded-full bg-brand-50">
+            <span className="hbar-grow block h-full rounded-full bg-gradient-to-r from-brand-700 to-[#d9541e]" style={{ width: `${(r.value / max) * 100}%` }} />
           </span>
           <span className="text-right font-medium text-zinc-900">{r.value}</span>
         </li>

@@ -130,7 +130,7 @@ export default async function TimetablePage(props: PageProps<"/portal/timetable"
                 <label htmlFor="endTime" className="block text-sm text-zinc-600">Ends</label>
                 <input id="endTime" name="endTime" type="time" required className={`mt-1 ${sel}`} />
               </div>
-              <button type="submit" className="rounded-md bg-maroon-700 px-4 py-2 text-sm font-medium text-white hover:bg-maroon-800">
+              <button type="submit" className="rounded-md bg-brand-700 px-4 py-2 text-sm font-medium text-white hover:bg-brand-800">
                 Add lesson
               </button>
               {courses.length === 0 && (

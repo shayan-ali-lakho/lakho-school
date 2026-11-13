@@ -30,7 +30,7 @@ export function Sidebar({
     <nav aria-label="Portal" className="flex-1 space-y-6 overflow-y-auto px-3 py-5">
       {groups.map((g) => (
         <div key={g.label}>
-          <p className="px-3 text-xs font-semibold uppercase tracking-wider text-maroon-500">{g.label}</p>
+          <p className="px-3 text-xs font-semibold uppercase tracking-wider text-brand-700">{g.label}</p>
           <ul className="mt-2 space-y-0.5">
             {g.items.map((i) => (
               <li key={i.href}>
@@ -40,7 +40,7 @@ export function Sidebar({
                   aria-current={isActive(i.href) ? "page" : undefined}
                   className={`block rounded-md px-3 py-2 text-sm transition-colors ${
                     isActive(i.href)
-                      ? "bg-maroon-50 font-medium text-maroon-800 shadow-[inset_3px_0_0_var(--saffron)]"
+                      ? "bg-brand-50 font-medium text-brand-800 shadow-[inset_3px_0_0_var(--saffron)]"
                       : "text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900"
                   }`}
                 >
@@ -57,7 +57,7 @@ export function Sidebar({
   return (
     <>
       {/* Small screens: top bar with menu button */}
-      <div className="sticky top-0 z-30 flex items-center justify-between bg-maroon-800 px-4 py-3 text-white lg:hidden">
+      <div className="sticky top-0 z-30 flex items-center justify-between bg-ink px-4 py-3 text-white lg:hidden">
         <Link href="/portal" className="font-semibold tracking-tight">
           {title}
         </Link>
@@ -82,7 +82,7 @@ export function Sidebar({
           open ? "translate-x-0" : "-translate-x-full"
         }`}
       >
-        <div className="flex items-center justify-between border-b-4 border-saffron bg-maroon-800 px-5 py-4 text-white">
+        <div className="flex items-center justify-between border-b-4 border-saffron bg-ink px-5 py-4 text-white">
           <Link href="/portal" className="font-semibold leading-tight tracking-tight">
             {title}
           </Link>

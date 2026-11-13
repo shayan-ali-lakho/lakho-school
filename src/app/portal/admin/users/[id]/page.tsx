@@ -22,7 +22,7 @@ export default async function EditUserPage(props: PageProps<"/portal/admin/users
   return (
     <div className="max-w-xl space-y-6">
       <div>
-        <Link href="/portal/admin/users" className="text-sm text-maroon-700 hover:underline">
+        <Link href="/portal/admin/users" className="text-sm text-brand-700 hover:underline">
           ← Logins and roles
         </Link>
         <h1 className="mt-2 text-2xl font-semibold tracking-tight">Edit account</h1>

@@ -40,7 +40,7 @@ export default async function ResultsPage(props: PageProps<"/portal/exams/[id]/r
   return (
     <div className="space-y-6">
       <div className="print:hidden">
-        <Link href={`/portal/exams/${id}`} className="text-sm text-maroon-700 hover:underline">← {exam.name}</Link>
+        <Link href={`/portal/exams/${id}`} className="text-sm text-brand-700 hover:underline">← {exam.name}</Link>
       </div>
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div>
@@ -84,7 +84,7 @@ export default async function ResultsPage(props: PageProps<"/portal/exams/[id]/r
                 <td className="px-3 py-2">{r.position ?? "-"}</td>
                 <td className={`px-3 py-2 ${r.possible ? (r.passed ? "text-emerald-700" : "text-red-700") : ""}`}>{r.possible ? (r.passed ? "Pass" : "Fail") : "-"}</td>
                 <td className="px-3 py-2 text-right print:hidden">
-                  <Link href={`/portal/exams/${id}/report/${r.studentId}`} className="text-maroon-700 hover:underline">Report card</Link>
+                  <Link href={`/portal/exams/${id}/report/${r.studentId}`} className="text-brand-700 hover:underline">Report card</Link>
                 </td>
               </tr>
             ))}

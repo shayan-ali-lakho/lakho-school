@@ -34,8 +34,8 @@ export default async function MyPage() {
             <p className="text-lg font-medium">{k.user.name}</p>
             <p className="text-sm text-zinc-500">{k.class ? `${k.class.name} ${k.class.section}` : "No class"} · Roll {k.rollNumber}</p>
             <div className="mt-3 flex gap-4 text-sm">
-              <Link href={`/portal/students/${k.id}`} className="text-maroon-700 hover:underline">Profile, fees, attendance</Link>
-              <Link href="/portal/results" className="text-maroon-700 hover:underline">Results</Link>
+              <Link href={`/portal/students/${k.id}`} className="text-brand-700 hover:underline">Profile, fees, attendance</Link>
+              <Link href="/portal/results" className="text-brand-700 hover:underline">Results</Link>
             </div>
           </li>
         ))}

@@ -137,18 +137,18 @@ export default async function PortalHome() {
   return (
     <div className="stagger space-y-8">
       {/* welcome banner */}
-      <section className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-maroon-900 via-maroon-800 to-maroon-700 p-6 text-white shadow-md sm:p-8">
+      <section className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-brand-900 via-brand-800 to-brand-600 p-6 text-white shadow-md sm:p-8">
         <div className="pointer-events-none absolute -right-10 -top-16 size-56 rounded-full bg-white/5" />
-        <div className="pointer-events-none absolute -bottom-20 right-24 size-44 rounded-full bg-[#e0873a]/20" />
-        <p className="relative text-sm text-maroon-100">{dateLine}</p>
+        <div className="pointer-events-none absolute -bottom-20 right-24 size-44 rounded-full bg-[#d9541e]/20" />
+        <p className="relative text-sm text-brand-100">{dateLine}</p>
         <h1 className="relative mt-1 text-2xl font-semibold tracking-tight !text-white sm:text-3xl">
           {greeting()}, {user.name}
         </h1>
-        <p className="relative mt-2 flex flex-wrap items-center gap-2 text-sm text-maroon-100">
+        <p className="relative mt-2 flex flex-wrap items-center gap-2 text-sm text-brand-100">
           <span className="rounded-full bg-white/15 px-3 py-0.5 text-white">{ROLE_LABELS[user.role]}</span>
           <span>Dr. G.M. Lakho Memorial Sec. School</span>
         </p>
-        <span className="absolute inset-x-0 bottom-0 h-1 bg-[#e0873a]" />
+        <span className="absolute inset-x-0 bottom-0 h-1 bg-[#d9541e]" />
       </section>
 
       {/* count cards */}
@@ -222,8 +222,8 @@ export default async function PortalHome() {
         <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           {links.map((l) => (
             <li key={l.href}>
-              <Link href={l.href} className="group flex items-center gap-3 rounded-xl border border-zinc-200 bg-white px-4 py-3 text-sm font-medium text-zinc-800 shadow-sm transition hover:-translate-y-0.5 hover:border-maroon-300 hover:text-maroon-800 hover:shadow-md">
-                <span className="grid size-9 shrink-0 place-items-center rounded-lg bg-maroon-50 text-maroon-700 transition group-hover:bg-maroon-700 group-hover:text-white">
+              <Link href={l.href} className="group flex items-center gap-3 rounded-xl border border-zinc-200 bg-white px-4 py-3 text-sm font-medium text-zinc-800 shadow-sm transition hover:-translate-y-0.5 hover:border-brand-300 hover:text-brand-800 hover:shadow-md">
+                <span className="grid size-9 shrink-0 place-items-center rounded-lg bg-brand-50 text-brand-700 transition group-hover:bg-brand-700 group-hover:text-white">
                   <Icon name={iconForHref(l.href)} className="size-[18px]" />
                 </span>
                 {l.label}
@@ -241,8 +241,8 @@ export default async function PortalHome() {
         ) : (
           <ul className="space-y-3">
             {announcements.map((a) => (
-              <li key={a.id} className="flex gap-4 rounded-xl border border-zinc-200 border-l-4 border-l-maroon-700 bg-white p-4 shadow-sm">
-                <span className="mt-0.5 hidden size-9 shrink-0 place-items-center rounded-full bg-maroon-50 text-maroon-700 sm:grid">
+              <li key={a.id} className="flex gap-4 rounded-xl border border-zinc-200 border-l-4 border-l-brand-700 bg-white p-4 shadow-sm">
+                <span className="mt-0.5 hidden size-9 shrink-0 place-items-center rounded-full bg-brand-50 text-brand-700 sm:grid">
                   <Icon name="bell" className="size-[18px]" />
                 </span>
                 <div className="min-w-0">

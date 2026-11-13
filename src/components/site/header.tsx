@@ -36,7 +36,7 @@ export function SiteHeader() {
           ))}
           <Link
             href="/login"
-            className="rounded-sm bg-board px-4 py-2 font-medium text-chalk transition-all duration-200 hover:-translate-y-0.5 hover:bg-[#7a1d33] hover:shadow-md active:translate-y-0"
+            className="rounded-full bg-board px-5 py-2 font-medium text-chalk transition-all duration-200 hover:-translate-y-0.5 hover:bg-pen hover:shadow-md active:translate-y-0"
           >
             Portal login
           </Link>

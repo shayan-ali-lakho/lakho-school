@@ -61,8 +61,8 @@ export function NavProgress() {
       </div>
       {loading && (
         <div className="nav-block fixed inset-0 z-[70] grid cursor-wait place-items-center bg-white/55 backdrop-blur-[2px]" role="status" aria-live="polite">
-          <div className="flex items-center gap-3 rounded-xl border border-maroon-100 bg-white px-5 py-3 text-sm font-medium text-maroon-800 shadow-lg">
-            <span className="nav-spinner size-5 rounded-full border-[3px] border-maroon-100 border-t-maroon-700" />
+          <div className="flex items-center gap-3 rounded-xl border border-brand-100 bg-white px-5 py-3 text-sm font-medium text-brand-800 shadow-lg">
+            <span className="nav-spinner size-5 rounded-full border-[3px] border-brand-100 border-t-brand-700" />
             Loading…
           </div>
         </div>

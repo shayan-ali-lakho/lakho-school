@@ -63,7 +63,7 @@ export default async function SalariesPage(props: PageProps<"/portal/salaries">)
 
       <form action={generateSalaries}>
         <input type="hidden" name="month" value={month} />
-        <button type="submit" className="rounded-md bg-maroon-700 px-4 py-2 text-sm font-medium text-white hover:bg-maroon-800">
+        <button type="submit" className="rounded-md bg-brand-700 px-4 py-2 text-sm font-medium text-white hover:bg-brand-800">
           Create {monthLabel(month)} salary lines
         </button>
         <span className="ml-3 text-sm text-zinc-500">Adds any teacher who does not have a line yet.</span>
@@ -116,7 +116,7 @@ export default async function SalariesPage(props: PageProps<"/portal/salaries">)
                       <input type="hidden" name="id" value={r.id} />
                       <input type="hidden" name="month" value={month} />
                       {!locked && (
-                        <button type="submit" className="text-maroon-700 hover:underline">
+                        <button type="submit" className="text-brand-700 hover:underline">
                           Save
                         </button>
                       )}
@@ -125,7 +125,7 @@ export default async function SalariesPage(props: PageProps<"/portal/salaries">)
                       <input type="hidden" name="id" value={r.id} />
                       <input type="hidden" name="month" value={month} />
                       <input type="hidden" name="paid" value={String(!locked)} />
-                      <button type="submit" className={locked ? "text-zinc-600 hover:underline" : "text-maroon-700 hover:underline"}>
+                      <button type="submit" className={locked ? "text-zinc-600 hover:underline" : "text-brand-700 hover:underline"}>
                         {locked ? `Paid ${dateOnly(r.paidOn!)} · mark unpaid` : "Mark paid"}
                       </button>
                     </form>

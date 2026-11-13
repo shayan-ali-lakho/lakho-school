@@ -19,7 +19,7 @@ export function LoginForm() {
           required
           autoCapitalize="none"
           autoComplete="username"
-          className="mt-1 w-full rounded-md border border-zinc-300 px-3 py-2 text-zinc-900 focus:border-maroon-600 focus:outline-none focus:ring-1 focus:ring-maroon-600"
+          className="mt-1 w-full rounded-md border border-zinc-300 px-3 py-2 text-zinc-900 focus:border-brand-600 focus:outline-none focus:ring-1 focus:ring-brand-600"
         />
       </div>
       <div>
@@ -32,7 +32,7 @@ export function LoginForm() {
           type="password"
           required
           autoComplete="current-password"
-          className="mt-1 w-full rounded-md border border-zinc-300 px-3 py-2 text-zinc-900 focus:border-maroon-600 focus:outline-none focus:ring-1 focus:ring-maroon-600"
+          className="mt-1 w-full rounded-md border border-zinc-300 px-3 py-2 text-zinc-900 focus:border-brand-600 focus:outline-none focus:ring-1 focus:ring-brand-600"
         />
       </div>
       {error && (
@@ -43,7 +43,7 @@ export function LoginForm() {
       <button
         type="submit"
         disabled={pending}
-        className="w-full rounded-md bg-maroon-700 px-4 py-2.5 font-medium text-white hover:bg-maroon-800 disabled:opacity-60"
+        className="w-full rounded-md bg-brand-700 px-4 py-2.5 font-medium text-white hover:bg-brand-800 disabled:opacity-60"
       >
         {pending ? "Signing in..." : "Sign in"}
       </button>

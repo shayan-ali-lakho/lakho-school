@@ -57,7 +57,7 @@ export default async function ReportCardPage(props: PageProps<"/portal/exams/[id
   return (
     <div className="mx-auto max-w-2xl space-y-4">
       <div className="flex items-center justify-between print:hidden">
-        <Link href={backHref} className="text-sm text-maroon-700 hover:underline">← Back</Link>
+        <Link href={backHref} className="text-sm text-brand-700 hover:underline">← Back</Link>
         <PrintButton />
       </div>
 

@@ -1,18 +1,18 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Palette: cream background, near-black ink, burnt orange accent */
+  --background: #f3eee3;
+  --foreground: #111111;
 
-  /* Public site: an exercise notebook and a teacher's red pen, in the logo's black and orange */
-  --paper: #f6f8fc;
-  --paper-rule: #d3e1f2;
-  --ink: #172033;
-  --ink-soft: #4f5a6e;
-  --pen-red: #8c1d35;
-  --board: #5a1426;
-  --chalk: #f8efe9;
-  --saffron: #e0873a;
+  --paper: #f3eee3;
+  --paper-rule: #e2dbc9;
+  --ink: #111111;
+  --ink-soft: #55504a;
+  --pen-red: #d9541e;
+  --board: #111111;
+  --chalk: #f3eee3;
+  --saffron: #d9541e;
 
   /* Side gutter of the public site: 30% of the old centred 64rem column's margin, never under 1rem */
   --wrap-pad: max(1rem, calc(0.3 * max(1.5rem, (100% - 64rem) / 2 + 1.5rem)));
@@ -21,8 +21,8 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-poppins), system-ui, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
 
   --color-paper: var(--paper);
   --color-paper-rule: var(--paper-rule);
@@ -33,28 +33,22 @@
   --color-chalk: var(--chalk);
   --color-saffron: var(--saffron);
 
-  /* Maroon: the school's main colour, used across the portal */
-  --color-maroon-50: #fbf1f3;
-  --color-maroon-100: #f6dde2;
-  --color-maroon-200: #eab8c2;
-  --color-maroon-300: #d98a9a;
-  --color-maroon-400: #c25570;
-  --color-maroon-500: #a63352;
-  --color-maroon-600: #8c1d35;
-  --color-maroon-700: #751729;
-  --color-maroon-800: #5a1426;
-  --color-maroon-900: #3f0e1b;
+  /* Brand: burnt orange #D9541E and its tints, used across the site and portal */
+  --color-brand-50: #fdf4ee;
+  --color-brand-100: #fbe4d7;
+  --color-brand-200: #f6c8af;
+  --color-brand-300: #eea07a;
+  --color-brand-400: #e57a47;
+  --color-brand-500: #d9541e;
+  --color-brand-600: #d9541e;
+  --color-brand-700: #c04a18;
+  --color-brand-800: #9c3a12;
+  --color-brand-900: #1a1511;
 
-  --font-display: var(--font-source-serif), Georgia, serif;
-  --font-body: var(--font-atkinson), system-ui, sans-serif;
-  --font-hand: var(--font-caveat), "Segoe Print", cursive;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --font-display: var(--font-poppins), system-ui, sans-serif;
+  --font-body: var(--font-poppins), system-ui, sans-serif;
+  --font-hand: var(--font-instrument), Georgia, serif;
+  --font-italic: var(--font-instrument), Georgia, serif;
 }
 
 html {
@@ -70,7 +64,7 @@ html {
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-poppins), system-ui, sans-serif;
 }
 
 /* Page width for the public site */
@@ -93,7 +87,7 @@ button:focus-visible,
 select:focus-visible,
 input:focus-visible,
 summary:focus-visible {
-  outline: 2px solid #8c1d35;
+  outline: 2px solid #d9541e;
   outline-offset: 3px;
 }
 
@@ -129,7 +123,7 @@ summary:focus-visible {
 }
 .lift:hover {
   transform: translateY(-4px);
-  box-shadow: 0 12px 28px -14px rgb(23 32 51 / 0.35);
+  box-shadow: 0 12px 28px -14px rgb(17 17 17 / 0.28);
 }
 
 /* FAQ: answer fades in when a question is opened */
@@ -277,7 +271,7 @@ details[open] .faq-icon {
 
 .nav-bar {
   height: 3px;
-  background: linear-gradient(90deg, var(--color-maroon-700), var(--saffron));
+  background: linear-gradient(90deg, var(--color-brand-700), var(--saffron));
   box-shadow: 0 0 8px var(--saffron);
   transition: width 0.25s ease-out, opacity 0.35s ease 0.2s;
 }

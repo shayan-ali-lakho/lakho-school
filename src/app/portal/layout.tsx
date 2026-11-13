@@ -13,7 +13,7 @@ export default async function PortalLayout({ children }: LayoutProps<"/portal">)
   const user = await requireUser();
 
   return (
-    <div className="flex flex-1 flex-col bg-[#faf6f5] text-zinc-900 lg:flex-row">
+    <div className="flex flex-1 flex-col bg-paper text-zinc-900 lg:flex-row">
       <Sidebar
         groups={navFor(user.role)}
         title={`${site.shortName} Portal`}
@@ -40,7 +40,7 @@ export default async function PortalLayout({ children }: LayoutProps<"/portal">)
           </div>
         }
       />
-      <main className="w-full min-w-0 max-w-none flex-1 px-4 py-6 sm:px-5 lg:px-6 [&_h1]:text-maroon-900">
+      <main className="w-full min-w-0 max-w-none flex-1 px-4 py-6 sm:px-5 lg:px-6 [&_h1]:text-brand-900">
         <Suspense fallback={null}>
           <Flash />
           <NavProgress />

@@ -66,7 +66,7 @@ export default async function StudentProfilePage(props: PageProps<"/portal/stude
     <div className="max-w-2xl space-y-6">
       <div>
         {isStaff && (
-          <Link href="/portal/students" className="text-sm text-maroon-700 hover:underline">
+          <Link href="/portal/students" className="text-sm text-brand-700 hover:underline">
             ← Students
           </Link>
         )}
@@ -169,7 +169,7 @@ export default async function StudentProfilePage(props: PageProps<"/portal/stude
                     <td className={`py-1.5 pl-4 ${status === "Paid" ? "text-emerald-700" : status === "Partly paid" ? "text-amber-700" : "text-red-700"}`}>{status}</td>
                     <td className="py-1.5">
                       {inv.payments.map((p) => (
-                        <Link key={p.id} href={`/portal/fees/receipt/${p.id}`} className="mr-2 text-maroon-700 hover:underline">
+                        <Link key={p.id} href={`/portal/fees/receipt/${p.id}`} className="mr-2 text-brand-700 hover:underline">
                           #{p.receiptNo}
                         </Link>
                       ))}

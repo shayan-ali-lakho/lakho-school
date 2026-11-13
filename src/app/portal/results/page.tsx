@@ -47,7 +47,7 @@ export default async function MyResultsPage() {
                     {e.name}
                     <span className="ml-2 text-zinc-500">{e.kind}{e.examDate ? ` · ${dateOnly(e.examDate)}` : ""}</span>
                   </span>
-                  <Link href={`/portal/exams/${e.id}/report/${s.id}`} className="text-maroon-700 hover:underline">Report card</Link>
+                  <Link href={`/portal/exams/${e.id}/report/${s.id}`} className="text-brand-700 hover:underline">Report card</Link>
                 </li>
               ))}
             </ul>

@@ -27,7 +27,7 @@ export default async function AdmitStudentPage() {
   return (
     <div className="max-w-2xl space-y-6">
       <div>
-        <Link href="/portal/students" className="text-sm text-maroon-700 hover:underline">
+        <Link href="/portal/students" className="text-sm text-brand-700 hover:underline">
           ← Students
         </Link>
         <h1 className="mt-2 text-2xl font-semibold tracking-tight">Admit student</h1>

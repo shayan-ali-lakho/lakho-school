@@ -32,7 +32,7 @@ export default async function ClassesPage() {
         {canManage && (
           <Link
             href="/portal/classes/new"
-            className="rounded-md bg-maroon-700 px-4 py-2 text-sm font-medium text-white hover:bg-maroon-800"
+            className="rounded-md bg-brand-700 px-4 py-2 text-sm font-medium text-white hover:bg-brand-800"
           >
             New class
           </Link>
@@ -60,7 +60,7 @@ export default async function ClassesPage() {
             {classes.map((c) => (
               <tr key={c.id} className="border-b border-zinc-100 last:border-0">
                 <td className="px-4 py-3">
-                  <Link href={`/portal/classes/${c.id}`} className="text-maroon-700 hover:underline">
+                  <Link href={`/portal/classes/${c.id}`} className="text-brand-700 hover:underline">
                     {c.name}
                   </Link>
                 </td>

@@ -72,7 +72,7 @@ export default async function InquiriesPage() {
                         <option value="ACCEPTED">Accepted</option>
                         <option value="DECLINED">Declined</option>
                       </select>
-                      <button type="submit" className="text-maroon-700 hover:underline">Save</button>
+                      <button type="submit" className="text-brand-700 hover:underline">Save</button>
                     </form>
                   </td>
                 </tr>
@@ -97,7 +97,7 @@ export default async function InquiriesPage() {
               <form action={setMessageHandled} className="mt-3">
                 <input type="hidden" name="id" value={m.id} />
                 <input type="hidden" name="handled" value={String(!m.handled)} />
-                <button type="submit" className="text-sm text-maroon-700 hover:underline">
+                <button type="submit" className="text-sm text-brand-700 hover:underline">
                   {m.handled ? "Handled. Mark as not handled" : "Mark as handled"}
                 </button>
               </form>
