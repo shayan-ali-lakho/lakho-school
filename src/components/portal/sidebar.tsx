@@ -3,7 +3,12 @@
 import Link from "next/link";
 import { Icon, iconForHref } from "@/components/portal/dash";
 import { usePathname } from "next/navigation";
-import { useState, type ReactNode } from "react";
+import { useState, useSyncExternalStore, type ReactNode } from "react";
+
+const preferenceKey = "lakho-sidebar-collapsed";
+const subscribe = (notify: () => void) => { window.addEventListener("storage", notify); window.addEventListener("lakho-sidebar", notify); return () => { window.removeEventListener("storage", notify); window.removeEventListener("lakho-sidebar", notify); }; };
+const snapshot = () => { try { return localStorage.getItem(preferenceKey) === "true"; } catch { return false; } };
+const serverSnapshot = () => false;
 
 type Group = { label: string; items: { href: string; label: string }[] };
 
@@ -19,6 +24,10 @@ export function Sidebar({
 }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const stored = useSyncExternalStore(subscribe, snapshot, serverSnapshot);
+  const [fallback, setFallback] = useState<boolean | null>(null);
+  const collapsed = fallback ?? stored;
+  function toggle() { try { localStorage.setItem(preferenceKey, String(!collapsed)); window.dispatchEvent(new Event("lakho-sidebar")); } catch { setFallback(!collapsed); } }
 
   // The most specific matching link is the active one (so /portal/fees/structure does not also light up /portal/fees).
   const activeHref = groups
@@ -28,25 +37,27 @@ export function Sidebar({
   const isActive = (href: string) => href === activeHref;
 
   const nav = (
-    <nav aria-label="Portal" className="flex-1 space-y-5 overflow-y-auto px-4 py-5">
+    <nav aria-label="Portal" className={`flex-1 space-y-5 overflow-y-auto px-4 py-5 ${collapsed ? "lg:px-2" : ""}`}>
       {groups.map((g) => (
         <div key={g.label}>
-          <p className="px-3 text-[10px] font-semibold uppercase tracking-widest text-slate-500">{g.label}</p>
+          <p className={`px-3 text-[10px] font-semibold uppercase tracking-widest text-slate-500 ${collapsed ? "lg:sr-only" : ""}`}>{g.label}</p>
           <ul className="mt-2 space-y-0.5">
             {g.items.map((i) => (
               <li key={i.href}>
                 <Link
                   href={i.href}
                   onClick={() => setOpen(false)}
+                  title={i.label}
+                  aria-label={i.label}
                   aria-current={isActive(i.href) ? "page" : undefined}
-                  className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm transition-colors ${
+                  className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm transition-colors ${collapsed ? "lg:justify-center lg:px-0" : ""} ${
                     isActive(i.href)
                       ? "bg-[#dce7fb] font-semibold text-[#263b60]"
                       : "text-slate-600 hover:bg-slate-100 hover:text-slate-900"
                   }`}
                 >
                   <Icon name={iconForHref(i.href)} className="size-[18px] shrink-0" />
-                  {i.label}
+                  <span className={collapsed ? "lg:hidden" : ""}>{i.label}</span>
                 </Link>
               </li>
             ))}
@@ -80,14 +91,14 @@ export function Sidebar({
 
       <aside
         id="portal-drawer"
-        className={`fixed inset-y-0 left-0 z-50 flex w-64 flex-col border-r border-zinc-200 bg-white transition-transform duration-200 lg:sticky lg:top-0 lg:z-auto lg:h-screen lg:translate-x-0 ${
+        className={`fixed inset-y-0 left-0 z-50 flex w-64 flex-col border-r border-zinc-200 bg-white transition-[width,transform] duration-200 motion-reduce:transition-none lg:sticky lg:top-0 lg:z-auto lg:h-screen lg:shrink-0 lg:translate-x-0 ${collapsed ? "lg:w-20" : "lg:w-64"} ${
           open ? "translate-x-0" : "-translate-x-full"
         }`}
       >
-        <div className="flex items-center justify-between border-b border-slate-100 bg-white px-5 py-5 text-slate-900">
+        <div className={`flex items-center justify-between border-b border-slate-100 bg-white px-5 py-5 text-slate-900 ${collapsed ? "lg:justify-center lg:px-2" : ""}`}>
           <Link href="/portal" className="flex items-center gap-3 text-sm font-semibold leading-tight tracking-tight">
             <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-[#a6bdeb] text-slate-900"><Icon name="cap" /></span>
-            {title}
+            <span className={collapsed ? "lg:hidden" : ""}>{title}</span>
           </Link>
           <button
             type="button"
@@ -98,8 +109,9 @@ export function Sidebar({
             ✕
           </button>
         </div>
+        <button type="button" onClick={toggle} aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"} aria-expanded={!collapsed} title={collapsed ? "Expand sidebar" : "Collapse sidebar"} className="mx-3 mt-3 hidden items-center justify-center rounded-lg border border-slate-200 p-2 text-slate-600 hover:bg-slate-100 lg:flex"><svg viewBox="0 0 24 24" className="size-5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16"/><path d={collapsed ? "m13 9 3 3-3 3" : "m16 9-3 3 3 3"}/></svg></button>
         {nav}
-        <div className="border-t border-zinc-200 p-4">{footer}</div>
+        <div className={`border-t border-zinc-200 p-4 ${collapsed ? "lg:p-2 lg:[&_.sidebar-profile]:hidden lg:[&_.sidebar-signout-label]:hidden lg:[&_.sidebar-signout-icon]:block lg:[&_.sidebar-footer]:p-1" : ""}`}>{footer}</div>
       </aside>
     </>
   );

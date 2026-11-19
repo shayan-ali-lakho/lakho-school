@@ -517,3 +517,16 @@ tbody tr:hover {
 }
 .school-portal :focus-visible { outline-color: #405f97; }
 .school-portal tbody tr:hover { background-color: #f0f4fc; }
+
+/* Shared portal surfaces and typography, without changing the public site. */
+.school-portal .portal-page h1 { font-size: clamp(1.5rem, 2.4vw, 2rem); font-weight: 600; letter-spacing: -.035em; }
+.school-portal .portal-page :is(input:not([type="checkbox"]):not([type="radio"]), select, textarea) { border-radius: .65rem; }
+.school-portal .portal-page table { font-size: .875rem; }
+.school-portal .portal-page th { background-color: #f4f6fa; color: #475569; font-weight: 600; }
+.school-portal .portal-page :is(.rounded-xl,.rounded-lg).bg-white { border-radius: 1rem; }
+.school-portal .portal-page :is(a,button) { transition: background-color .18s ease, color .18s ease, border-color .18s ease, box-shadow .18s ease; }
+@media (prefers-reduced-motion: no-preference) {
+  .school-portal .portal-page { animation: portal-in .28s ease-out; }
+  .school-portal .portal-page a.bg-white:hover { box-shadow: 0 4px 16px rgb(30 41 59 / 8%); }
+}
+@media (prefers-reduced-motion: reduce) { .school-portal *, .school-portal *::before, .school-portal *::after { animation: none !important; transition: none !important; } }

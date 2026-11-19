@@ -5,6 +5,7 @@ import { CountUp } from "@/components/portal/count-up";
 /* ---------- icons ---------- */
 
 const PATHS = {
+  dashboard: "M3 3h7v7H3z M14 3h7v7h-7z M3 14h7v7H3z M14 14h7v7h-7z",
   users: "M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2 M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8 M22 21v-2a4 4 0 0 0-3-3.87 M16 3.13a4 4 0 0 1 0 7.75",
   cap: "M22 10 12 5 2 10l10 5 10-5z M6 12v5c3 3 9 3 12 0v-5",
   wallet: "M20 12V8H6a2 2 0 0 1 0-4h12v4 M4 6v12a2 2 0 0 0 2 2h14v-4 M18 12a2 2 0 0 0 0 4h4v-4z",
@@ -34,6 +35,7 @@ export function Icon({ name, className = "size-5" }: { name: IconName; className
 
 /** Choose an icon for a portal link from its address. */
 export function iconForHref(href: string): IconName {
+  if (href === "/portal") return "dashboard";
   const rules: [string, IconName][] = [
     ["student", "cap"], ["teacher", "users"], ["users", "users"], ["class", "building"], ["course", "book"],
     ["timetable", "clock"], ["attendance", "check"], ["exam", "clipboard"], ["result", "clipboard"],
