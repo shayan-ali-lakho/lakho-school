@@ -2,6 +2,7 @@
 
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
+import { readPhoto } from "@/lib/photo";
 import { z } from "zod";
 import { db } from "@/lib/db";
 import { requireRole } from "@/lib/session";
@@ -36,6 +37,8 @@ export async function createTeacher(_prev: FormState, formData: FormData): Promi
     baseSalary: text(formData, "baseSalary") || "0",
   });
   if (!parsed.success) return { error: firstIssue(parsed.error) };
+  let photoData: string | undefined;
+  try { photoData = await readPhoto(formData); } catch (e) { return { error: (e as Error).message }; }
   const { name, email, password, employeeId, phone, qualification, position, baseSalary } = parsed.data;
 
   try {
@@ -57,7 +60,7 @@ export async function createTeacher(_prev: FormState, formData: FormData): Promi
       email,
       role: "TEACHER",
       passwordHash: await hashPassword(password),
-      teacherProfile: { create: { employeeId, phone, qualification, position, baseSalary } },
+      teacherProfile: { create: { photoData, employeeId, phone, qualification, position, baseSalary } },
     },
   });
 
@@ -88,6 +91,8 @@ export async function updateTeacher(_prev: FormState, formData: FormData): Promi
   });
   if (!parsed.success) return { error: firstIssue(parsed.error) };
   const t = parsed.data;
+  let photoData: string | undefined;
+  try { photoData = await readPhoto(formData); } catch (e) { return { error: (e as Error).message }; }
 
   const teacher = await db.teacher.findUnique({ where: { id }, select: { id: true, userId: true } });
   if (!teacher) return { error: "Teacher not found." };
@@ -102,6 +107,7 @@ export async function updateTeacher(_prev: FormState, formData: FormData): Promi
     db.teacher.update({
       where: { id },
       data: {
+        photoData,
         employeeId: t.employeeId ?? null,
         phone: t.phone ?? null,
         qualification: t.qualification ?? null,
