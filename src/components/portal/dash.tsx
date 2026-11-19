@@ -48,6 +48,7 @@ export function iconForHref(href: string): IconName {
 export function StatCard({ label, value, sub, icon, href }: {
   label: string; value: string; sub?: string; icon: IconName; href?: string;
 }) {
+  const tones: Partial<Record<IconName, string>> = { cap: "bg-[#dce7fb]", users: "bg-[#e9e3d5]", wallet: "bg-[#e0e9fb]", alert: "bg-[#fff0d7]", trend: "bg-[#f4e1ef]", check: "bg-[#e0ece5]", mail: "bg-[#eee5fa]" };
   const inner = (
     <>
       <div className="flex items-start justify-between gap-3">
@@ -56,13 +57,13 @@ export function StatCard({ label, value, sub, icon, href }: {
           <p className="mt-1.5 truncate text-2xl font-semibold tracking-tight text-zinc-900"><CountUp value={value} /></p>
           {sub && <p className="mt-1 text-xs text-zinc-500">{sub}</p>}
         </div>
-        <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-brand-100 text-brand-800">
+        <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-white/70 text-slate-800">
           <Icon name={icon} />
         </span>
       </div>
     </>
   );
-  const cls = "relative block overflow-hidden rounded-xl border border-zinc-200 bg-white p-5 shadow-sm";
+  const cls = `relative block overflow-hidden rounded-2xl border border-white/80 p-5 ${tones[icon] ?? "bg-[#e8edf6]"}`;
   return href ? (
     <Link href={href} className={`${cls} transition hover:-translate-y-0.5 hover:border-brand-300 hover:shadow-md`}>{inner}</Link>
   ) : (
@@ -74,7 +75,7 @@ export function StatCard({ label, value, sub, icon, href }: {
 
 export function Panel({ title, hint, children, className = "" }: { title: string; hint?: string; children: ReactNode; className?: string }) {
   return (
-    <section className={`rounded-xl border border-zinc-200 bg-white p-5 shadow-sm ${className}`}>
+    <section className={`rounded-2xl border border-slate-200/80 bg-white p-5 ${className}`}>
       <div className="mb-4 flex items-baseline justify-between gap-3">
         <h2 className="text-base font-semibold text-zinc-900">{title}</h2>
         {hint && <span className="text-xs text-zinc-500">{hint}</span>}
@@ -133,7 +134,7 @@ export function Donut({ segments, centre, sub, empty = "No data yet" }: { segmen
     <div className="flex flex-wrap items-center justify-center gap-6">
       <div className="relative size-36 shrink-0">
         <svg viewBox="0 0 140 140" className="size-full -rotate-90" role="img" aria-label={segments.map((s) => `${s.label} ${s.value}`).join(", ")}>
-          <circle cx="70" cy="70" r={r} fill="none" stroke="#e9e2d3" strokeWidth="16" />
+          <circle cx="70" cy="70" r={r} fill="none" stroke="#edf0f6" strokeWidth="16" />
           {total > 0 &&
             segments.filter((s) => s.value > 0).map((s) => {
               const len = (s.value / total) * c;
@@ -172,7 +173,7 @@ export function HBars({ rows, empty = "Nothing to show yet." }: { rows: { label:
         <li key={r.label} className="grid grid-cols-[6.5rem_1fr_2rem] items-center gap-3 text-sm">
           <span className="truncate text-zinc-600">{r.label}</span>
           <span className="h-2.5 overflow-hidden rounded-full bg-brand-50">
-            <span className="hbar-grow block h-full rounded-full bg-gradient-to-r from-brand-700 to-[#d9541e]" style={{ width: `${(r.value / max) * 100}%` }} />
+            <span className="hbar-grow block h-full rounded-full bg-gradient-to-r from-brand-700 to-[#a6bdeb]" style={{ width: `${(r.value / max) * 100}%` }} />
           </span>
           <span className="text-right font-medium text-zinc-900">{r.value}</span>
         </li>
@@ -190,7 +191,7 @@ export function WeekBars({ days }: { days: { label: string; pct: number | null }
           <div key={d.label} className="mx-auto flex h-full w-full max-w-12 flex-1 flex-col justify-end" title={d.pct === null ? "Not marked" : `${d.pct}% present`}>
             <span className="mb-0.5 text-center text-[10px] text-zinc-500">{d.pct === null ? "" : `${d.pct}%`}</span>
             <div
-              className={`bar-grow rounded-t-md ${d.pct === null ? "bg-zinc-200" : "bg-emerald-500"}`}
+              className={`bar-grow rounded-t-md ${d.pct === null ? "bg-zinc-200" : "bg-[#7898ce]"}`}
               style={{ height: d.pct === null ? "4%" : `${Math.max(d.pct, 3) * 0.82}%` }}
             />
           </div>

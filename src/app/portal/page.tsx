@@ -60,9 +60,9 @@ export default async function PortalHome() {
     feeCards = { collected: cur.paid, due: Math.max(cur.billed - cur.paid, 0), billed: cur.billed, expenses: expenseRows._sum.amount ?? 0 };
     feeTrend = months.map((m) => ({ label: shortMonth(m), a: byMonth.get(m)!.billed, b: byMonth.get(m)!.paid }));
     feeStatus = [
-      { label: "Paid", value: paidN, color: "#059669" },
-      { label: "Partial", value: partialN, color: "#f59e0b" },
-      { label: "Unpaid", value: unpaidN, color: "#dc2626" },
+      { label: "Paid", value: paidN, color: "#7898ce" },
+      { label: "Partial", value: partialN, color: "#fea828" },
+      { label: "Unpaid", value: unpaidN, color: "#a9546f" },
     ];
   }
 
@@ -104,9 +104,9 @@ export default async function PortalHome() {
     attendanceMarked = counts.PRESENT + counts.LATE + counts.ABSENT + counts.LEAVE;
     attendancePresent = counts.PRESENT + counts.LATE;
     attendanceToday = [
-      { label: "Present", value: counts.PRESENT, color: "#059669" },
-      { label: "Late", value: counts.LATE, color: "#f59e0b" },
-      { label: "Absent", value: counts.ABSENT, color: "#dc2626" },
+      { label: "Present", value: counts.PRESENT, color: "#7898ce" },
+      { label: "Late", value: counts.LATE, color: "#fea828" },
+      { label: "Absent", value: counts.ABSENT, color: "#a9546f" },
       { label: "Leave", value: counts.LEAVE, color: "#a1a1aa" },
     ];
     perClass = classes
@@ -135,22 +135,22 @@ export default async function PortalHome() {
   const dateLine = new Intl.DateTimeFormat("en-GB", { weekday: "long", day: "numeric", month: "long", year: "numeric", timeZone: "Asia/Karachi" }).format(new Date());
 
   return (
-    <div className="stagger space-y-8">
+    <div className="stagger space-y-6">
       {/* welcome banner */}
-      <section className="relative overflow-hidden rounded-2xl bg-[#111111] p-6 text-white shadow-md sm:p-8">
-        <p className="relative text-sm text-white/70">{dateLine}</p>
-        <h1 className="relative mt-1 text-2xl font-semibold tracking-tight !text-white sm:text-3xl">
+      <section className="relative overflow-hidden rounded-2xl border border-[#dce5f5] bg-[#e7eefb] p-6 text-slate-900 sm:p-8">
+        <p className="relative text-sm text-slate-600">{dateLine}</p>
+        <h1 className="relative mt-1 text-2xl font-semibold tracking-tight !text-slate-900 sm:text-3xl">
           {greeting()}, {user.name}
         </h1>
-        <p className="relative mt-2 flex flex-wrap items-center gap-2 text-sm text-white/70">
-          <span className="rounded-full bg-white/15 px-3 py-0.5 text-white">{ROLE_LABELS[user.role]}</span>
+        <p className="relative mt-2 flex flex-wrap items-center gap-2 text-sm text-slate-600">
+          <span className="rounded-full bg-white/80 px-3 py-0.5 text-slate-800">{ROLE_LABELS[user.role]}</span>
           <span>Dr. G.M. Lakho Memorial Sec. School</span>
         </p>
-        <span className="absolute inset-x-0 bottom-0 h-1 bg-[#d9541e]" />
+        <span aria-hidden="true" className="pointer-events-none absolute -right-12 -top-24 size-64 rounded-full border-[32px] border-white/40" />
       </section>
 
       {/* count cards */}
-      <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+      <section className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
         {people && (
           <>
             <StatCard label="Students" value={String(people.students)} sub={`in ${people.classes} ${people.classes === 1 ? "class" : "classes"}`} icon="cap" href="/portal/students" />
@@ -220,7 +220,7 @@ export default async function PortalHome() {
         <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           {links.map((l) => (
             <li key={l.href}>
-              <Link href={l.href} className="group flex items-center gap-3 rounded-xl border border-zinc-200 bg-white px-4 py-3 text-sm font-medium text-zinc-800 shadow-sm transition hover:-translate-y-0.5 hover:border-brand-300 hover:text-brand-800 hover:shadow-md">
+              <Link href={l.href} className="group flex items-center gap-3 rounded-2xl border border-slate-200/80 bg-white px-4 py-3 text-sm font-medium text-zinc-800 shadow-sm transition hover:-translate-y-0.5 hover:border-brand-300 hover:text-brand-800 hover:shadow-md">
                 <span className="grid size-9 shrink-0 place-items-center rounded-lg bg-brand-50 text-brand-700 transition group-hover:bg-brand-700 group-hover:text-white">
                   <Icon name={iconForHref(l.href)} className="size-[18px]" />
                 </span>

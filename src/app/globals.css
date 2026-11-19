@@ -495,3 +495,25 @@ tbody tr:hover {
     }
   }
 }
+
+/* Portal-only SaaS palette; public website keeps its original branding. */
+.school-portal {
+  --paper: #f9f9fc;
+  --saffron: #7898ce;
+  --color-brand-50: #f0f4fc;
+  --color-brand-100: #e2eafa;
+  --color-brand-200: #c4d4ef;
+  --color-brand-300: #a6bdeb;
+  --color-brand-400: #91abdb;
+  --color-brand-500: #6585bd;
+  --color-brand-600: #4d6da6;
+  --color-brand-700: #405f97;
+  --color-brand-800: #304a78;
+  --color-brand-900: #161717;
+}
+.school-portal :is(input, select, textarea):focus {
+  border-color: #7898ce;
+  box-shadow: 0 0 0 3px rgb(120 152 206 / 20%);
+}
+.school-portal :focus-visible { outline-color: #405f97; }
+.school-portal tbody tr:hover { background-color: #f0f4fc; }
