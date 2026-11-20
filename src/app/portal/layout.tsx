@@ -4,6 +4,7 @@ import { Flash } from "@/components/flash";
 import { NavProgress } from "@/components/portal/nav-progress";
 import { signOut } from "@/auth";
 import { PortalBack } from "@/components/portal/portal-back";
+import { GridFilters } from "@/components/portal/grid-filters";
 import { Sidebar } from "@/components/portal/sidebar";
 import { navFor } from "@/lib/portal-nav";
 import { ROLE_LABELS } from "@/lib/roles";
@@ -53,6 +54,7 @@ export default async function PortalLayout({ children }: LayoutProps<"/portal">)
           <div className="flex items-center gap-3"><span className="grid size-10 place-items-center rounded-full bg-[#dce7fb] text-sm font-semibold text-slate-800">{user.name?.slice(0, 1).toUpperCase() || "U"}</span><div><p className="text-sm font-medium">{user.name}</p><p className="text-xs text-slate-500">{ROLE_LABELS[user.role]}</p></div></div>
         </header>
         <PortalBack />
+        <GridFilters />
         {children}
       </main>
     </div>
