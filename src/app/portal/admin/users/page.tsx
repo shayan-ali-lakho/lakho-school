@@ -5,7 +5,7 @@ import { db } from "@/lib/db";
 import { requireRole } from "@/lib/session";
 import { ROLE_LABELS, USER_ADMIN_ROLES, type AppRole } from "@/lib/roles";
 
-const ASSIGNABLE: AppRole[] = ["ADMIN", "PRINCIPAL", "ACCOUNTANT", "TEACHER"];
+const ASSIGNABLE: AppRole[] = ["ADMIN", "PRINCIPAL", "ACCOUNTANT", "FINANCE", "MANAGER", "TEACHER"];
 import { loginName } from "@/lib/accounts";
 import { changeRole, setUserActive } from "./actions";
 
@@ -48,7 +48,7 @@ export default async function UsersPage() {
                 <td className="px-4 py-3">{u.name}</td>
                 <td className="px-4 py-3 text-zinc-600">{loginName(u.email)}</td>
                 <td className="px-4 py-3">
-                  {ASSIGNABLE.includes(u.role) && u.id !== actor.id && (actor.role === "ADMIN" || (u.role !== "ADMIN" && u.role !== "PRINCIPAL")) ? (
+                  {ASSIGNABLE.includes(u.role) && u.id !== actor.id && (actor.role === "ADMIN" || actor.role === "MANAGER" || (u.role !== "ADMIN" && u.role !== "PRINCIPAL")) ? (
                     <form action={changeRole} className="flex items-center gap-2">
                       <input type="hidden" name="userId" value={u.id} />
                       <select
@@ -57,7 +57,7 @@ export default async function UsersPage() {
                         aria-label={`Role for ${u.name}`}
                         className="rounded-md border border-zinc-300 bg-white px-2 py-1"
                       >
-                        {ASSIGNABLE.filter((r) => actor.role === "ADMIN" || (r !== "ADMIN" && r !== "PRINCIPAL")).map((r) => (
+                        {ASSIGNABLE.filter((r) => actor.role === "ADMIN" || actor.role === "MANAGER" || (r !== "ADMIN" && r !== "PRINCIPAL")).map((r) => (
                           <option key={r} value={r}>
                             {ROLE_LABELS[r]}
                           </option>
