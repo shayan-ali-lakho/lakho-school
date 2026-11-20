@@ -549,3 +549,37 @@ tbody tr:hover {
 .portal-grid-search { min-width:180px;max-width:100%;padding:9px 12px;border:1px solid #e2e6ed;border-radius:12px;background:white;font-size:13px; }
 .portal-grid-select { padding:9px 12px;border:1px solid #e2e6ed;border-radius:12px;background:white;font-size:13px; }
 @media (max-width:640px){.portal-grid-search{width:100%;}.portal-grid-tools{flex-direction:column;align-items:stretch;}}
+
+
+/* PreSkool-inspired school workspace. Scoped to the internal portal only. */
+.school-portal{--portal-indigo:#5263bc;--portal-ink:#283651;--portal-muted:#7e8ba3;--portal-border:#e8ecf5;--portal-surface:#fff;background:#f5f7fc;color:var(--portal-ink)}
+.school-portal main{font-size:13px;line-height:1.55}
+.school-portal main h1{color:#253552;font-size:22px;letter-spacing:-.035em;font-weight:700}
+.school-portal main h2{color:#293957;letter-spacing:-.02em;font-weight:650}
+.school-portal main :is(section,article):not(.identity):not(.admit){border-color:var(--portal-border);box-shadow:0 2px 12px rgba(42,63,110,.035)}
+.school-portal main :is(section,article):not(.identity):not(.admit):hover{box-shadow:0 4px 18px rgba(42,63,110,.06)}
+.school-portal main :is(input:not([type=checkbox]):not([type=radio]),select,textarea){border-radius:9px;border:1px solid #e0e5f0;background:#fff;min-height:38px;color:#354461;font-size:13px}
+.school-portal main :is(input,select,textarea):focus{outline:2px solid #9aa9ee;outline-offset:1px}
+.school-portal main :is(button,a[class*="bg-"]){transition:background-color .16s ease,box-shadow .16s ease,transform .16s ease}
+.school-portal main :is(button,a[class*="bg-"]):hover{filter:brightness(.985)}
+.school-portal main table{width:100%;border-collapse:collapse;font-size:12px}
+.school-portal main thead{background:#f7f9fd;color:#7b879d}
+.school-portal main th{font-size:11px;font-weight:700;padding:12px 14px;letter-spacing:.015em}
+.school-portal main td{padding:12px 14px;color:#475571}
+.school-portal main tbody tr{border-bottom:1px solid #f0f2f7}
+.school-portal main tbody tr:hover{background:#f7f9ff}
+.school-portal main tbody tr[hidden]{display:none}
+.school-portal main :is(.portal-grid-tools){background:#fff;border:1px solid var(--portal-border);border-radius:13px;padding:12px;margin-bottom:10px;box-shadow:0 2px 10px rgba(42,63,110,.035)}
+.school-portal main .portal-grid-search,.school-portal main .portal-grid-select{background:#f9faff;border-radius:9px}
+.school-portal main .portal-dashboard>section{border-radius:15px}
+.school-portal main .portal-dashboard>section:first-child{box-shadow:none}
+.school-portal main .portal-dashboard .grid>a{border-color:var(--portal-border)}
+.school-portal main .portal-dashboard .grid>a:hover{border-color:#bdc8f1}
+.school-portal aside nav{scrollbar-width:thin;scrollbar-color:#e0e5f0 transparent}
+.school-portal aside nav a[aria-current="page"]{position:relative}
+.school-portal aside nav a[aria-current="page"]::before{content:"";position:absolute;left:0;top:23%;height:54%;width:3px;border-radius:4px;background:#5a69c6}
+.school-portal aside nav a:hover{transform:translateX(1px)}
+.school-portal .sidebar-footer{background:#f7f8fd}
+.school-portal .portal-topbar{min-height:66px}
+@media(max-width:768px){.school-portal .portal-topbar{gap:8px}.school-portal main{padding-inline:12px}.school-portal main th,.school-portal main td{padding:10px 9px}}
+@media(prefers-reduced-motion:reduce){.school-portal aside nav a:hover{transform:none}}
