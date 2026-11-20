@@ -530,3 +530,22 @@ tbody tr:hover {
   .school-portal .portal-page a.bg-white:hover { box-shadow: 0 4px 16px rgb(30 41 59 / 8%); }
 }
 @media (prefers-reduced-motion: reduce) { .school-portal *, .school-portal *::before, .school-portal *::after { animation: none !important; transition: none !important; } }
+
+/* Compact transaction-workspace styling for the internal school portal. */
+.school-portal { background:#f7f8fa; }
+.school-portal main { color:#243044; }
+.school-portal main h1 { font-weight:700;letter-spacing:-.035em; }
+.school-portal main table { border-collapse:separate;border-spacing:0;width:100%; }
+.school-portal main thead { background:#f7f8fa;color:#667085; }
+.school-portal main th { font-size:12px;font-weight:600;white-space:nowrap; }
+.school-portal main tbody tr { transition:background .15s ease; }
+.school-portal main tbody tr:hover { background:#fff8f2; }
+.school-portal main tbody tr[hidden] { display:none; }
+.school-portal main :is(input:not([type=checkbox]):not([type=radio]),select,textarea) { border-radius:12px;border-color:#e2e6ed;background:#fff;min-height:40px; }
+.school-portal main :is(input,select,textarea):focus { outline:2px solid #ef8b3b;outline-offset:1px; }
+.school-portal main section { border-radius:18px; }
+.school-portal main form button[type=submit] { border-radius:12px;min-height:40px; }
+.portal-grid-tools { display:flex;flex-wrap:wrap;gap:10px;align-items:center;padding:12px 4px; }
+.portal-grid-search { min-width:180px;max-width:100%;padding:9px 12px;border:1px solid #e2e6ed;border-radius:12px;background:white;font-size:13px; }
+.portal-grid-select { padding:9px 12px;border:1px solid #e2e6ed;border-radius:12px;background:white;font-size:13px; }
+@media (max-width:640px){.portal-grid-search{width:100%;}.portal-grid-tools{flex-direction:column;align-items:stretch;}}
