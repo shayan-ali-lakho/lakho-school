@@ -107,7 +107,7 @@ export async function updateTeacher(_prev: FormState, formData: FormData): Promi
     db.teacher.update({
       where: { id },
       data: {
-        photoData,
+        ...(photoData ? { photoData } : {}),
         employeeId: t.employeeId ?? null,
         phone: t.phone ?? null,
         qualification: t.qualification ?? null,
