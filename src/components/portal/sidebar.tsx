@@ -91,7 +91,7 @@ export function Sidebar({
 
       <aside
         id="portal-drawer"
-        className={`fixed inset-y-0 left-0 z-50 flex w-64 flex-col border-r border-zinc-200 bg-white transition-[width,transform] duration-200 motion-reduce:transition-none lg:sticky lg:top-0 lg:z-auto lg:h-screen lg:shrink-0 lg:translate-x-0 ${collapsed ? "lg:w-20" : "lg:w-64"} ${
+        className={`fixed inset-y-0 left-0 z-50 flex w-64 flex-col border-r border-zinc-200 bg-white transition-[width,transform] duration-200 motion-reduce:transition-none lg:sticky lg:top-0 lg:z-20 lg:h-screen lg:shrink-0 lg:translate-x-0 ${collapsed ? "lg:w-20" : "lg:w-64"} ${
           open ? "translate-x-0" : "-translate-x-full"
         }`}
       >
@@ -109,7 +109,7 @@ export function Sidebar({
             ✕
           </button>
         </div>
-        <button type="button" onClick={toggle} aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"} aria-expanded={!collapsed} title={collapsed ? "Expand sidebar" : "Collapse sidebar"} className="mx-3 mt-3 hidden items-center justify-center rounded-lg border border-slate-200 p-2 text-slate-600 hover:bg-slate-100 lg:flex"><svg viewBox="0 0 24 24" className="size-5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16"/><path d={collapsed ? "m13 9 3 3-3 3" : "m16 9-3 3 3 3"}/></svg></button>
+        <button type="button" onClick={toggle} aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"} aria-expanded={!collapsed} title={collapsed ? "Expand sidebar" : "Collapse sidebar"} className="absolute right-0 top-20 z-20 hidden size-8 translate-x-1/2 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-600 shadow-md hover:bg-orange-50 hover:text-orange-700 lg:flex"><svg viewBox="0 0 24 24" className="size-5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16"/><path d={collapsed ? "m13 9 3 3-3 3" : "m16 9-3 3 3 3"}/></svg></button>
         {nav}
         <div className={`border-t border-zinc-200 p-4 ${collapsed ? "lg:p-2 lg:[&_.sidebar-profile]:hidden lg:[&_.sidebar-signout-label]:hidden lg:[&_.sidebar-signout-icon]:block lg:[&_.sidebar-footer]:p-1" : ""}`}>{footer}</div>
       </aside>
