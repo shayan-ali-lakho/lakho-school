@@ -96,15 +96,15 @@ export function Sidebar({
           open ? "translate-x-0" : "-translate-x-full"
         }`}
       >
-        <div className={`flex items-center justify-between border-b border-slate-100 bg-white px-5 py-3 text-slate-900 ${collapsed ? "lg:justify-center lg:px-2" : ""}`}>
-          <Link href="/portal" className="flex items-center gap-3 text-sm font-semibold leading-tight tracking-tight">
-            <Image src="/logo.png" width={52} height={52} alt={title} className="size-11 shrink-0 object-contain" />
+        <div className={`relative flex items-center justify-center border-b border-slate-100 bg-white px-5 py-3 text-slate-900 ${collapsed ? "lg:px-2" : ""}`}>
+          <Link href="/portal" className="flex w-full items-center justify-center text-sm font-semibold leading-tight tracking-tight">
+            <Image src="/logo.png" width={52} height={52} alt={title} className="mx-auto size-12 shrink-0 object-contain" />
           </Link>
           <button
             type="button"
             onClick={() => setOpen(false)}
             aria-label="Close menu"
-            className="rounded-md px-2 py-1 text-slate-600 hover:bg-slate-100 lg:hidden"
+            className="absolute right-3 rounded-md px-2 py-1 text-slate-600 hover:bg-slate-100 lg:hidden"
           >
             ✕
           </button>

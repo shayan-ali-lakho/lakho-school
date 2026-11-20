@@ -54,27 +54,38 @@ export function iconForHref(href: string): IconName {
 export function StatCard({ label, value, sub, icon, href }: {
   label: string; value: string; sub?: string; icon: IconName; href?: string;
 }) {
-  const tones: Partial<Record<IconName, string>> = { cap: "bg-[#eff0ff] text-[#5554bb]", users: "bg-[#e9f7ff] text-[#2787ba]", wallet: "bg-[#eaf9f1] text-[#21946a]", alert: "bg-[#fff2e7] text-[#d98734]", trend: "bg-[#f7edff] text-[#9260c4]", check: "bg-[#eaf8ee] text-[#259764]", mail: "bg-[#fff0f4] text-[#c65b80]" };
-  const inner = (
+  // Match the reference: white cards, pastel icon tile, colored indicator and restrained typography.
+  const palette: Partial<Record<IconName, { bg: string; fg: string; accent: string }>> = {
+    cap: { bg: "#eef0ff", fg: "#5c64bd", accent: "#5c64bd" },
+    users: { bg: "#e8f5ff", fg: "#2387bf", accent: "#2387bf" },
+    wallet: { bg: "#e8f8ef", fg: "#2b9c71", accent: "#2b9c71" },
+    alert: { bg: "#fff2e7", fg: "#d98c3b", accent: "#d98c3b" },
+    trend: { bg: "#f6edff", fg: "#9260bf", accent: "#9260bf" },
+    check: { bg: "#e8f8ef", fg: "#2b9c71", accent: "#2b9c71" },
+    mail: { bg: "#fff0f5", fg: "#c65d83", accent: "#c65d83" },
+    book: { bg: "#eef0ff", fg: "#5c64bd", accent: "#5c64bd" },
+    building: { bg: "#e8f5ff", fg: "#2387bf", accent: "#2387bf" },
+  };
+  const tone = palette[icon] ?? { bg: "#eef0ff", fg: "#5c64bd", accent: "#5c64bd" };
+  const content = (
     <>
-      <div className="flex items-start justify-between gap-3">
-        <div className="min-w-0">
-          <p className="text-xs font-medium text-[#77839b]">{label}</p>
-          <p className="mt-2 truncate text-[26px] font-bold tracking-tight text-[#263551]"><CountUp value={value} /></p>
-          {sub && <p className="mt-1 text-[11px] text-[#8490a5]">{sub}</p>}
+      <div className="flex items-start justify-between gap-4">
+        <div className="min-w-0 flex-1">
+          <p className="text-[12px] font-medium text-[#79869e]">{label}</p>
+          <p className="mt-3 truncate text-[27px] font-bold leading-none tracking-tight text-[#273651]"><CountUp value={value} /></p>
+          {sub && <p className="mt-3 line-clamp-2 text-[11px] text-[#8995a9]">{sub}</p>}
         </div>
-        <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-white/85">
-          <Icon name={icon} />
+        <span className="grid size-[52px] shrink-0 place-items-center rounded-xl" style={{ backgroundColor: tone.bg, color: tone.fg }}>
+          <Icon name={icon} className="size-6" />
         </span>
+      </div>
+      <div className="mt-5 h-[3px] overflow-hidden rounded-full bg-[#f0f2f8]">
+        <div className="h-full w-1/3 rounded-full" style={{ backgroundColor: tone.accent }} />
       </div>
     </>
   );
-  const cls = `portal-stat-card relative block overflow-hidden rounded-xl border border-[#e9edf5] p-4 shadow-[0_2px_10px_rgba(35,55,100,.035)] ${tones[icon] ?? "bg-[#eef2ff] text-[#5869b5]"}`;
-  return href ? (
-    <Link href={href} className={`${cls} transition hover:-translate-y-0.5 hover:border-brand-300 hover:shadow-md`}>{inner}</Link>
-  ) : (
-    <div className={cls}>{inner}</div>
-  );
+  const classes = "portal-stat-card block min-h-[150px] rounded-xl border border-[#e8edf5] bg-white p-5 shadow-[0_3px_16px_rgba(38,53,93,.045)] transition-all hover:-translate-y-0.5 hover:border-[#cfd5ec] hover:shadow-md";
+  return href ? <Link href={href} className={classes}>{content}</Link> : <div className={classes}>{content}</div>;
 }
 
 /* ---------- card shell ---------- */
