@@ -39,6 +39,7 @@ model Teacher {
   id            String   @id @default(cuid())
   userId        String   @unique
   user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  photoData     String?
   employeeId    String?  @unique
   phone         String?
   qualification String?
@@ -47,6 +48,7 @@ model Teacher {
   baseSalary    Int      @default(0)
   joinedOn      DateTime @default(now())
 
+  attendance TeacherAttendance[]
   classesLed Class[]
   salaries   SalaryRecord[]
   courses    Course[]
@@ -81,6 +83,7 @@ model Student {
   id          String    @id @default(cuid())
   userId      String    @unique
   user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  photoData   String?
   rollNumber  String
   classId     String?
   class       Class?    @relation(fields: [classId], references: [id], onDelete: SetNull)
@@ -326,4 +329,27 @@ model Attendance {
 
   @@unique([studentId, date])
   @@index([date])
+}
+
+model AcademicSession {
+  id String @id @default(cuid())
+  name String @unique
+  startsOn DateTime @db.Date
+  endsOn DateTime @db.Date
+  active Boolean @default(false)
+}
+model SchoolEvent {
+  id String @id @default(cuid())
+  title String
+  kind String
+  date DateTime @db.Date
+  description String?
+}
+model TeacherAttendance {
+  id String @id @default(cuid())
+  teacherId String
+  teacher Teacher @relation(fields: [teacherId], references: [id], onDelete: Cascade)
+  date DateTime @db.Date
+  status AttendanceStatus
+  @@unique([teacherId,date])
 }

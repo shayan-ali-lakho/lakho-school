@@ -21,6 +21,7 @@ export default async function NewTeacherPage() {
       </div>
       <Card>
         <ActionForm action={createTeacher} submitLabel="Add teacher">
+          <label className="block text-sm font-medium">Teacher photo (optional)<input type="file" name="photo" accept="image/jpeg,image/png" className="mt-2 block w-full rounded-lg border p-2" /></label>
           <Field label="Full name" name="name" required />
           <Field label="Username or email (used to sign in)" name="email" required autoComplete="off" hint="e.g. m.ahmed or ahmed@example.com" />
           <Field

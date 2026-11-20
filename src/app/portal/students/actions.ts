@@ -54,6 +54,16 @@ export async function admitStudent(_prev: FormState, formData: FormData): Promis
   });
   if (!parsed.success) return { error: firstIssue(parsed.error) };
   const s = parsed.data;
+  const photo = formData.get("photo");
+  let photoData: string | undefined;
+  if (photo instanceof File && photo.size) {
+    if (photo.size > 500_000 || !["image/jpeg","image/png"].includes(photo.type)) return { error: "Upload a JPEG or PNG photo under 500 KB." };
+    const bytes = Buffer.from(await photo.arrayBuffer());
+    const png = bytes.subarray(0,8).equals(Buffer.from([137,80,78,71,13,10,26,10]));
+    const jpeg = bytes[0] === 255 && bytes[1] === 216 && bytes[2] === 255;
+    if (!(photo.type === "image/png" ? png : jpeg)) return { error: "Invalid image file." };
+    photoData = `data:${photo.type};base64,${bytes.toString("base64")}`;
+  }
 
   const cls = await db.class.findUnique({ where: { id: s.classId }, select: { id: true } });
   if (!cls) return { error: "Selected class was not found." };
@@ -130,6 +140,7 @@ export async function admitStudent(_prev: FormState, formData: FormData): Promis
       passwordHash: await hashPassword(s.password),
       studentProfile: {
         create: {
+          photoData,
           rollNumber: s.rollNumber,
           gender: s.gender,
           address: s.address,

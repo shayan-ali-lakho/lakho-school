@@ -12,7 +12,7 @@ const FINANCE: AppRole[] = ["ADMIN", "PRINCIPAL", "ACCOUNTANT"];
 export const PORTAL_NAV: NavGroup[] = [
   {
     label: "Overview",
-    items: [{ href: "/portal", label: "Dashboard", roles: ALL }],
+    items: [{ href: "/portal", label: "Dashboard", roles: ALL }, { href: "/portal/cards", label: "ID and admit cards", roles: ["ADMIN","PRINCIPAL","STUDENT","TEACHER"] }],
   },
   {
     label: "My family",

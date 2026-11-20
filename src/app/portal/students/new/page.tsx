@@ -41,6 +41,7 @@ export default async function AdmitStudentPage() {
       <ActionForm action={admitStudent} submitLabel="Admit student">
         <Card title="Student">
           <div className="space-y-4">
+            <label className="block text-sm font-medium">Student photo (JPEG or PNG, up to 500 KB)<input className="mt-2 block w-full rounded-lg border border-slate-200 p-2" type="file" name="photo" accept="image/jpeg,image/png" /></label>
             <Field label="Full name" name="name" required />
             <Field label="Username or email (used to sign in)" name="email" required autoComplete="off" hint="e.g. ali.raza or ali@example.com. A username works without an email address." />
             <Field
