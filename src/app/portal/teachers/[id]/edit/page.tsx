@@ -9,6 +9,7 @@ import { ActionForm } from "@/components/action-form";
 import { Card, Field } from "@/components/fields";
 import { LoginTools } from "@/components/portal/login-tools";
 import { updateTeacher } from "../../actions";
+import { ProfilePictureEditor } from "@/components/portal/profile-picture-editor";
 
 export const metadata: Metadata = { title: "Edit teacher" };
 
@@ -20,12 +21,13 @@ export default async function EditTeacherPage(props: PageProps<"/portal/teachers
     where: { id },
     select: {
       userId: true,
+      photoData:true,
       employeeId: true,
       phone: true,
       qualification: true,
       position: true,
       baseSalary: true,
-      user: { select: { name: true, email: true } },
+      user: { select: { name: true, email: true, photoData:true } },
     },
   });
   if (!teacher) notFound();
@@ -39,6 +41,7 @@ export default async function EditTeacherPage(props: PageProps<"/portal/teachers
         <h1 className="mt-2 text-2xl font-semibold tracking-tight">Edit teacher</h1>
         <p className="mt-1 text-sm text-zinc-600">{loginName(teacher.user.email)}</p>
       </div>
+      <ProfilePictureEditor userId={teacher.userId} name={teacher.user.name} photoData={teacher.user.photoData??teacher.photoData}/>
       <Card>
         <ActionForm action={updateTeacher} submitLabel="Save changes">
           <input type="hidden" name="id" value={id} />

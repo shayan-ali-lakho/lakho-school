@@ -137,9 +137,9 @@ export default async function PortalHome() {
   const dateLine = new Intl.DateTimeFormat("en-GB", { weekday: "long", day: "numeric", month: "long", year: "numeric", timeZone: "Asia/Karachi" }).format(new Date());
 
   return (
-    <div className="stagger space-y-6">
+    <div className="stagger portal-dashboard space-y-5">
       {/* welcome banner */}
-      <section className="relative overflow-hidden rounded-2xl border border-[#dce5f5] bg-[#e7eefb] p-6 text-slate-900 sm:p-8">
+      <section className="relative overflow-hidden rounded-2xl border border-[#dce6ff] bg-gradient-to-r from-[#eef2ff] via-white to-[#f4f6ff] p-5 text-slate-900 sm:p-6">
         <p className="relative text-sm text-slate-600">{dateLine}</p>
         <h1 className="relative mt-1 text-2xl font-semibold tracking-tight !text-slate-900 sm:text-3xl">
           {greeting()}, {user.name}
@@ -187,7 +187,7 @@ export default async function PortalHome() {
 
       {/* charts */}
       {feeCards && (
-        <section className="grid gap-5 lg:grid-cols-3">
+        <section className="grid gap-4 lg:grid-cols-3">
           <Panel title="Fees, last 6 months" hint="Billed vs collected" className="lg:col-span-2">
             <BarChart data={feeTrend} aLabel="Billed" bLabel="Collected" />
           </Panel>

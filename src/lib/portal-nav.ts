@@ -12,7 +12,7 @@ const FINANCE: AppRole[] = ["PRINCIPAL", "MANAGER", "FINANCE", "ACCOUNTANT"];
 export const PORTAL_NAV: NavGroup[] = [
   {
     label: "Overview",
-    items: [{ href: "/portal", label: "Dashboard", roles: ALL.filter(r => r !== "FINANCE" && r !== "ACCOUNTANT") }, { href: "/portal/cards", label: "ID cards", roles: ["ADMIN","PRINCIPAL","MANAGER","STUDENT","TEACHER"] }, { href: "/portal/admit-cards", label: "Admit cards", roles: ["ADMIN","PRINCIPAL","MANAGER","STUDENT"] }],
+    items: [{ href: "/portal/profile", label: "My profile", roles: ALL }, { href: "/portal", label: "Dashboard", roles: ALL.filter(r => r !== "FINANCE" && r !== "ACCOUNTANT") }, { href: "/portal/cards", label: "ID cards", roles: ["ADMIN","PRINCIPAL","MANAGER","STUDENT","TEACHER"] }, { href: "/portal/admit-cards", label: "Admit cards", roles: ["ADMIN","PRINCIPAL","MANAGER","STUDENT"] }],
   },
   {
     label: "My family",
@@ -57,12 +57,11 @@ export const PORTAL_NAV: NavGroup[] = [
     items: [
       { href: "/portal/salaries", label: "Teacher salaries", roles: MANAGERS },
       { href: "/portal/expenses", label: "School expenses", roles: FINANCE },
-      { href: "/portal/reports", label: "Monthly finance report", roles: ["PRINCIPAL","MANAGER"] },
     ],
   },
   {
     label: "Reports",
-    items: [{ href: "/portal/class-reports", label: "Class-wise reports", roles: ["ADMIN","PRINCIPAL","MANAGER","TEACHER"] }],
+    items: [{ href: "/portal/class-reports", label: "Class-wise reports", roles: ["PRINCIPAL","MANAGER"] }, { href: "/portal/reports", label: "Monthly finance report", roles: ["PRINCIPAL","MANAGER"] }],
   },
   {
     label: "Website",
@@ -72,7 +71,7 @@ export const PORTAL_NAV: NavGroup[] = [
 
 /** The groups (and items) a role may see. */
 export function navFor(role: AppRole): NavGroup[] {
-  if (role === "FINANCE" || role === "ACCOUNTANT") return PORTAL_NAV.filter(g => g.label === "Fees" || g.label === "Money").map(g => ({...g,items:g.items.filter(i => i.roles.includes(role))})).filter(g=>g.items.length>0);
+  if (role === "FINANCE" || role === "ACCOUNTANT") return PORTAL_NAV.filter(g => g.label === "Fees" || g.label === "Money" || g.label === "Overview").map(g => ({...g,items:g.items.filter(i => i.roles.includes(role))})).filter(g=>g.items.length>0);
   return PORTAL_NAV.map((g) => ({ ...g, items: g.items.filter((i) => i.roles.includes(role)) })).filter(
     (g) => g.items.length > 0,
   );

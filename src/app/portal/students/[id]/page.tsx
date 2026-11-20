@@ -8,6 +8,7 @@ import { FEE_TYPE_LABELS, daysAgo, feeStatus, monthLabel, pkr } from "@/lib/fina
 import { loginName } from "@/lib/accounts";
 import { DeleteForever } from "@/components/portal/delete-forever";
 import { LoginTools } from "@/components/portal/login-tools";
+import { ProfilePictureEditor } from "@/components/portal/profile-picture-editor";
 import { setUserActive } from "../../admin/users/actions";
 
 export const metadata: Metadata = { title: "Student" };
@@ -20,12 +21,13 @@ export default async function StudentProfilePage(props: PageProps<"/portal/stude
     where: { id },
     select: {
       rollNumber: true,
+      photoData: true,
       gender: true,
       address: true,
       dateOfBirth: true,
       admittedOn: true,
       userId: true,
-      user: { select: { name: true, email: true, isActive: true } },
+      user: { select: { name: true, email: true, isActive: true, photoData:true } },
       class: { select: { id: true, name: true, section: true, academicYear: true } },
       guardian: { select: { userId: true, phone: true, user: { select: { name: true, email: true } } } },
       feeDiscount: true,
@@ -83,6 +85,7 @@ export default async function StudentProfilePage(props: PageProps<"/portal/stude
         </div>
       </div>
 
+      {(canManage||isSelf)&&<ProfilePictureEditor userId={student.userId} name={student.user.name} photoData={student.user.photoData??student.photoData}/>}
       <dl className="divide-y divide-zinc-100 rounded-lg border border-zinc-200 bg-white">
         {rows.map(([label, value]) => (
           <div key={label} className="grid grid-cols-3 gap-4 px-4 py-3 text-sm">
