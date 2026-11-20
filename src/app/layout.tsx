@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
+import { FormSubmissionGuard } from "@/components/form-submission-guard";
 import { Instrument_Serif, Poppins } from "next/font/google";
 import { site } from "@/lib/site";
 import "./globals.css";
@@ -29,7 +31,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en"
       className={`${poppins.variable} ${instrument.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col"><Suspense fallback={null}><FormSubmissionGuard /></Suspense>{children}</body>
     </html>
   );
 }
