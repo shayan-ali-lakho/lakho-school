@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { Icon, iconForHref } from "@/components/portal/dash";
 import { usePathname } from "next/navigation";
 import { useState, useSyncExternalStore, type ReactNode } from "react";
@@ -72,7 +73,7 @@ export function Sidebar({
       {/* Small screens: top bar with menu button */}
       <div className="sticky top-0 z-30 flex items-center justify-between border-b border-slate-200 bg-white px-4 py-3 text-slate-900 lg:hidden">
         <Link href="/portal" className="font-semibold tracking-tight">
-          {title}
+          <Image src="/logo.png" alt={title} width={40} height={40} className="size-10 object-contain" />
         </Link>
         <button
           type="button"
@@ -97,8 +98,7 @@ export function Sidebar({
       >
         <div className={`flex items-center justify-between border-b border-slate-100 bg-white px-5 py-5 text-slate-900 ${collapsed ? "lg:justify-center lg:px-2" : ""}`}>
           <Link href="/portal" className="flex items-center gap-3 text-sm font-semibold leading-tight tracking-tight">
-            <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-[#a6bdeb] text-slate-900"><Icon name="cap" /></span>
-            <span className={collapsed ? "lg:hidden" : ""}>{title}</span>
+            <Image src="/logo.png" width={52} height={52} alt={title} className="size-12 shrink-0 object-contain" />
           </Link>
           <button
             type="button"
