@@ -137,15 +137,15 @@ export default async function PortalHome() {
   const dateLine = new Intl.DateTimeFormat("en-GB", { weekday: "long", day: "numeric", month: "long", year: "numeric", timeZone: "Asia/Karachi" }).format(new Date());
 
   return (
-    <div className="stagger portal-dashboard space-y-5">
+    <div className="stagger portal-dashboard space-y-4">
       {/* welcome banner */}
-      <section className="relative overflow-hidden rounded-2xl border border-[#dce6ff] bg-gradient-to-r from-[#eef2ff] via-white to-[#f4f6ff] p-5 text-slate-900 sm:p-6">
-        <p className="relative text-sm text-slate-600">{dateLine}</p>
-        <h1 className="relative mt-1 text-2xl font-semibold tracking-tight !text-slate-900 sm:text-3xl">
+      <section className="relative overflow-hidden rounded-xl border border-[#e8edf5] bg-white px-5 py-4 text-slate-900 shadow-sm">
+        <p className="relative text-[11px] text-[#8b97aa]">{dateLine}</p>
+        <h1 className="relative mt-1 text-xl font-bold tracking-tight !text-[#273654] sm:text-2xl">
           {greeting()}, {user.name}
         </h1>
-        <p className="relative mt-2 flex flex-wrap items-center gap-2 text-sm text-slate-600">
-          <span className="rounded-full bg-white/80 px-3 py-0.5 text-slate-800">{ROLE_LABELS[user.role]}</span>
+        <p className="relative mt-2 flex flex-wrap items-center gap-2 text-xs text-[#8590a6]">
+          <span className="rounded-md bg-[#eef0ff] px-3 py-1 font-semibold text-[#5a61b8]">{ROLE_LABELS[user.role]}</span>
           <span>Dr. G.M. Lakho Memorial Sec. School</span>
         </p>
         <span aria-hidden="true" className="pointer-events-none absolute -right-12 -top-24 size-64 rounded-full border-[32px] border-white/40" />
@@ -187,7 +187,7 @@ export default async function PortalHome() {
 
       {/* charts */}
       {feeCards && (
-        <section className="grid gap-4 lg:grid-cols-3">
+        <section className="grid gap-3 lg:grid-cols-3">
           <Panel title="Fees, last 6 months" hint="Billed vs collected" className="lg:col-span-2">
             <BarChart data={feeTrend} aLabel="Billed" bLabel="Collected" />
           </Panel>
@@ -203,7 +203,7 @@ export default async function PortalHome() {
       )}
 
       {people && (
-        <section className="grid gap-5 lg:grid-cols-3">
+        <section className="grid gap-3 lg:grid-cols-3">
           <Panel title="Attendance this week" hint="% present each day" className="lg:col-span-2">
             <WeekBars days={week} />
           </Panel>
@@ -217,13 +217,13 @@ export default async function PortalHome() {
       )}
 
       {/* quick links */}
-      <section>
-        <h2 className="mb-3 text-base font-semibold text-zinc-900">Quick links</h2>
-        <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+      <section className="portal-module-section rounded-xl border border-[#e8edf5] bg-white p-4 shadow-sm">
+        <h2 className="mb-3 text-[13px] font-bold text-[#293957]">School modules</h2>
+        <ul className="grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
           {links.map((l) => (
             <li key={l.href}>
-              <Link href={l.href} className="group flex items-center gap-3 rounded-2xl border border-slate-200/80 bg-white px-4 py-3 text-sm font-medium text-zinc-800 shadow-sm transition hover:-translate-y-0.5 hover:border-brand-300 hover:text-brand-800 hover:shadow-md">
-                <span className="grid size-9 shrink-0 place-items-center rounded-lg bg-brand-50 text-brand-700 transition group-hover:bg-brand-700 group-hover:text-white">
+              <Link href={l.href} className="group flex items-center gap-3 rounded-lg border border-[#edf0f7] bg-[#fafbff] px-3 py-2.5 text-xs font-semibold text-[#44516e] transition hover:border-[#d3d8f8] hover:bg-[#f2f4ff]">
+                <span className="grid size-9 shrink-0 place-items-center rounded-lg bg-[#ecefff] text-[#6268bd] transition group-hover:bg-[#dfe4ff]">
                   <Icon name={iconForHref(l.href)} className="size-[18px]" />
                 </span>
                 {l.label}
@@ -234,14 +234,14 @@ export default async function PortalHome() {
       </section>
 
       {/* announcements */}
-      <section>
-        <h2 className="mb-3 text-base font-semibold text-zinc-900">Announcements</h2>
+      <section className="rounded-xl border border-[#e8edf5] bg-white p-4 shadow-sm">
+        <h2 className="mb-3 border-b border-[#f0f2f7] pb-3 text-[13px] font-bold text-[#293957]">Notice board</h2>
         {announcements.length === 0 ? (
           <p className="rounded-xl border border-dashed border-zinc-300 bg-white p-6 text-center text-sm text-zinc-500">No announcements yet.</p>
         ) : (
-          <ul className="space-y-3">
+          <ul className="space-y-2">
             {announcements.map((a) => (
-              <li key={a.id} className="flex gap-4 rounded-xl border border-zinc-200 border-l-4 border-l-brand-700 bg-white p-4 shadow-sm">
+              <li key={a.id} className="flex gap-3 rounded-lg border border-[#edf0f7] bg-[#fafbff] p-3">
                 <span className="mt-0.5 hidden size-9 shrink-0 place-items-center rounded-full bg-brand-50 text-brand-700 sm:grid">
                   <Icon name="bell" className="size-[18px]" />
                 </span>
