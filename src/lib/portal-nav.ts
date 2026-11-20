@@ -57,12 +57,11 @@ export const PORTAL_NAV: NavGroup[] = [
     items: [
       { href: "/portal/salaries", label: "Teacher salaries", roles: MANAGERS },
       { href: "/portal/expenses", label: "School expenses", roles: FINANCE },
-      { href: "/portal/reports", label: "Monthly finance report", roles: ["PRINCIPAL","MANAGER"] },
     ],
   },
   {
     label: "Reports",
-    items: [{ href: "/portal/class-reports", label: "Class-wise reports", roles: ["ADMIN","PRINCIPAL","MANAGER","TEACHER"] }],
+    items: [{ href: "/portal/class-reports", label: "Class-wise reports", roles: ["PRINCIPAL","MANAGER"] }, { href: "/portal/reports", label: "Monthly finance report", roles: ["PRINCIPAL","MANAGER"] }],
   },
   {
     label: "Website",
