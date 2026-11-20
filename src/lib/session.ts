@@ -1,4 +1,5 @@
 import { redirect } from "next/navigation";
+import { db } from "@/lib/db";
 import { auth } from "@/auth";
 import type { AppRole } from "@/lib/roles";
 
@@ -6,7 +7,9 @@ import type { AppRole } from "@/lib/roles";
 export async function requireUser() {
   const session = await auth();
   if (!session?.user) redirect("/login");
-  return session.user;
+  const record = await db.user.findUnique({where:{id:session.user.id},select:{role:true,isActive:true}});
+  if(!record?.isActive) redirect("/login");
+  return {...session.user,role:record.role};
 }
 
 /** Like requireUser, but also enforces the role on the server (never trust the UI alone). */
