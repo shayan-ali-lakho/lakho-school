@@ -4,7 +4,7 @@ import { db } from "@/lib/db";
 import { requireRole } from "@/lib/session";
 import { STAFF_ROLES, USER_ADMIN_ROLES } from "@/lib/roles";
 import { btnPrimary } from "@/components/ui";
-import { DeleteForever } from "@/components/portal/delete-forever";
+import { StudentGrid } from "@/components/portal/student-grid";
 
 export const metadata: Metadata = { title: "Students" };
 
@@ -81,47 +81,7 @@ export default async function StudentsPage(props: PageProps<"/portal/students">)
         </button>
       </form>
 
-      <div className="mt-4 overflow-x-auto rounded-lg border border-zinc-200 bg-white">
-        <table className="w-full text-left text-sm">
-          <thead className="border-b border-zinc-200 bg-zinc-50 text-zinc-600">
-            <tr>
-              <th className="px-4 py-3 font-medium">Roll no.</th>
-              <th className="px-4 py-3 font-medium">Student</th>
-              <th className="px-4 py-3 font-medium">Class</th>
-              <th className="px-4 py-3 font-medium">Parent / guardian</th>
-              <th className="px-4 py-3 font-medium">Status</th>
-              {canManage && <th className="px-4 py-3" />}
-            </tr>
-          </thead>
-          <tbody>
-            {students.length === 0 && (
-              <tr>
-                <td colSpan={6} className="px-4 py-6 text-center text-zinc-500">
-                  No students found.
-                </td>
-              </tr>
-            )}
-            {students.map((s) => (
-              <tr key={s.id} className="border-b border-zinc-100 last:border-0">
-                <td className="px-4 py-3">{s.rollNumber}</td>
-                <td className="px-4 py-3">
-                  <Link href={`/portal/students/${s.id}`} className="text-brand-700 hover:underline">
-                    {s.user.name}
-                  </Link>
-                </td>
-                <td className="px-4 py-3">{s.class ? `${s.class.name} ${s.class.section}` : "-"}</td>
-                <td className="px-4 py-3 text-zinc-600">{s.guardian?.user.name ?? "-"}</td>
-                <td className="px-4 py-3">{s.user.isActive ? "Active" : "Removed"}</td>
-                {canManage && (
-                  <td className="px-4 py-3 text-right">
-                    <DeleteForever userId={s.userId} name={s.user.name} back="/portal/students" />
-                  </td>
-                )}
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+      <StudentGrid canManage={canManage} students={students.map(s=>({id:s.id,rollNumber:s.rollNumber,name:s.user.name,className:s.class?`${s.class.name} ${s.class.section}`:"—",guardian:s.guardian?.user.name??"—",active:s.user.isActive}))}/>
     </div>
   );
 }
