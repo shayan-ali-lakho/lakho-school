@@ -13,7 +13,7 @@ type Status = (typeof STATUSES)[number];
 
 /** Save attendance for a whole class on one date. Inputs are named s_<studentId>. */
 export async function saveAttendance(formData: FormData) {
-  const user = await requireRole(["ADMIN", "PRINCIPAL", "TEACHER"]);
+  const user = await requireRole(["ADMIN", "PRINCIPAL", "MANAGER", "TEACHER"]);
   const classId = text(formData, "classId");
   const date = text(formData, "date");
   const back = (q: string): never => redirect(`/portal/attendance?classId=${classId}&date=${date}&${q}`);
@@ -24,7 +24,7 @@ export async function saveAttendance(formData: FormData) {
     const tid = await teacherIdFor(user.id);
     const mine = tid
       ? await db.class.findFirst({
-          where: { id: classId, OR: [{ classTeacherId: tid }, { courses: { some: { teacherId: tid } } }] },
+          where: { id: classId, classTeacherId: tid },
           select: { id: true },
         })
       : null;
@@ -53,4 +53,28 @@ export async function saveAttendance(formData: FormData) {
   );
   revalidatePath("/portal/attendance");
   back("ok=Attendance+saved.");
+}
+
+/** Administrators, managers and principals can record teacher attendance. */
+export async function saveTeacherAttendance(formData: FormData) {
+  const user = await requireRole(["ADMIN", "MANAGER", "PRINCIPAL"]);
+  const date = text(formData, "date");
+  const back = (q: string): never => redirect(`/portal/attendance?view=teachers&date=${encodeURIComponent(date)}&${q}`);
+  if (!/^\\d{4}-\\d{2}-\\d{2}$/.test(date) || date > todayKarachi() || Number.isNaN(new Date(`${date}T00:00:00Z`).getTime())) back("error=Choose+a+valid+date.");
+  const day = new Date(`${date}T00:00:00.000Z`);
+  const teachers = await db.teacher.findMany({where:{user:{isActive:true}},select:{id:true}});
+  const valid = new Set(teachers.map(t=>t.id));
+  const rows: {teacherId:string;status:Status}[] = [];
+  for (const [key, raw] of formData.entries()) {
+    if (!key.startsWith("t_") || typeof raw !== "string") continue;
+    const teacherId = key.slice(2);
+    if (valid.has(teacherId) && (STATUSES as readonly string[]).includes(raw)) rows.push({teacherId,status:raw as Status});
+  }
+  await db.$transaction(rows.map(row => db.teacherAttendance.upsert({
+    where:{teacherId_date:{teacherId:row.teacherId,date:day}},
+    update:{status:row.status},
+    create:{teacherId:row.teacherId,date:day,status:row.status}
+  })));
+  revalidatePath("/portal/attendance");
+  back("ok=Teacher+attendance+saved.");
 }
