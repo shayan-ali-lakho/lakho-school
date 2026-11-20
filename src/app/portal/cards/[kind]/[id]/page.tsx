@@ -3,7 +3,6 @@ import Image from "next/image";
 import { db } from "@/lib/db";
 import { requireRole } from "@/lib/session";
 import { PrintCard } from "./print";
-import { DownloadCard } from "./download";
 const school="Dr. G.M. Lakho Memorial Sec. School";
 function Logo(){return <Image src="/logo.png" width={65} height={65} alt={school} className="mx-auto object-contain"/>}
 function Photo({src}:{src?:string|null}){return <div className="card-photo">{src?<Image src={src} alt="Profile photo" width={110} height={110} unoptimized style={{width:"100%",height:"100%",objectFit:"cover"}}/>:<span>No photo</span>}</div>}
@@ -16,7 +15,7 @@ export default async function CardPage({params,searchParams}:{params:Promise<{ki
  const details=student?[["Roll number",student.rollNumber],["Guardian",student.guardian?.user.name??"—"],["Academic year",student.class?.academicYear??"—"]]:[["Employee ID",teacher!.employeeId??"—"],["Position",teacher!.position??"Teacher"],["Qualification",teacher!.qualification??"—"]];
  const examination=exam&&student?.classId?await db.exam.findFirst({where:{id:exam,classId:student.classId}}):null;
  if(exam&&!examination)notFound();
- return <div><PrintCard/><DownloadCard name={person.user.name} admit={!!examination}/><style>{`
+ return <div><PrintCard/><style>{`
  .card-sheet{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;color:#10264a;font-family:Arial,sans-serif}
  .identity{position:relative;overflow:hidden;background:white;width:54mm;height:85.6mm;border:1px solid #d5dbe5;border-radius:10px;text-align:center;box-sizing:border-box;font-size:9px}
  .card-top{background:#10264a;color:white;padding:12px 8px 24px;clip-path:polygon(0 0,100% 0,100% 78%,12% 100%,0 91%);border-bottom:5px solid #ef831e}
