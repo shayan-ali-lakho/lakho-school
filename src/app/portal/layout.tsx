@@ -5,6 +5,7 @@ import { db } from "@/lib/db";
 import { redirect } from "next/navigation";
 import { Flash } from "@/components/flash";
 import { NavProgress } from "@/components/portal/nav-progress";
+import { PageMotion } from "@/components/portal/page-motion";
 import { signOut } from "@/auth";
 import { PortalBack } from "@/components/portal/portal-back";
 import { GridFilters } from "@/components/portal/grid-filters";
@@ -60,7 +61,7 @@ export default async function PortalLayout({ children }: LayoutProps<"/portal">)
         </header>
         <PortalBack />
         <GridFilters />
-        {children}
+        <PageMotion>{children}</PageMotion>
       </main>
     </div>
   );
