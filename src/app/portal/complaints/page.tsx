@@ -1,6 +1,7 @@
 import {db} from "@/lib/db";
 import {requireUser} from "@/lib/session";
 import {sendComplaint,updateComplaint,deleteComplaint} from "./actions";
+import {DeleteComplaintButton} from "./delete-button";
 
 export default async function ComplaintsPage(){
  const actor=await requireUser();
@@ -39,7 +40,7 @@ export default async function ComplaintsPage(){
        <button type="submit" className="rounded-lg bg-indigo-600 px-4 py-2 text-xs font-semibold text-white">Save changes</button>
       </form>
      </details>
-     <form action={deleteComplaint}><input type="hidden" name="id" value={c.id}/><button type="submit" className="rounded-lg border border-red-200 px-4 py-2 text-xs font-semibold text-red-700 hover:bg-red-50">Delete</button></form>
+     <form action={deleteComplaint}><input type="hidden" name="id" value={c.id}/><DeleteComplaintButton/></form>
     </div>}
    </article>)}
    {complaints.length===0&&<p className="text-sm text-slate-500">No messages yet.</p>}
