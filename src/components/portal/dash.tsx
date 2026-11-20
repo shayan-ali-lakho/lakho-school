@@ -5,6 +5,10 @@ import { CountUp } from "@/components/portal/count-up";
 /* ---------- icons ---------- */
 
 const PATHS = {
+  id: "M4 4h16v16H4z M8 9a2 2 0 1 0 4 0 2 2 0 0 0-4 0 M6 17c0-3 8-3 8 0 M15 8h3 M15 12h3",
+  shield: "M12 2 4 5v6c0 5 3 9 8 11 5-2 8-6 8-11V5z M9 12l2 2 4-4",
+  file: "M5 2h9l5 5v15H5z M14 2v5h5 M8 12h8 M8 16h8",
+  message: "M3 4h18v14H8l-5 3z M7 9h10 M7 13h7",
   dashboard: "M3 3h7v7H3z M14 3h7v7h-7z M3 14h7v7H3z M14 14h7v7h-7z",
   users: "M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2 M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8 M22 21v-2a4 4 0 0 0-3-3.87 M16 3.13a4 4 0 0 1 0 7.75",
   cap: "M22 10 12 5 2 10l10 5 10-5z M6 12v5c3 3 9 3 12 0v-5",
@@ -37,7 +41,7 @@ export function Icon({ name, className = "size-5" }: { name: IconName; className
 export function iconForHref(href: string): IconName {
   if (href === "/portal") return "dashboard";
   const rules: [string, IconName][] = [
-    ["student", "cap"], ["teacher", "users"], ["users", "users"], ["class", "building"], ["course", "book"],
+    ["profile", "users"], ["cards", "id"], ["admit", "file"], ["complaint", "message"], ["calendar", "calendar"], ["student", "cap"], ["teacher", "users"], ["users", "users"], ["class", "building"], ["course", "book"],
     ["timetable", "clock"], ["attendance", "check"], ["exam", "clipboard"], ["result", "clipboard"],
     ["board", "clipboard"], ["announce", "bell"], ["fee", "wallet"], ["salar", "wallet"], ["expense", "trend"],
     ["report", "trend"], ["inquir", "mail"], ["website", "globe"], ["my", "users"],
@@ -50,22 +54,22 @@ export function iconForHref(href: string): IconName {
 export function StatCard({ label, value, sub, icon, href }: {
   label: string; value: string; sub?: string; icon: IconName; href?: string;
 }) {
-  const tones: Partial<Record<IconName, string>> = { cap: "bg-[#dce7fb]", users: "bg-[#e9e3d5]", wallet: "bg-[#e0e9fb]", alert: "bg-[#fff0d7]", trend: "bg-[#f4e1ef]", check: "bg-[#e0ece5]", mail: "bg-[#eee5fa]" };
+  const tones: Partial<Record<IconName, string>> = { cap: "bg-[#eff0ff] text-[#5554bb]", users: "bg-[#e9f7ff] text-[#2787ba]", wallet: "bg-[#eaf9f1] text-[#21946a]", alert: "bg-[#fff2e7] text-[#d98734]", trend: "bg-[#f7edff] text-[#9260c4]", check: "bg-[#eaf8ee] text-[#259764]", mail: "bg-[#fff0f4] text-[#c65b80]" };
   const inner = (
     <>
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0">
-          <p className="text-sm text-zinc-500">{label}</p>
-          <p className="mt-1.5 truncate text-2xl font-semibold tracking-tight text-zinc-900"><CountUp value={value} /></p>
-          {sub && <p className="mt-1 text-xs text-zinc-500">{sub}</p>}
+          <p className="text-xs font-medium text-[#77839b]">{label}</p>
+          <p className="mt-2 truncate text-[26px] font-bold tracking-tight text-[#263551]"><CountUp value={value} /></p>
+          {sub && <p className="mt-1 text-[11px] text-[#8490a5]">{sub}</p>}
         </div>
-        <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-white/70 text-slate-800">
+        <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-white/85">
           <Icon name={icon} />
         </span>
       </div>
     </>
   );
-  const cls = `relative block overflow-hidden rounded-2xl border border-white/80 p-5 ${tones[icon] ?? "bg-[#e8edf6]"}`;
+  const cls = `portal-stat-card relative block overflow-hidden rounded-xl border border-[#e9edf5] p-4 shadow-[0_2px_10px_rgba(35,55,100,.035)] ${tones[icon] ?? "bg-[#eef2ff] text-[#5869b5]"}`;
   return href ? (
     <Link href={href} className={`${cls} transition hover:-translate-y-0.5 hover:border-brand-300 hover:shadow-md`}>{inner}</Link>
   ) : (
@@ -77,10 +81,10 @@ export function StatCard({ label, value, sub, icon, href }: {
 
 export function Panel({ title, hint, children, className = "" }: { title: string; hint?: string; children: ReactNode; className?: string }) {
   return (
-    <section className={`rounded-2xl border border-slate-200/80 bg-white p-5 ${className}`}>
-      <div className="mb-4 flex items-baseline justify-between gap-3">
-        <h2 className="text-base font-semibold text-zinc-900">{title}</h2>
-        {hint && <span className="text-xs text-zinc-500">{hint}</span>}
+    <section className={`portal-panel rounded-xl border border-[#e8edf5] bg-white p-4 shadow-[0_2px_10px_rgba(35,55,100,.035)] ${className}`}>
+      <div className="mb-4 flex items-center justify-between gap-3 border-b border-[#f0f2f7] pb-3">
+        <h2 className="text-[13px] font-bold text-[#293957]">{title}</h2>
+        {hint && <span className="text-[11px] text-[#8290a8]">{hint}</span>}
       </div>
       {children}
     </section>
