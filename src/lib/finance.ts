@@ -1,9 +1,9 @@
 import type { AppRole } from "./roles";
 
 /** Who may record fees and expenses. */
-export const FINANCE_ROLES: AppRole[] = ["ADMIN", "PRINCIPAL", "ACCOUNTANT"];
+export const FINANCE_ROLES: AppRole[] = ["FINANCE", "PRINCIPAL", "MANAGER", "ACCOUNTANT"];
 /** Who may see salaries and the combined monthly report. */
-export const PAYROLL_ROLES: AppRole[] = ["ADMIN", "PRINCIPAL"];
+export const PAYROLL_ROLES: AppRole[] = ["PRINCIPAL", "MANAGER"];
 
 export const PAYMENT_METHODS = ["Cash", "Bank transfer", "Easypaisa", "JazzCash", "Cheque"] as const;
 export const EXPENSE_CATEGORIES = [

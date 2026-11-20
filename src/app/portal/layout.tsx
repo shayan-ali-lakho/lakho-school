@@ -18,7 +18,7 @@ export default async function PortalLayout({ children }: LayoutProps<"/portal">)
     <div className="school-portal flex flex-1 flex-col bg-[#f9f9fc] text-zinc-900 lg:flex-row">
       <Sidebar
         groups={navFor(user.role)}
-        title={`${site.shortName} Portal`}
+        title={site.shortName}
         footer={
           <div className="sidebar-footer space-y-3 rounded-2xl bg-[#f5f6fa] p-3 text-sm">
             <div className="sidebar-profile">

@@ -19,7 +19,7 @@ import { firstIssue, text, type FormState } from "@/lib/form";
 
 /** Only a full administrator may create or modify admin/principal accounts. */
 function canManage(actorRole: AppRole, targetRole: AppRole) {
-  if (actorRole === "ADMIN") return true;
+  if (actorRole === "ADMIN" || actorRole === "MANAGER") return true;
   return targetRole !== "ADMIN" && targetRole !== "PRINCIPAL";
 }
 
@@ -28,7 +28,7 @@ export type CreateUserState =
   | undefined;
 
 // Student accounts need a class and roll number, so they are admitted from the Students page.
-const CREATABLE: AppRole[] = ["ADMIN", "PRINCIPAL", "ACCOUNTANT", "TEACHER", "PARENT"];
+const CREATABLE: AppRole[] = ["ADMIN", "PRINCIPAL", "ACCOUNTANT", "FINANCE", "MANAGER", "TEACHER", "PARENT"];
 
 /** Create an account for any staff member or parent. The admin chooses the username and password. */
 export async function createUser(_prev: CreateUserState, formData: FormData): Promise<CreateUserState> {
@@ -141,7 +141,7 @@ export async function setPassword(_prev: PasswordState, formData: FormData): Pro
 }
 
 // Staff roles an administrator can switch between. Student and parent accounts keep their role.
-const ASSIGNABLE: AppRole[] = ["ADMIN", "PRINCIPAL", "ACCOUNTANT", "TEACHER"];
+const ASSIGNABLE: AppRole[] = ["ADMIN", "PRINCIPAL", "ACCOUNTANT", "FINANCE", "MANAGER", "TEACHER"];
 
 export async function changeRole(formData: FormData) {
   const actor = await requireRole(USER_ADMIN_ROLES);

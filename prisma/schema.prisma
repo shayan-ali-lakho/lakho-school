@@ -12,6 +12,8 @@ enum Role {
   PRINCIPAL
   TEACHER
   ACCOUNTANT
+  FINANCE
+  MANAGER
   STUDENT
   PARENT
 }
@@ -32,6 +34,8 @@ model User {
   announcements   Announcement[]
   paymentsTaken   FeePayment[]
   expensesAdded   Expense[]
+  complaintsSent Complaint[] @relation("ComplaintSender")
+  complaintsReceived Complaint[] @relation("ComplaintRecipient")
   attendanceMarks Attendance[]
 }
 
@@ -352,4 +356,17 @@ model TeacherAttendance {
   date DateTime @db.Date
   status AttendanceStatus
   @@unique([teacherId,date])
+}
+
+model Complaint {
+  id String @id @default(cuid())
+  subject String
+  message String
+  senderId String
+  sender User @relation("ComplaintSender", fields:[senderId], references:[id], onDelete:Cascade)
+  recipientId String
+  recipient User @relation("ComplaintRecipient", fields:[recipientId], references:[id], onDelete:Cascade)
+  createdAt DateTime @default(now())
+  @@index([senderId,createdAt])
+  @@index([recipientId,createdAt])
 }
