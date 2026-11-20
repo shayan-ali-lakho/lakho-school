@@ -1,4 +1,7 @@
 import { Suspense } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { db } from "@/lib/db";
 import { redirect } from "next/navigation";
 import { Flash } from "@/components/flash";
 import { NavProgress } from "@/components/portal/nav-progress";
@@ -13,6 +16,8 @@ import { site } from "@/lib/site";
 
 export default async function PortalLayout({ children }: LayoutProps<"/portal">) {
   const user = await requireUser();
+  const profile = await db.user.findUnique({where:{id:user.id},select:{photoData:true,studentProfile:{select:{photoData:true}},teacherProfile:{select:{photoData:true}}}});
+  const profilePhoto=profile?.photoData??profile?.studentProfile?.photoData??profile?.teacherProfile?.photoData;
 
   return (
     <div className="school-portal flex flex-1 flex-col bg-[#f9f9fc] text-zinc-900 lg:flex-row">
@@ -51,7 +56,7 @@ export default async function PortalLayout({ children }: LayoutProps<"/portal">)
         </Suspense>
         <header className="relative mb-6 grid grid-cols-[1fr_auto] items-center gap-3 border-b border-slate-200/80 py-4 md:grid-cols-[1fr_auto_1fr]">
           <div className="hidden text-xs text-slate-500 md:block">School management / Workspace</div><p className="text-center text-sm font-bold tracking-tight text-slate-900 sm:text-base">Dr. G.M. Lakho Memorial Sec. School</p>
-          <div className="flex items-center justify-end gap-3"><span className="grid size-10 place-items-center rounded-full bg-[#dce7fb] text-sm font-semibold text-slate-800">{user.name?.slice(0, 1).toUpperCase() || "U"}</span><div><p className="text-sm font-medium">{user.name}</p><p className="text-xs text-slate-500">{ROLE_LABELS[user.role]}</p></div></div>
+          <div className="flex items-center justify-end gap-3"><Link href="/portal/profile" aria-label="Edit my profile picture" title="My profile" className="grid size-10 place-items-center overflow-hidden rounded-full bg-[#dce7fb] text-sm font-semibold text-slate-800">{profilePhoto?<Image src={profilePhoto} alt={user.name??"Profile"} width={40} height={40} unoptimized className="size-10 object-cover"/>:user.name?.slice(0, 1).toUpperCase() || "U"}</Link><div><p className="text-sm font-medium">{user.name}</p><p className="text-xs text-slate-500">{ROLE_LABELS[user.role]}</p></div></div>
         </header>
         <PortalBack />
         <GridFilters />
