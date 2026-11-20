@@ -608,7 +608,7 @@ tbody tr:hover {
 .school-portal aside nav li a:hover{background:#f4f5ff;color:#5159a9}
 .school-portal aside nav p{color:#98a3b5;letter-spacing:.085em}
 .school-portal main :is(section,article){border-color:var(--ps-border)}
-.school-portal main .portal-stat-card{border-radius:12px;padding:16px;min-height:105px}
+.school-portal main .portal-stat-card{border-radius:12px;padding:20px;min-height:150px;background:#fff}
 .school-portal main .portal-stat-card:hover{transform:translateY(-2px);box-shadow:0 7px 18px rgba(59,72,132,.09)}
 .school-portal main .portal-panel{border-radius:12px;padding:15px}
 .school-portal main .portal-dashboard>section{border-radius:12px}
@@ -633,5 +633,5 @@ tbody tr:hover {
 .school-portal main :is(.text-orange-600,.text-orange-700){color:#535bb1}
 .school-portal main :is(.border-orange-200,.border-orange-400){border-color:#c8cdf3}
 .school-portal main :is(.bg-orange-50,.bg-orange-100){background-color:#f1f2ff}
-@media(max-width:768px){.school-portal .portal-topbar{border-radius:10px}.school-portal main th,.school-portal main td{padding:10px 9px}.school-portal main .portal-stat-card{min-height:100px}}
+@media(max-width:768px){.school-portal .portal-topbar{border-radius:10px}.school-portal main th,.school-portal main td{padding:10px 9px}.school-portal main .portal-stat-card{min-height:145px}}
 @media(prefers-reduced-motion:reduce){.school-portal main .portal-stat-card:hover,.school-portal main .portal-module-section li a:hover{transform:none}}
