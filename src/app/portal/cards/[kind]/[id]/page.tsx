@@ -7,7 +7,7 @@ const school="Dr. G.M. Lakho Memorial Sec. School";
 function Logo(){return <Image src="/logo.png" width={65} height={65} alt={school} className="mx-auto object-contain"/>}
 function Photo({src}:{src?:string|null}){return <div className="card-photo">{src?<Image src={src} alt="Profile photo" width={110} height={110} unoptimized style={{width:"100%",height:"100%",objectFit:"cover"}}/>:<span>No photo</span>}</div>}
 export default async function CardPage({params,searchParams}:{params:Promise<{kind:string;id:string}>;searchParams:Promise<{exam?:string}>}){
- const u=await requireRole(["ADMIN","PRINCIPAL","STUDENT","TEACHER"]);const {kind,id}=await params;const {exam}=await searchParams;const admin=u.role==="ADMIN"||u.role==="PRINCIPAL";
+ const u=await requireRole(["ADMIN","PRINCIPAL","MANAGER","STUDENT","TEACHER"]);const {kind,id}=await params;const {exam}=await searchParams;const admin=u.role==="ADMIN"||u.role==="PRINCIPAL"||u.role==="MANAGER";
  const student=kind==="student"&&(admin||u.role==="STUDENT")?await db.student.findFirst({where:{id,user:{isActive:true},...(admin?{}:{userId:u.id})},include:{user:{select:{name:true}},class:true,guardian:{include:{user:{select:{name:true}}}}}}):null;
  const teacher=kind==="teacher"&&(admin||u.role==="TEACHER")?await db.teacher.findFirst({where:{id,user:{isActive:true},...(admin?{}:{userId:u.id})},include:{user:{select:{name:true}}}}):null;
  if(!student&&!teacher)notFound();
