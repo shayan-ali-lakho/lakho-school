@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { db } from "@/lib/db";
 import { requireUser } from "@/lib/session";
 import { navFor } from "@/lib/portal-nav";
@@ -20,8 +21,9 @@ function greeting() {
 
 export default async function PortalHome() {
   const user = await requireUser();
-  const seesEverything = user.role === "ADMIN" || user.role === "PRINCIPAL";
-  const seesMoney = seesEverything || user.role === "ACCOUNTANT";
+  if (user.role === "FINANCE" || user.role === "ACCOUNTANT") redirect("/portal/fees");
+  const seesEverything = user.role === "ADMIN" || user.role === "PRINCIPAL" || user.role === "MANAGER";
+  const seesMoney = user.role === "PRINCIPAL" || user.role === "MANAGER";
   const month = currentMonth();
   const todayStr = todayKarachi();
   const today = new Date(`${todayStr}T00:00:00.000Z`);
