@@ -14,8 +14,9 @@ export function Modal({
  const [visible,setVisible]=useState(false);
  useEffect(()=>{
   if(open){
-   const show=window.setTimeout(()=>{setMounted(true);setVisible(true);},0);
-   return ()=>window.clearTimeout(show);
+   const mount=window.setTimeout(()=>setMounted(true),0);
+   const show=window.setTimeout(()=>setVisible(true),24);
+   return ()=>{window.clearTimeout(mount);window.clearTimeout(show);};
   }
   const hide=window.setTimeout(()=>setVisible(false),0);
   const unmount=window.setTimeout(()=>setMounted(false),EXIT_MS);
