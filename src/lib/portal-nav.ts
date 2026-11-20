@@ -36,7 +36,7 @@ export const PORTAL_NAV: NavGroup[] = [
       { href: "/portal/courses", label: "Courses", roles: STAFF },
       { href: "/portal/timetable", label: "Timetable", roles: ALL },
       { href: "/portal/exams", label: "Exams and results", roles: STAFF },
-      { href: "/portal/attendance", label: "Attendance", roles: ["ADMIN", "PRINCIPAL", "TEACHER"] },
+      { href: "/portal/attendance", label: "Attendance", roles: ["ADMIN", "PRINCIPAL", "MANAGER", "TEACHER"] },
       { href: "/portal/board", label: "Board exams", roles: MANAGERS },
     ],
   },
