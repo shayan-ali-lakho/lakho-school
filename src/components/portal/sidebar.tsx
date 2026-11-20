@@ -38,10 +38,10 @@ export function Sidebar({
   const isActive = (href: string) => href === activeHref;
 
   const nav = (
-    <nav aria-label="Portal" className={`flex-1 space-y-5 overflow-y-auto px-4 py-5 ${collapsed ? "lg:px-2" : ""}`}>
+    <nav aria-label="Portal" className={`flex-1 space-y-4 overflow-y-auto px-3 py-4 ${collapsed ? "lg:px-2" : ""}`}>
       {groups.map((g) => (
         <div key={g.label}>
-          <p className={`px-3 text-[10px] font-semibold uppercase tracking-widest text-slate-500 ${collapsed ? "lg:sr-only" : ""}`}>{g.label}</p>
+          <p className={`px-3 text-[10px] font-semibold uppercase tracking-widest text-[#98a2b7] ${collapsed ? "lg:sr-only" : ""}`}>{g.label}</p>
           <ul className="mt-2 space-y-0.5">
             {g.items.map((i) => (
               <li key={i.href}>
@@ -51,10 +51,10 @@ export function Sidebar({
                   title={i.label}
                   aria-label={i.label}
                   aria-current={isActive(i.href) ? "page" : undefined}
-                  className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm transition-colors ${collapsed ? "lg:justify-center lg:px-0" : ""} ${
+                  className={`flex items-center gap-3 rounded-xl px-3 py-2.5 text-[13px] transition-colors ${collapsed ? "lg:justify-center lg:px-0" : ""} ${
                     isActive(i.href)
-                      ? "bg-[#dce7fb] font-semibold text-[#263b60]"
-                      : "text-slate-600 hover:bg-slate-100 hover:text-slate-900"
+                      ? "bg-[#e9edff] font-semibold text-[#4a58ad]"
+                      : "text-slate-600 hover:bg-[#f2f4fc] hover:text-[#4257a4]"
                   }`}
                 >
                   <Icon name={iconForHref(i.href)} className="size-[18px] shrink-0" />
@@ -92,11 +92,11 @@ export function Sidebar({
 
       <aside
         id="portal-drawer"
-        className={`fixed inset-y-0 left-0 z-50 flex w-64 flex-col border-r border-zinc-200 bg-white transition-[width,transform] duration-200 motion-reduce:transition-none lg:sticky lg:top-0 lg:z-20 lg:h-screen lg:shrink-0 lg:translate-x-0 ${collapsed ? "lg:w-20" : "lg:w-64"} ${
+        className={`fixed inset-y-0 left-0 z-50 flex w-64 flex-col border-r border-[#e8ecf5] bg-white transition-[width,transform] duration-200 motion-reduce:transition-none lg:sticky lg:top-0 lg:z-20 lg:h-screen lg:shrink-0 lg:translate-x-0 ${collapsed ? "lg:w-20" : "lg:w-64"} ${
           open ? "translate-x-0" : "-translate-x-full"
         }`}
       >
-        <div className={`flex items-center justify-between border-b border-slate-100 bg-white px-5 py-5 text-slate-900 ${collapsed ? "lg:justify-center lg:px-2" : ""}`}>
+        <div className={`flex items-center justify-between border-b border-slate-100 bg-white px-5 py-3 text-slate-900 ${collapsed ? "lg:justify-center lg:px-2" : ""}`}>
           <Link href="/portal" className="flex items-center gap-3 text-sm font-semibold leading-tight tracking-tight">
             <Image src="/logo.png" width={52} height={52} alt={title} className="size-12 shrink-0 object-contain" />
           </Link>
