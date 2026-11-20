@@ -659,3 +659,25 @@ tbody tr:hover {
   .school-portal .portal-page-enter { animation:none; }
   .school-portal :is(a,button,input,select,textarea,aside,.nav-block) { transition:none!important; animation:none!important; }
 }
+
+/* Public school website: soft entrances, hover feedback and smooth scrolling.
+   Keep the school portal's separate motion rules intact. */
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior:smooth; }
+  body:not(:has(.school-portal)) main { animation: public-page-entrance .42s cubic-bezier(.2,.7,.2,1) both; }
+  body:not(:has(.school-portal)) :is(header a,nav a,main a,main button,footer a) {
+    transition: color .2s ease,background-color .2s ease,border-color .2s ease,box-shadow .2s ease,transform .2s ease,opacity .2s ease;
+  }
+  body:not(:has(.school-portal)) :is(main button,main a):active { transform:scale(.985); }
+  body:not(:has(.school-portal)) :is(main section,main article) { transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease; }
+  body:not(:has(.school-portal)) :is(input,select,textarea) { transition:border-color .2s ease,box-shadow .2s ease; }
+  body:not(:has(.school-portal)) :is(a,button,input,select,textarea):focus-visible { outline-offset:3px; }
+}
+@keyframes public-page-entrance {
+  from { opacity:.45;transform:translateY(10px); }
+  to { opacity:1;transform:translateY(0); }
+}
+@media (prefers-reduced-motion:reduce) {
+  html { scroll-behavior:auto; }
+  body:not(:has(.school-portal)) main { animation:none; }
+}
