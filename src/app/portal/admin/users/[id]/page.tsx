@@ -9,6 +9,7 @@ import { ActionForm } from "@/components/action-form";
 import { Card, Field } from "@/components/fields";
 import { LoginTools } from "@/components/portal/login-tools";
 import { updateUser } from "../actions";
+import { ProfilePictureEditor } from "@/components/portal/profile-picture-editor";
 
 export const metadata: Metadata = { title: "Edit account" };
 
@@ -16,7 +17,7 @@ export default async function EditUserPage(props: PageProps<"/portal/admin/users
   await requireRole(USER_ADMIN_ROLES);
   const { id } = await props.params;
 
-  const user = await db.user.findUnique({ where: { id }, select: { id: true, name: true, email: true, role: true } });
+  const user = await db.user.findUnique({ where: { id }, select: { id: true, name: true, email: true, role: true, photoData: true, studentProfile:{select:{photoData:true}},teacherProfile:{select:{photoData:true}} } });
   if (!user) notFound();
 
   return (
@@ -42,6 +43,7 @@ export default async function EditUserPage(props: PageProps<"/portal/admin/users
           />
         </ActionForm>
       </Card>
+      <ProfilePictureEditor userId={user.id} name={user.name} photoData={user.photoData??user.studentProfile?.photoData??user.teacherProfile?.photoData}/>
       <Card title="Password">
         <LoginTools userId={user.id} />
       </Card>
