@@ -60,7 +60,7 @@ export async function saveTeacherAttendance(formData: FormData) {
   const user = await requireRole(["ADMIN", "MANAGER", "PRINCIPAL"]);
   const date = text(formData, "date");
   const back = (q: string): never => redirect(`/portal/attendance?view=teachers&date=${encodeURIComponent(date)}&${q}`);
-  if (!/^\\d{4}-\\d{2}-\\d{2}$/.test(date) || date > todayKarachi() || Number.isNaN(new Date(`${date}T00:00:00Z`).getTime())) back("error=Choose+a+valid+date.");
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(date) || date > todayKarachi() || Number.isNaN(new Date(`${date}T00:00:00Z`).getTime())) back("error=Choose+a+valid+date.");
   const day = new Date(`${date}T00:00:00.000Z`);
   const teachers = await db.teacher.findMany({where:{user:{isActive:true}},select:{id:true}});
   const valid = new Set(teachers.map(t=>t.id));
