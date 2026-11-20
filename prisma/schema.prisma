@@ -23,6 +23,7 @@ model User {
   email        String   @unique
   name         String
   passwordHash String
+  photoData    String?
   role         Role
   isActive     Boolean  @default(true)
   createdAt    DateTime @default(now())
