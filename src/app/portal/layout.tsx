@@ -49,9 +49,9 @@ export default async function PortalLayout({ children }: LayoutProps<"/portal">)
           <Flash />
           <NavProgress />
         </Suspense>
-        <header className="mb-6 flex flex-wrap items-center justify-between gap-3 border-b border-slate-200/80 py-4">
-          <div><p className="text-xs text-slate-500">School management / Workspace</p><p className="mt-1 text-sm font-semibold">Dr. G.M. Lakho Memorial Sec. School</p></div>
-          <div className="flex items-center gap-3"><span className="grid size-10 place-items-center rounded-full bg-[#dce7fb] text-sm font-semibold text-slate-800">{user.name?.slice(0, 1).toUpperCase() || "U"}</span><div><p className="text-sm font-medium">{user.name}</p><p className="text-xs text-slate-500">{ROLE_LABELS[user.role]}</p></div></div>
+        <header className="relative mb-6 grid grid-cols-[1fr_auto] items-center gap-3 border-b border-slate-200/80 py-4 md:grid-cols-[1fr_auto_1fr]">
+          <div className="hidden text-xs text-slate-500 md:block">School management / Workspace</div><p className="text-center text-sm font-bold tracking-tight text-slate-900 sm:text-base">Dr. G.M. Lakho Memorial Sec. School</p>
+          <div className="flex items-center justify-end gap-3"><span className="grid size-10 place-items-center rounded-full bg-[#dce7fb] text-sm font-semibold text-slate-800">{user.name?.slice(0, 1).toUpperCase() || "U"}</span><div><p className="text-sm font-medium">{user.name}</p><p className="text-xs text-slate-500">{ROLE_LABELS[user.role]}</p></div></div>
         </header>
         <PortalBack />
         <GridFilters />
