@@ -12,6 +12,10 @@ export async function requireUser() {
 /** Like requireUser, but also enforces the role on the server (never trust the UI alone). */
 export async function requireRole(allowed: AppRole[]) {
   const user = await requireUser();
-  if (!allowed.includes(user.role)) redirect("/portal");
+  const financeOnly = user.role === "FINANCE" || user.role === "ACCOUNTANT";
+  const isFinanceRoute = allowed.includes("FINANCE") || allowed.includes("ACCOUNTANT");
+  if (user.role === "ADMIN" && isFinanceRoute && !allowed.includes("TEACHER")) redirect("/portal");
+  if (financeOnly && !isFinanceRoute) redirect("/portal/fees");
+  if (!allowed.includes(user.role) && !(user.role === "MANAGER" && (allowed.includes("ADMIN") || allowed.includes("PRINCIPAL")))) redirect(financeOnly ? "/portal/fees" : "/portal");
   return user;
 }
