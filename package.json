@@ -23,9 +23,7 @@
     "pg": "^8.23.1",
     "react": "19.3.0",
     "react-dom": "19.3.0",
-    "zod": "^4.6.6",
-    "html2canvas": "^1.4.1",
-    "jspdf": "^3.0.3"
+    "zod": "^4.6.6"
   },
   "devDependencies": {
     "@tailwindcss/turbopack": "^4",
