@@ -2,7 +2,7 @@ import {db} from "@/lib/db";
 import {requireRole} from "@/lib/session";
 import {pkr} from "@/lib/finance";
 export default async function ClassReports({searchParams}:{searchParams:Promise<{classId?:string}>}){
- const actor=await requireRole(["ADMIN","PRINCIPAL","MANAGER","TEACHER"]);
+ const actor=await requireRole(["PRINCIPAL","MANAGER"]);
  const {classId}=await searchParams;
  const classes=await db.class.findMany({orderBy:[{academicYear:"desc"},{name:"asc"},{section:"asc"}],select:{id:true,name:true,section:true,academicYear:true,classTeacherId:true,_count:{select:{students:true,courses:true,exams:true}}}});
  const selected=classes.find(c=>c.id===classId)??classes[0];
