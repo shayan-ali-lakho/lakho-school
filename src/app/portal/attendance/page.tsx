@@ -85,6 +85,7 @@ export default async function AttendancePage(props: PageProps<"/portal/attendanc
       </form>
 
 
+      <div key={view} className="portal-tab-content">
       {view === "teachers" ? (
         <form action={saveTeacherAttendance} className="space-y-4">
           <input type="hidden" name="date" value={date}/>
@@ -149,6 +150,7 @@ export default async function AttendancePage(props: PageProps<"/portal/attendanc
           )}
         </form>
       )}
+      </div>
     </div>
   );
 }

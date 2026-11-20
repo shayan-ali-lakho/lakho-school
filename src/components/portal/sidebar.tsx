@@ -41,7 +41,7 @@ export function Sidebar({
     <nav aria-label="Portal" className={`flex-1 space-y-3 overflow-y-auto px-3 py-3 ${collapsed ? "lg:px-2" : ""}`}>
       {groups.map((g) => (
         <div key={g.label}>
-          <p className={`px-3 text-[10px] font-semibold uppercase tracking-widest text-[#98a2b7] ${collapsed ? "lg:sr-only" : ""}`}>{g.label}</p>
+          <p className={`sidebar-group-label px-3 text-[10px] font-semibold uppercase tracking-widest text-[#98a2b7] ${collapsed ? "lg:opacity-0 lg:h-0 lg:overflow-hidden" : "lg:opacity-100"}`}>{g.label}</p>
           <ul className="mt-1.5 space-y-0.5">
             {g.items.map((i) => (
               <li key={i.href}>
@@ -58,7 +58,7 @@ export function Sidebar({
                   }`}
                 >
                   <Icon name={iconForHref(i.href)} className="size-[18px] shrink-0" />
-                  <span className={collapsed ? "lg:hidden" : ""}>{i.label}</span>
+                  <span className={`sidebar-nav-label ${collapsed ? "lg:opacity-0 lg:w-0 lg:overflow-hidden lg:pointer-events-none" : "lg:opacity-100"}`}>{i.label}</span>
                 </Link>
               </li>
             ))}
@@ -86,13 +86,11 @@ export function Sidebar({
         </button>
       </div>
 
-      {open && (
-        <div className="fixed inset-0 z-40 bg-zinc-900/40 lg:hidden" onClick={() => setOpen(false)} aria-hidden />
-      )}
+      <div className={`fixed inset-0 z-40 bg-zinc-900/40 transition-opacity duration-300 ease-in-out lg:hidden ${open ? "opacity-100" : "pointer-events-none opacity-0"}`} onClick={() => setOpen(false)} aria-hidden />
 
       <aside
         id="portal-drawer"
-        className={`fixed inset-y-0 left-0 z-50 flex w-64 flex-col border-r border-[#e8ecf5] bg-white transition-[width,transform] duration-200 motion-reduce:transition-none lg:sticky lg:top-0 lg:z-20 lg:h-screen lg:shrink-0 lg:translate-x-0 ${collapsed ? "lg:w-20" : "lg:w-64"} ${
+        className={`fixed inset-y-0 left-0 z-50 flex w-64 flex-col border-r border-[#e8ecf5] bg-white transition-[width,transform] duration-300 ease-in-out motion-reduce:transition-none lg:sticky lg:top-0 lg:z-20 lg:h-screen lg:shrink-0 lg:translate-x-0 ${collapsed ? "lg:w-20" : "lg:w-64"} ${
           open ? "translate-x-0" : "-translate-x-full"
         }`}
       >
