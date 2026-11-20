@@ -7,6 +7,7 @@ import { USER_ADMIN_ROLES } from "@/lib/roles";
 import { ActionForm } from "@/components/action-form";
 import { Card, Field, SelectField } from "@/components/fields";
 import { updateStudent } from "../../actions";
+import { ProfilePictureEditor } from "@/components/portal/profile-picture-editor";
 
 export const metadata: Metadata = { title: "Edit student" };
 
@@ -18,13 +19,15 @@ export default async function EditStudentPage(props: PageProps<"/portal/students
     db.student.findUnique({
       where: { id },
       select: {
+        userId:true,
+        photoData:true,
         rollNumber: true,
         classId: true,
         gender: true,
         address: true,
         monthlyFee: true,
         dateOfBirth: true,
-        user: { select: { name: true } },
+        user: { select: { name: true, photoData:true } },
       },
     }),
     db.class.findMany({
@@ -42,6 +45,7 @@ export default async function EditStudentPage(props: PageProps<"/portal/students
         </Link>
         <h1 className="mt-2 text-2xl font-semibold tracking-tight">Edit student</h1>
       </div>
+      <ProfilePictureEditor userId={student.userId} name={student.user.name} photoData={student.user.photoData??student.photoData}/>
       <Card>
         <ActionForm action={updateStudent} submitLabel="Save changes">
           <input type="hidden" name="id" value={id} />
